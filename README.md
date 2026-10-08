@@ -106,6 +106,8 @@ For later pushes on the same branch:
 git push
 ```
 
+If your ever
+
 **Important:** Always push your work before leaving a school computer. Otherwise, your commits may only exist on that computer.
 
 ### 7. Merge Your Changes into Main
