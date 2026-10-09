@@ -198,6 +198,7 @@ legend {
 .required-note {
     color: #4A5568;
     font-size: 0.95rem;
+    text-align: right;
     margin-bottom: 20px;
 }
 
