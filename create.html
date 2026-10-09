@@ -37,12 +37,15 @@
             <div class="col-12 "> <!--col-lg-10-->
                 <section class="card border-0 shadow-sm">
                     <div class="card-body p-4 p-md-5">
-                        <header class="mb-4">
-                            <h1 class="h2 mb-2">Create a Non-Conformance Report</h1>
-                            <p class="text-secondary mb-0">
-                                Complete the information below to report a non-conformance.
-                                User, supplier, and product choices are sample values for now.
-                            </p>
+                        <header class="form-header mb-4">
+                            <div class="header-content">
+                                <span class="header-extra">QUALITY MANAGEMENT NCR</span>
+                                <h1 class="h2 mb-2">Create a Non-Conformance Report</h1>
+                                <p class="text-secondary mb-0">
+                                    Complete the information below to report a non-conformance.
+                                    User, supplier, and product choices are sample values for now.
+                                </p>
+                            </div>
                         </header> 
                         <!--required field note-->
                         <p class="required-note"><span class="required">*</span> Required field</p>
@@ -78,6 +81,7 @@
                                             <option value="" selected disabled>Select a user</option>
                                         </select>
                                     </div>
+                                </div>
                                 </fieldset>
 
                                 <!--supplier and product section-->
@@ -170,7 +174,7 @@
                                         <div class="col-12 col-md-6">
                                             <fieldset>                                              
                                                 <legend class="form-label fs-6">Engineering Review Required?
-                                                <span class="required">*</span></label>
+                                                <span class="required">*</span></legend>
                                                 <div class="d-flex gap-4">
                                                     <div class="form-check">
                                                         <input
@@ -280,7 +284,7 @@
 
                             <p id="form-message" class="mb-3" role="status" aria-live="polite"></p>
 
-                            <div class="d-flex flex-column flex-sm-row gap-2">
+                            <div class="form-actions d-flex flex-column flex-sm-row gap-2">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                                 <button type="button" id="cancel-button" class="btn btn-outline-secondary">Cancel</button>
                             </div>
