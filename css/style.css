@@ -159,11 +159,13 @@ nav ul li a i {
 .form-control:focus,
 .form-select:focus,
 button:focus,
-a:focus {
+a:focus
+input:focus-visible,
+textarea:focus-visible {
     border-color: #173451;
     box-shadow: none;
     outline: 3px solid #005FCC;
-    outline-offset: 2px;   
+    outline-offset: 3px;   
 }
 
 legend {
@@ -242,4 +244,11 @@ input[readonly] {
     border-radius: 8px;
     font-weight: 600;
 }
+/*Accsessability*/
+#form-message{
+    font-weight: 600;
+    margin-top: 10px;
+    min-height: 24px;
+}
+
 /*Add responsivness*/

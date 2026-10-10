@@ -75,8 +75,10 @@
                                             readonly>
                                     </div>                          
                                     <div class="col-12 col-md-6">       
-                                        <label for="userId" class="form-label">User ID</label>
-                                        <span class="required">*</span>
+                                        <label for="userId" class="form-label">User ID
+                                            <span class="required">*</span>
+                                        </label>
+                                        
                                         <select class="form-select" id="userId" name="userId" required>
                                             <option value="" selected disabled>Select a user</option>
                                         </select>
@@ -89,17 +91,16 @@
                                     <legend class="section-title"> Supplier & Product Information</legend>   
                                     <div class="row g-3">
                                         <div class="col-12 col-md-6">
-                                            <label for="supplierId" class="form-label">Supplier</label>
-                                            <span class="required">*</span>
+                                            <label for="supplierId" class="form-label">Supplier
+                                            <span class="required">*</span></label>                                            
                                             <select class="form-select" id="supplierId" name="supplierId" required>
                                                 <option value="" selected disabled>Select a supplier</option>
                                             </select>
                                         </div>
-                                    
-
+                                
                                         <div class="col-12 col-md-6">
-                                            <label for="productId" class="form-label">Product</label>
-                                            <span class="required">*</span>
+                                            <label for="productId" class="form-label">Product
+                                            <span class="required">*</span></label>                                    
                                             <select class="form-select" id="productId" name="productId" required>
                                                 <option value="" selected disabled>Select a product</option>
                                             </select>
@@ -211,20 +212,22 @@
                                         <legend class="section-title">Defect Information</legend>
                                         <div class="row g-3">
                                             <div class="col-12">
-                                                <label for="defectDescription" class="form-label">Defect Description</label>
-                                                <span class="required">*</span>
+                                                <label for="defectDescription" class="form-label">Defect Description
+                                                <span class="required">*</span></label>  
                                                 <textarea
                                                     class="form-control"
                                                     id="defectDescription"
                                                     name="defectDescription"
                                                     rows="4"
-                                                    placeholder="Clearly describe the defect for review!"
+                                                    placeholder="Describe the defect..."
                                                     required></textarea>
                                             </div>
                                             
                                                 <div class="col-12 col-md-6">
-                                                    <label for="quantityReceived" class="form-label">Quantity Received</label>
-                                                    <span class="required">*</span>
+                                                    <label for="quantityReceived" class="form-label">Quantity Received
+                                                        <span class="required">*</span>
+                                                    </label>
+                                                    
                                                     <input
                                                         type="number"
                                                         class="form-control"
@@ -236,8 +239,8 @@
                                                 </div>
 
                                                 <div class="col-12 col-md-6">
-                                                    <label for="quantityDefective" class="form-label">Quantity Defective</label>
-                                                    <span class="required">*</span>
+                                                    <label for="quantityDefective" class="form-label">Quantity Defective<span class="required">*</span></label>
+                                                    
                                                     <input
                                                         type="number"
                                                         class="form-control"
@@ -337,7 +340,7 @@
             event.preventDefault();
             message.textContent = "";
 
-            for (const field of form.querySelectorAll('input[type="text"], textarea')) {
+            for (const field of form.querySelectorAll('input[type="text"][required], textarea[required]')) {
                 field.setCustomValidity(field.value.trim() ? "" : "Please complete this field.");
             }
 
@@ -366,22 +369,53 @@
                 if (!response.ok) {
                     throw new Error(`The server returned ${response.status}.`);
                 }
-
                 form.reset();
                 message.textContent = "NCR submitted successfully.";
             } catch (error) {
                 message.textContent = `Could not submit the NCR. ${error.message}`;
+            //   try {
+
+            //  // Temporary prototype success
+            //     console.log("NCR Data:", ncrData);
+            //     message.className = "success-message";
+            //     message.textContent =
+            //         alert("NCR submitted successfully.");
+            // }
+            // catch (error) {
+            //     message.className = "error-message";
+            //     message.textContent =
+            //         alert("Could not submit the NCR.");
+                    
             } finally {
                 submitButton.disabled = false;
             }
         });
+      
 
-        document.querySelector("#cancel-button").addEventListener("click", () => {
-            window.location.href = "index.html";
-        });
         // displaying today's date on the date created field
         document.querySelector("#dateCreated").value =
         new Date().toISOString().split("T")[0];
+
+        // generating the the NCR #
+        let year = new Date().getFullYear();
+        document.querySelector("#ncrNumber").value = `${year}-001`; // placeholder for now to be updated after the DB generated
+
+        // quantity defected shouldn't be more than quantity received
+        let quantityReceived = document.querySelector("#quantityReceived");
+        let quantityDefective = document.querySelector("#quantityDefective")
+
+        function validateQuantity(){
+            let received = Number(quantityReceived.value);
+            let defective = Number(quantityDefective.value);
+            if( defective > received && received > 0){
+                quantityDefective.setCustomValidity("Quantity Defective cannot exceed Quantity Received.");
+            }
+            else{
+                quantityDefective.setCustomValidity("");
+            }
+        }
+        quantityReceived.addEventListener("input", validateQuantity);
+        quantityDefective.addEventListener("input", validateQuantity);       
     </script>
 </body>
 </html>
