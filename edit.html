@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Non-Conformance Report</title>
+    <title>Edit NCR — Quality Inspector</title>
+
+    <script src="edit.js" defer></script>
 
     <style>
         * {
@@ -12,132 +14,154 @@
 
         body {
             margin: 0;
-            background: #f3f4f6;
-            color: #17202a;
+            padding: 24px;
+            background: #f2f5f9;
+            color: #243247;
             font-family: Arial, sans-serif;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         main {
-            max-width: 1000px;
-            margin: 2rem auto;
-            padding: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 32px;
             background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
         }
 
         h1 {
             margin-top: 0;
+            color: #17365d;
+            font-size: 1.8rem;
         }
 
-        .section {
-            margin: 1.5rem 0;
-            padding: 1rem;
-            border: 2px solid #444;
-        }
-
-        .section > legend {
-            padding: 0 0.5rem;
-            font-size: 1.2rem;
-            font-weight: bold;
+        .form-group {
+            margin-bottom: 16px;
         }
 
         .fields {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 1rem;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
+            gap: 20px;
         }
 
         .wide {
             grid-column: 1 / -1;
         }
 
-        label {
-            display: block;
-            margin-bottom: 0.3rem;
+        fieldset {
+            min-width: 0;
+        }
+
+        .section {
+            margin: 24px 0;
+            padding: 24px;
+            border: 1px solid #aab8c9;
+            border-radius: 8px;
+        }
+
+        legend {
+            padding: 0 8px;
+            color: #17365d;
             font-weight: bold;
         }
 
-        input:not([type="radio"]):not([type="checkbox"]),
+        .section > legend {
+            font-size: 1.2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input:not([type="radio"]),
         select,
         textarea {
             width: 100%;
-            padding: 0.65rem;
-            border: 1px solid #555;
-            border-radius: 4px;
+            padding: 12px;
+            border: 1px solid #78879a;
+            border-radius: 6px;
+            color: #243247;
+            background: white;
             font: inherit;
+        }
+
+        input[required]:not([type="radio"]),
+        textarea[required] {
+            background: #fff9cf;
+        }
+
+        input[readonly] {
+            background: #edf0f4;
+        }
+
+        textarea.optional {
+            background: #e8f1fc;
         }
 
         textarea {
             resize: vertical;
         }
 
-        .optional {
-            background: #d6e5fa;
-        }
-
-        input[required]:not([type="radio"]):not([type="checkbox"]),
-        textarea[required] {
-            background: #ffff99;
-        }
-
-        input[readonly] {
-            background: #eee;
-        }
-
         .choices {
-            min-width: 0;
-            margin: 0;
-            padding: 0.75rem;
-            border: 1px solid #777;
-        }
-
-        .choices legend {
-            padding: 0 0.25rem;
-            font-weight: bold;
+            margin: 16px 0 24px;
+            padding: 16px;
+            border: 1px solid #aab8c9;
+            border-radius: 6px;
         }
 
         .choices label {
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
-            margin-right: 1rem;
+            gap: 8px;
+            margin-right: 20px;
             font-weight: normal;
         }
 
         .choices input {
-            width: 1.1rem;
-            height: 1.1rem;
+            width: 18px;
+            height: 18px;
+            accent-color: #174ea6;
         }
 
         .help {
-            margin: 0.3rem 0;
+            margin: 6px 0 16px;
+            color: #4b596c;
             font-size: 0.9rem;
         }
 
         .actions {
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 12px;
         }
 
         button {
-            padding: 0.7rem 1rem;
+            padding: 12px 22px;
             border: 1px solid #174ea6;
-            border-radius: 4px;
+            border-radius: 6px;
             background: #174ea6;
             color: white;
             font: inherit;
+            font-weight: bold;
             cursor: pointer;
         }
 
+        button:hover {
+            background: #123d82;
+        }
+
         #cancel-button {
+            border-color: #78879a;
             background: white;
-            color: #17202a;
-            border-color: #555;
+            color: #243247;
+        }
+
+        #cancel-button:hover {
+            background: #edf0f4;
         }
 
         :focus-visible {
@@ -149,10 +173,21 @@
             border: 2px solid #b00020;
         }
 
+        #form-message {
+            font-weight: bold;
+        }
+
         @media (max-width: 650px) {
+            body {
+                padding: 12px;
+            }
+
             main {
-                margin: 0;
-                padding: 1rem;
+                padding: 20px;
+            }
+
+            .section {
+                padding: 16px;
             }
 
             .fields {
@@ -166,25 +201,35 @@
     <main>
         <h1 id="edit-heading">Edit Non-Conformance Report</h1>
 
-        <p><strong>CrossFire Canada</strong> — Document No. OPS-00011</p>
-
-        <p id="edit-help">
-            Select an existing report to edit. Yellow fields are required;
-            blue fields are optional. Conditional fields are required when
-            applicable. This prototype uses fictional data, and changes
-            reset when the page is refreshed.
+        <p>
+            <strong>CrossFire Canada</strong>
+            — Document No. OPS-00011
         </p>
 
+        <p id="edit-help">
+            Select an existing report to edit its Quality Inspector information.
+            Required fields are labelled and coloured yellow.
+            Blue fields are optional.
+        </p>
+
+
         <noscript>
-            <p>Enable JavaScript to load and edit the reports.</p>
+            <p>Enable JavaScript to load and edit reports.</p>
         </noscript>
 
         <div class="form-group">
             <label for="reportSelect">Choose an NCR report</label>
+
             <select id="reportSelect">
-                <option value="NCR-001">NCR-001</option>
-                <option value="NCR-002">NCR-002</option>
-                <option value="NCR-003">NCR-003</option>
+                <option value="NCR-001">
+                    NCR-001 — Maple Industrial Supplies
+                </option>
+                <option value="NCR-002">
+                    NCR-002 — Northern Metalworks
+                </option>
+                <option value="NCR-003">
+                    NCR-003 — Precision Fastener Supply
+                </option>
             </select>
         </div>
 
@@ -193,396 +238,200 @@
               aria-describedby="edit-help">
 
             <fieldset class="section">
-                <legend>1/ Quality Representative</legend>
+                <legend>Quality Inspector</legend>
+
+                <fieldset class="choices">
+                    <legend>Identify Process Applicable (required)</legend>
+
+                    <label for="process-supplier">
+                        <input type="radio"
+                               id="process-supplier"
+                               name="process"
+                               value="supplier"
+                               required>
+                        Supplier or Rec-Insp
+                    </label>
+
+                    <label for="process-wip">
+                        <input type="radio"
+                               id="process-wip"
+                               name="process"
+                               value="wip"
+                               required>
+                        WIP (Production Order)
+                    </label>
+                </fieldset>
 
                 <div class="fields">
-                    <fieldset class="choices">
-                        <legend>Identify Process Applicable (required)</legend>
-
-                        <label for="process-supplier">
-                            <input type="radio" id="process-supplier"
-                                   name="process" value="supplier" required>
-                            Supplier or Rec-Insp
-                        </label>
-
-                        <label for="process-wip">
-                            <input type="radio" id="process-wip"
-                                   name="process" value="wip" required>
-                            WIP (Production Order)
-                        </label>
-                    </fieldset>
-
                     <div class="form-group">
-                        <label for="supplier">Supplier Name (required)</label>
-                        <input type="text" id="supplier" name="supplier" required>
+                        <label for="supplier">
+                            Supplier Name (required)
+                        </label>
+
+                        <input type="text"
+                               id="supplier"
+                               name="supplier"
+                               required>
                     </div>
 
                     <div class="form-group">
                         <label for="ncrNumber">NCR No.</label>
-                        <input type="text" id="ncrNumber" name="ncrNumber"
-                               readonly aria-describedby="ncr-help">
-                        <p id="ncr-help" class="help">
+
+                        <input type="text"
+                               id="ncrNumber"
+                               name="ncrNumber"
+                               readonly
+                               aria-describedby="number-help">
+
+                        <p id="number-help" class="help">
                             Assigned when the report is created.
                         </p>
                     </div>
 
                     <div class="form-group">
-                        <label for="reference">PO or Prod. No. (required)</label>
-                        <input type="text" id="reference" name="reference" required>
+                        <label for="reference">
+                            PO or Prod. No. (required)
+                        </label>
+
+                        <input type="text"
+                               id="reference"
+                               name="reference"
+                               required>
                     </div>
 
                     <div class="form-group">
-                        <label for="salesOrder">Sales Order No. (required)</label>
-                        <input type="text" id="salesOrder" name="salesOrder" required>
+                        <label for="salesOrder">
+                            Sales Order No. (required)
+                        </label>
+
+                        <input type="text"
+                               id="salesOrder"
+                               name="salesOrder"
+                               required>
                     </div>
 
                     <div class="form-group wide">
                         <label for="item">
-                            Description of Item (including SAP No.) (required)
+                            Description of Item, including SAP No. (required)
                         </label>
-                        <textarea id="item" name="item" rows="2" required></textarea>
+
+                        <textarea id="item"
+                                  name="item"
+                                  rows="3"
+                                  required></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label for="received">Quantity Received (required)</label>
-                        <input type="number" id="received" name="received"
-                               min="0" step="1" required>
+                        <label for="received">
+                            Quantity Received (required)
+                        </label>
+
+                        <input type="number"
+                               id="received"
+                               name="received"
+                               min="0"
+                               step="1"
+                               required>
                     </div>
 
                     <div class="form-group">
-                        <label for="defective">Quantity Defective (required)</label>
-                        <input type="number" id="defective" name="defective"
-                               min="0" step="1" required
+                        <label for="defective">
+                            Quantity Defective (required)
+                        </label>
+
+                        <input type="number"
+                               id="defective"
+                               name="defective"
+                               min="0"
+                               step="1"
+                               required
                                aria-describedby="quantity-help">
+
                         <p id="quantity-help" class="help">
                             Cannot exceed Quantity Received.
                         </p>
                     </div>
 
                     <div class="form-group wide">
-                        <label for="defect">Description of Defect (required)</label>
-                        <textarea id="defect" name="defect" rows="4" required
+                        <label for="defect">
+                            Description of Defect (required)
+                        </label>
+
+                        <textarea id="defect"
+                                  name="defect"
+                                  rows="4"
+                                  required
                                   aria-describedby="defect-help"></textarea>
+
                         <p id="defect-help" class="help">
                             Describe the defect in as much detail as possible.
                         </p>
                     </div>
+                </div>
 
-                    <fieldset class="choices">
-                        <legend>Item marked Nonconforming (required)</legend>
+                <fieldset class="choices">
+                    <legend>Item marked Nonconforming (required)</legend>
 
-                        <label for="marked-yes">
-                            <input type="radio" id="marked-yes"
-                                   name="marked" value="yes" required>
-                            Yes
-                        </label>
+                    <label for="marked-yes">
+                        <input type="radio"
+                               id="marked-yes"
+                               name="marked"
+                               value="yes"
+                               required>
+                        Yes
+                    </label>
 
-                        <label for="marked-no">
-                            <input type="radio" id="marked-no"
-                                   name="marked" value="no" required>
-                            No
-                        </label>
-                    </fieldset>
+                    <label for="marked-no">
+                        <input type="radio"
+                               id="marked-no"
+                               name="marked"
+                               value="no"
+                               required>
+                        No
+                    </label>
+                </fieldset>
 
-                    <p class="help">
-                        Completed NCR to be forwarded to HBC Engineering and
-                        Operations Manager complete with any relevant documents
-                        attached (pictures, actual measurements, material certs, etc.).
-                    </p>
+                <p class="help">
+                    Completed NCR to be forwarded to HBC Engineering and
+                    Operations Manager with relevant supporting documents.
+                </p>
 
+                <div class="fields">
                     <div class="form-group">
                         <label for="qualityRep">
                             Quality Representative's Name (required)
                         </label>
-                        <input type="text" id="qualityRep" name="qualityRep" required>
+
+                        <input type="text"
+                               id="qualityRep"
+                               name="qualityRep"
+                               required>
                     </div>
 
                     <div class="form-group">
-                        <label for="qualityDate">
-                            Quality Representative Date (required)
-                        </label>
-                        <input type="date" id="qualityDate" name="qualityDate" required>
+                        <label for="qualityDate">Date (required)</label>
+
+                        <input type="date"
+                               id="qualityDate"
+                               name="qualityDate"
+                               required>
                     </div>
 
                     <div class="form-group wide">
                         <label for="additional">
-                            Additional information including drawings, sketches,
-                            pictures, etc. (optional)
-                        </label>
-                        <textarea id="additional" name="additional"
-                                  rows="3" class="optional"></textarea>
-                    </div>
-                </div>
-            </fieldset>
-
-            <fieldset class="section">
-                <legend>2/ Engineering</legend>
-
-                <div class="fields">
-                    <fieldset class="choices wide">
-                        <legend>Review by CF Engineering (required)</legend>
-                        <p class="help">Select one disposition.</p>
-
-                        <label for="disposition-use">
-                            <input type="radio" id="disposition-use"
-                                   name="disposition" value="use-as-is" required>
-                            Use As Is
+                            Additional information, including drawings,
+                            sketches and pictures (optional)
                         </label>
 
-                        <label for="disposition-repair">
-                            <input type="radio" id="disposition-repair"
-                                   name="disposition" value="repair" required>
-                            Repair
-                        </label>
+                        <textarea id="additional"
+                                  name="additional"
+                                  rows="3"
+                                  class="optional"
+                                  aria-describedby="additional-help"></textarea>
 
-                        <label for="disposition-rework">
-                            <input type="radio" id="disposition-rework"
-                                   name="disposition" value="rework" required>
-                            Rework
-                        </label>
-
-                        <label for="disposition-scrap">
-                            <input type="radio" id="disposition-scrap"
-                                   name="disposition" value="scrap" required>
-                            Scrap
-                        </label>
-                    </fieldset>
-
-                    <fieldset class="choices wide">
-                        <legend>
-                            Does Customer require notification of NCR? (optional)
-                        </legend>
-
-                        <label for="notify-yes">
-                            <input type="radio" id="notify-yes"
-                                   name="notify" value="yes">
-                            Yes
-                        </label>
-
-                        <label for="notify-no">
-                            <input type="radio" id="notify-no"
-                                   name="notify" value="no">
-                            No
-                        </label>
-
-                        <p class="help">
-                            If "Yes", raise a message to the customer detailing issues.
+                        <p id="additional-help" class="help">
+                            Describe supporting documents here.
                         </p>
-                    </fieldset>
-
-                    <div class="form-group wide">
-                        <label for="workSteps">Disposition (required)</label>
-                        <textarea id="workSteps" name="workSteps" rows="4" required
-                                  aria-describedby="steps-help"></textarea>
-                        <p id="steps-help" class="help">
-                            Include the sequence of work steps required when
-                            "Repair" or "Rework" is selected.
-                        </p>
-                    </div>
-
-                    <fieldset class="choices wide">
-                        <legend>Does the drawing require updating? (optional)</legend>
-
-                        <label for="drawing-yes">
-                            <input type="radio" id="drawing-yes"
-                                   name="drawing" value="yes">
-                            Yes
-                        </label>
-
-                        <label for="drawing-no">
-                            <input type="radio" id="drawing-no"
-                                   name="drawing" value="no">
-                            No
-                        </label>
-                    </fieldset>
-
-                    <div class="form-group">
-                        <label for="originalRev">Original Rev. Number (optional)</label>
-                        <input type="text" id="originalRev" name="originalRev"
-                               class="optional">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="updatedRev">Updated Rev. Number (optional)</label>
-                        <input type="text" id="updatedRev" name="updatedRev"
-                               class="optional">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="engineerName">Name of Engineer (optional)</label>
-                        <input type="text" id="engineerName" name="engineerName"
-                               class="optional">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="revisionDate">Revision Date (optional)</label>
-                        <input type="date" id="revisionDate" name="revisionDate"
-                               class="optional">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="engineering">Engineering (required)</label>
-                        <input type="text" id="engineering" name="engineering" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="engineeringDate">Engineering Date (required)</label>
-                        <input type="date" id="engineeringDate"
-                               name="engineeringDate" required>
-                    </div>
-                </div>
-            </fieldset>
-
-            <fieldset class="section">
-                <legend>3/ Purchasing</legend>
-
-                <div class="fields">
-                    <fieldset class="choices wide">
-                        <legend>Purchasing's Preliminary Decision (required)</legend>
-
-                        <label for="purchasing-return">
-                            <input type="radio" id="purchasing-return"
-                                   name="purchasing" value="return" required>
-                            Return to Supplier for either "rework" or "replacement"
-                        </label>
-
-                        <label for="purchasing-in-house">
-                            <input type="radio" id="purchasing-in-house"
-                                   name="purchasing" value="in-house" required>
-                            Rework "In-House"
-                        </label>
-
-                        <label for="purchasing-scrap">
-                            <input type="radio" id="purchasing-scrap"
-                                   name="purchasing" value="scrap" required>
-                            Scrap in House
-                        </label>
-
-                        <label for="purchasing-defer">
-                            <input type="radio" id="purchasing-defer"
-                                   name="purchasing" value="defer" required>
-                            Defer for HBC Engineering Review
-                        </label>
-                    </fieldset>
-
-                    <fieldset class="choices">
-                        <legend>Was a CAR raised? (required)</legend>
-
-                        <label for="car-yes">
-                            <input type="radio" id="car-yes"
-                                   name="car" value="yes" required>
-                            Yes
-                        </label>
-
-                        <label for="car-no">
-                            <input type="radio" id="car-no"
-                                   name="car" value="no" required>
-                            No
-                        </label>
-                    </fieldset>
-
-                    <div class="form-group">
-                        <label for="carNumber">CAR Number</label>
-                        <input type="text" id="carNumber" name="carNumber"
-                               class="optional" aria-describedby="car-help">
-                        <p id="car-help" class="help">
-                            Required if a CAR was raised.
-                        </p>
-                    </div>
-
-                    <fieldset class="choices">
-                        <legend>Follow-up Required? (required)</legend>
-
-                        <label for="follow-up-yes">
-                            <input type="radio" id="follow-up-yes"
-                                   name="followUp" value="yes" required>
-                            Yes
-                        </label>
-
-                        <label for="follow-up-no">
-                            <input type="radio" id="follow-up-no"
-                                   name="followUp" value="no" required>
-                            No
-                        </label>
-                    </fieldset>
-
-                    <div class="form-group">
-                        <label for="followDetails">Follow-up Type and Expected Date</label>
-                        <input type="text" id="followDetails" name="followDetails"
-                               class="optional" aria-describedby="follow-help">
-                        <p id="follow-help" class="help">
-                            Required if follow-up is needed.
-                        </p>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="operations">Operations Manager (required)</label>
-                        <input type="text" id="operations" name="operations" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="operationsDate">Operations Date (required)</label>
-                        <input type="date" id="operationsDate"
-                               name="operationsDate" required>
-                    </div>
-
-                    <fieldset class="choices wide">
-                        <legend>Re-Inspected Acceptable? (required)</legend>
-
-                        <label for="acceptable-yes">
-                            <input type="radio" id="acceptable-yes"
-                                   name="acceptable" value="yes" required>
-                            Yes
-                        </label>
-
-                        <label for="acceptable-no">
-                            <input type="radio" id="acceptable-no"
-                                   name="acceptable" value="no" required>
-                            No
-                        </label>
-                    </fieldset>
-
-                    <div class="form-group">
-                        <label for="newNcr">New NCR Number</label>
-                        <input type="text" id="newNcr" name="newNcr"
-                               class="optional" aria-describedby="new-ncr-help">
-                        <p id="new-ncr-help" class="help">
-                            Required if reinspection was not acceptable.
-                        </p>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="inspector">Inspector's Name (required)</label>
-                        <input type="text" id="inspector" name="inspector" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="inspectionDate">Inspection Date (required)</label>
-                        <input type="date" id="inspectionDate"
-                               name="inspectionDate" required>
-                    </div>
-
-                    <fieldset class="choices">
-                        <legend>NCR Closed</legend>
-
-                        <label for="closed">
-                            <input type="checkbox" id="closed"
-                                   name="closed" value="yes">
-                            Yes
-                        </label>
-                    </fieldset>
-
-                    <div class="form-group">
-                        <label for="qualityDepartment">
-                            Quality Department (required)
-                        </label>
-                        <input type="text" id="qualityDepartment"
-                               name="qualityDepartment" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="closedDate">Closure Date (required)</label>
-                        <input type="date" id="closedDate" name="closedDate" required>
                     </div>
                 </div>
             </fieldset>
@@ -591,11 +440,12 @@
 
             <div class="actions">
                 <button type="submit">Save Changes</button>
-                <button type="button" id="cancel-button">Cancel Changes</button>
+
+                <button type="button" id="cancel-button">
+                    Cancel Changes
+                </button>
             </div>
         </form>
     </main>
-
-    <script src="edit.js"></script>
 </body>
 </html>
