@@ -61,7 +61,7 @@
                     <!-- Report Information -->
                     <fieldset class="form-section">
                         <legend class="section-title">Report Information</legend>           
-                                    <div class="row g-3">
+                                <div class="row g-3">
                                     <div class="col-12 col-md-6">                     
                                             <label for="reportSelect" class="form-label">Select NCR Report
                                                 <span class="required">*</span>
@@ -82,8 +82,20 @@
                                                     name="ncrNumber"
                                                     placeholder="Assigned when the report is saved"
                                                     readonly>
-                                        </div>
                                     </div>
+                                    <div class="col-12 col-md-6">
+                                        <label for="dateCreated" class="form-label">
+                                            Date Created
+                                        </label>
+
+                                        <input
+                                            type="date"
+                                            class="form-control"
+                                            id="dateCreated"
+                                            name="dateCreated"
+                                            readonly>
+                                    </div>
+                                </div>
                     </fieldset>
 
                     <fieldset class="form-section">
@@ -248,7 +260,7 @@
                                 </div>
                             </fieldset>
                                     <p id="form-message" class="mb-3" role="status" aria-live="polite"></p>
-                                    <div class="d-flex flex-column flex-sm-row gap-2">
+                                    <div class=" form-actions d-flex flex-column flex-sm-row gap-2">
                                         <button type="submit" class="btn btn-primary">Save</button>
                                         <button type="button" id="cancel-button" class="btn btn-outline-secondary">Cancel</button>
                                     </div>
@@ -263,6 +275,7 @@
             const reports = {
                     "NCR-001": {
                         ncrNumber: "NCR-001",
+                        dateCreated: "2026-10-01",
                         supplier: "Maple Industrial Supplies",
                         productId: "Steel mounting bracket, SAP No. 104582",
                         processApplicable: "supplier-rec-insp",
@@ -277,6 +290,7 @@
 
                     "NCR-002": {
                         ncrNumber: "NCR-002",
+                        dateCreated: "2026-10-02",
                         supplier: "Northern Metalworks",
                         productId: "Aluminium enclosure panel, SAP No. 207316",
                         processApplicable: "wip-production-order",
@@ -291,6 +305,7 @@
 
                     "NCR-003": {
                         ncrNumber: "NCR-003",
+                        dateCreated: "2026-10-03",
                         supplier: "Precision Fastener Supply",
                         productId: "M12 × 40 mm hex bolt, SAP No. 309724",
                         processApplicable: "supplier-rec-insp",
