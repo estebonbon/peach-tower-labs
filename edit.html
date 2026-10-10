@@ -34,212 +34,226 @@
         <main class="content">
         <div class="row justify-content-center">
             <div class="col-12">
-
-                <section class="card border-0 shadow-sm">
-                    <div class="card-body p-4 p-md-5">
-                        <!-- Page heading -->
-                        <header class="form-header mb-4">
-                            <div class="header-content">
-                                <span class="header-extra">QUALITY MANAGEMENT NCR</span>
-                                <h1 class="h2 mb-2">
-                                    Edit a Non-Conformance Report
-                                </h1>
-                                <p class="text-secondary mb-0">
-                                    Select an existing NCR to review and update
-                                    its quality representative information.
-                                </p>
-                            </div>
-                        </header>
-        <!-- <noscript>
-            <p>Enable JavaScript to load and edit reports.</p>
-        </noscript> -->
-        <p class="required-note"><span class="required">*</span> Required field</p>
-
-        <!-- Report selector -->
-        <div class="form-section">
-            <label for="reportSelect" class="form-label">Select NCR Report
-                <span class="required">*</span>
-            </label>
-                <select id="reportSelect" class="form-select">
-                    <option value="NCR-001">NCR-001— Maple Industrial Supplies</option>
-                    <option value="NCR-002">NCR-002— Northern Metalworks</option>
-                    <option value="NCR-003">NCR-003— Precision Fastener Supply</option>
-                </select>
-        </div>               
-        <form id="edit-form" aria-describedby="edit-help">
-            <p id="edit-help" class="text-secondary mb-4">
-                    Review the selected report and update the required fields before saving.
-            </p>
-            <!-- Report Information -->
-            <fieldset class="form-section">
-            <legend class="section-title">Report Information</legend>           
-                                <div class="row g-3">
-                                    <div class="col-12 col-md-6">
-                                        <label for="ncrNumber" class="form-label">NCR Number</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="ncrNumber"
-                                            name="ncrNumber"
-                                            placeholder="Assigned when the report is saved"
-                                            readonly>
+                        <section class="card border-0 shadow-sm">
+                            <div class="card-body p-4 p-md-5">
+                                <!-- Page heading -->
+                                <header class="form-header mb-4">
+                                    <div class="header-content">
+                                        <span class="header-extra">QUALITY MANAGEMENT NCR</span>
+                                        <h1 class="h2 mb-2">
+                                            Edit a Non-Conformance Report
+                                        </h1>
+                                        <p class="text-secondary mb-0">
+                                            Select an existing NCR to review and update
+                                            its quality representative information.
+                                        </p>
                                     </div>
-                                    <div class="col-12 col-md-6">
-                                        <label for="supplierId" class="form-label">Supplier Name - ID<span class="required">*</span></label>
-                                        <input type="text"
-                                               class="form-control"
-                                               id="supplierId"
-                                               name="supplier"
-                                               required>
-                                    </div>
-
-                                    <div class="col-12 col-md-6">
-                                        <label for="productId" class="form-label">Product<span class="required">*</span></label>
-                                        <input type="text"
-                                               class="form-control"
-                                               id="productId"
-                                               name="productId"
-                                               required>                                
-                                    </div>
-
-                                    <div class="col-12">
-                                        <fieldset>
-                                            <legend class="form-label fs-6">
-                                                Identify Process Applicable
+                                </header>
+                <!-- <noscript>
+                    <p>Enable JavaScript to load and edit reports.</p>
+                </noscript> -->
+                <p class="required-note"><span class="required">*</span> Required field</p>
+             
+                <form id="edit-form" aria-describedby="edit-help">
+                    <p id="edit-help" class="text-secondary mb-4">
+                            Review the selected report and update the required fields before saving.
+                    </p>
+                    <!-- Report Information -->
+                    <fieldset class="form-section">
+                        <legend class="section-title">Report Information</legend>           
+                                    <div class="row g-3">
+                                    <div class="col-12 col-md-6">                     
+                                            <label for="reportSelect" class="form-label">Select NCR Report
                                                 <span class="required">*</span>
-                                            </legend>
-                                            <div class="d-flex flex-column flex-sm-row gap-3">
-                                                <div class="form-check">
-                                                    <input
-                                                        class="form-check-input"
-                                                        type="radio"
-                                                        id="processSupplier"
-                                                        name="processApplicable"
-                                                        value="supplier-rec-insp"
-                                                        required>
-                                                    <label class="form-check-label" for="processSupplier">
-                                                        Supplier or Rec-Insp
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input
-                                                        class="form-check-input"
-                                                        type="radio"
-                                                        id="processWip"
-                                                        name="processApplicable"
-                                                        value="wip-production-order"
-                                                        required>
-                                                    <label class="form-check-label" for="processWip">
-                                                        WIP/ Production order
-                                                    </label>
-                                                </div>
+                                            </label>
+                                                <select id="reportSelect" class="form-select">
+                                                    <option value="NCR-001">NCR-001— Maple Industrial Supplies</option>
+                                                    <option value="NCR-002">NCR-002— Northern Metalworks</option>
+                                                    <option value="NCR-003">NCR-003— Precision Fastener Supply</option>
+                                                </select>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+
+                                                <label for="ncrNumber" class="form-label">NCR Number</label>
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="ncrNumber"
+                                                    name="ncrNumber"
+                                                    placeholder="Assigned when the report is saved"
+                                                    readonly>
+                                        </div>
+                                    </div>
+                    </fieldset>
+
+                    <fieldset class="form-section">
+                        <legend class="section-title"> Supplier & Product Information</legend>
+                                    <div class="row g-3">
+                                        <div class="col-12 col-md-6">
+                                                <label for="supplierId" class="form-label">Supplier Name - ID<span class="required">*</span></label>
+                                                <input type="text"
+                                                    class="form-control"
+                                                    id="supplierId"
+                                                    name="supplier"
+                                                    required>
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                                <label for="productId" class="form-label">Product<span class="required">*</span></label>
+                                                <input type="text"
+                                                    class="form-control"
+                                                    id="productId"
+                                                    name="productId"
+                                                    required>                                
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                                <label for="referenceNumber" class="form-label">
+                                                    Purchase Order or Production Number
+                                                    <span class="required">*</span>
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="referenceNumber"
+                                                    name="referenceNumber"
+                                                    required>
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                                <label for="salesOrderNumber" class="form-label">Sales Order Number</label>
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="salesOrderNumber"
+                                                    name="salesOrderNumber">
+                                        </div>
+                                    </div>
+                    </fieldset>
+                    <fieldset class="form-section">
+                        <legend class="section-title">Engineering Review</legend>
+                                    <div class="row g-3">
+                                            <div class="col-12">
+                                                <fieldset>
+                                                    <legend class="form-label fs-6">
+                                                        Identify Process Applicable
+                                                        <span class="required">*</span>
+                                                    </legend>
+                                                    <div class="d-flex flex-column flex-sm-row gap-3">
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input"
+                                                                type="radio"
+                                                                id="processSupplier"
+                                                                name="processApplicable"
+                                                                value="supplier-rec-insp"
+                                                                required>
+                                                            <label class="form-check-label" for="processSupplier">
+                                                                Supplier or Rec-Insp
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input"
+                                                                type="radio"
+                                                                id="processWip"
+                                                                name="processApplicable"
+                                                                value="wip-production-order"
+                                                                required>
+                                                            <label class="form-check-label" for="processWip">
+                                                                WIP/ Production order
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
                                             </div>
-                                        </fieldset>
-                                    </div>
+                                        </div>
+                    </fieldset>
 
-                                    <div class="col-12 col-md-6">
-                                        <label for="referenceNumber" class="form-label">
-                                            Purchase Order or Production Number
-                                            <span class="required">*</span>
-                                        </label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="referenceNumber"
-                                            name="referenceNumber"
-                                            required>
-                                    </div>
-
-                                    <div class="col-12 col-md-6">
-                                        <label for="salesOrderNumber" class="form-label">Sales Order Number</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="salesOrderNumber"
-                                            name="salesOrderNumber">
-                                    </div>
-
-                                    <div class="col-12">
-                                        <label for="defectDescription" class="form-label">Defect Description<span class="required">*</span></label>
-                                        <textarea
-                                            class="form-control"
-                                            id="defectDescription"
-                                            name="defectDescription"
-                                            rows="4"
-                                            required></textarea>
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <label for="quantityReceived" class="form-label">Quantity Received<span class="required">*</span></label>
-                                        <input
-                                            type="number"
-                                            class="form-control"
-                                            id="quantityReceived"
-                                            name="quantityReceived"
-                                            min="0"
-                                            step="1"
-                                            required>
-                                    </div>
-
-                                    <div class="col-12 col-md-6">
-                                        <label for="quantityDefective" class="form-label">Quantity Defective<span class="required">*</span></label>
-                                        <input
-                                            type="number"
-                                            class="form-control"
-                                            id="quantityDefective"
-                                            name="quantityDefective"
-                                            min="0"
-                                            step="1"
-                                            required>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="additional" class="form-label">Additional information, including drawings,
-                                        sketches and pictures (optional)</label>
-                                        <textarea
-                                            class="form-control"
-                                            id="additional"
-                                            name="additional"
-                                            rows="4"></textarea>
-                                    </div>
-
-
-                                    <div class="col-12">
-                                        <fieldset>
-                                            <legend class="form-label fs-6">
-                                                Item Marked NonConforming
-                                                <span class="required">*</span>
-                                            </legend>
-                                            <div class="d-flex gap-3">
-                                                <div class="form-check">
-                                                    <input
-                                                        class="form-check-input"
-                                                        type="radio"
-                                                        id="nonconformingYes"
-                                                        name="itemMarkedNonconforming"
-                                                        value="yes"
-                                                        required>
-                                                    <label class="form-check-label" for="nonconformingYes">Yes</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input
-                                                        class="form-check-input"
-                                                        type="radio"
-                                                        id="nonconformingNo"
-                                                        name="itemMarkedNonconforming"
-                                                        value="no"
-                                                        required>
-                                                    <label class="form-check-label" for="nonconformingNo">No</label>
-                                                </div>
+                    <fieldset class="form-section">
+                        <legend class="section-title">Defect Information</legend>
+                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label for="defectDescription" class="form-label">Defect Description<span class="required">*</span></label>
+                                                <textarea
+                                                    class="form-control"
+                                                    id="defectDescription"
+                                                    name="defectDescription"
+                                                    rows="4"
+                                                    required></textarea>
                                             </div>
-                                        </fieldset>
-                                    </div>
+                                            <div class="col-12 col-md-6">
+                                                <label for="quantityReceived" class="form-label">Quantity Received<span class="required">*</span></label>
+                                                <input
+                                                    type="number"
+                                                    class="form-control"
+                                                    id="quantityReceived"
+                                                    name="quantityReceived"
+                                                    min="0"
+                                                    step="1"
+                                                    required>
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                                <label for="quantityDefective" class="form-label">Quantity Defective<span class="required">*</span></label>
+                                                <input
+                                                    type="number"
+                                                    class="form-control"
+                                                    id="quantityDefective"
+                                                    name="quantityDefective"
+                                                    min="0"
+                                                    step="1"
+                                                    required>
+                                            </div>
+                                            <div class="col-12">
+                                                <label for="additional" class="form-label">Additional information, including drawings,
+                                                sketches and pictures (optional)</label>
+                                                <textarea
+                                                    class="form-control"
+                                                    id="additional"
+                                                    name="additional"
+                                                    rows="4"></textarea>
+                                            </div>
+
+
+                                            <div class="col-12">
+                                                <fieldset>
+                                                    <legend class="form-label fs-6">
+                                                        Item Marked NonConforming
+                                                        <span class="required">*</span>
+                                                    </legend>
+                                                    <div class="d-flex gap-3">
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input"
+                                                                type="radio"
+                                                                id="nonconformingYes"
+                                                                name="itemMarkedNonconforming"
+                                                                value="yes"
+                                                                required>
+                                                            <label class="form-check-label" for="nonconformingYes">Yes</label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input
+                                                                class="form-check-input"
+                                                                type="radio"
+                                                                id="nonconformingNo"
+                                                                name="itemMarkedNonconforming"
+                                                                value="no"
+                                                                required>
+                                                            <label class="form-check-label" for="nonconformingNo">No</label>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
                                 </div>
                             </fieldset>
-                            <p id="form-message" class="mb-3" role="status" aria-live="polite"></p>
-                            <div class="d-flex flex-column flex-sm-row gap-2">
-                                <button type="submit" class="btn btn-primary">Save</button>
-                                <button type="button" id="cancel-button" class="btn btn-outline-secondary">Cancel</button>
-                            </div>
-                </form>
+                                    <p id="form-message" class="mb-3" role="status" aria-live="polite"></p>
+                                    <div class="d-flex flex-column flex-sm-row gap-2">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                        <button type="button" id="cancel-button" class="btn btn-outline-secondary">Cancel</button>
+                                    </div>
+                        </form>
+                    </div>
                     </div>
                 </section>
             </div>
