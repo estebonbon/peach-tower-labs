@@ -144,7 +144,7 @@
                     <fieldset class="form-section">
                         <legend class="section-title">Engineering Review</legend>
                                     <div class="row g-3">
-                                            <div class="col-12">
+                                            <div class="col-12 col-md-6">
                                                 <fieldset>
                                                     <legend class="form-label fs-6">
                                                         Identify Process Applicable
@@ -178,7 +178,40 @@
                                                     </div>
                                                 </fieldset>
                                             </div>
+                                            <div class="col-12 col-md-6">
+                                            <fieldset>                                              
+                                                <legend class="form-label fs-6">Engineering Review Required?
+                                                <span class="required">*</span></legend>
+                                                <div class="d-flex gap-4">
+                                                    <div class="form-check">
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="radio"
+                                                            id="engineeringYes"
+                                                            name="engineeringRequired"
+                                                            value="yes"
+                                                            required>
+                                                        <label class="form-check-label" for="engineeringYes">
+                                                            Yes
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="form-check">
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="radio"
+                                                            id="engineeringNo"
+                                                            name="engineeringRequired"
+                                                            value="no"
+                                                            required>
+                                                        <label class="form-check-label" for="engineeringNo">
+                                                            No
+                                                        </label>
+                                                    </div>                                             
+                                                </div>
+                                            </fieldset>
                                         </div>
+                                    </div>
                     </fieldset>
 
                     <fieldset class="form-section">
@@ -279,6 +312,7 @@
                         supplier: "Maple Industrial Supplies",
                         productId: "Steel mounting bracket, SAP No. 104582",
                         processApplicable: "supplier-rec-insp",
+                        engineeringRequired: "yes",
                         referenceNumber: "PO-45821",
                         salesOrderNumber: "SO-78210",
                         defectDescription: "Three brackets have cracks near the mounting holes.",
@@ -294,6 +328,7 @@
                         supplier: "Northern Metalworks",
                         productId: "Aluminium enclosure panel, SAP No. 207316",
                         processApplicable: "wip-production-order",
+                        engineeringRequired: "no",
                         referenceNumber: "PROD-63142",
                         salesOrderNumber: "SO-78235",
                         defectDescription: "Two panels were scratched during assembly.",
@@ -309,6 +344,7 @@
                         supplier: "Precision Fastener Supply",
                         productId: "M12 × 40 mm hex bolt, SAP No. 309724",
                         processApplicable: "supplier-rec-insp",
+                        engineeringRequired: "yes",
                         referenceNumber: "PO-45903",
                         salesOrderNumber: "SO-78301",
                         defectDescription: "Ten bolts measure 35 mm instead of 40 mm.",
