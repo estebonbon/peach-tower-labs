@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCR Details | QualityTrack</title>
+
+    <!-- Load the report data and display logic. -->
+    <script src="details.js" defer></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 24px;
+            background: #f2f5f9;
+            color: #243247;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        main {
+            max-width: 900px;
+            margin: auto;
+            padding: 32px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        h1, h2 {
+            color: #17365d;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 1.8rem;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #78879a;
+            border-radius: 6px;
+            background: white;
+            color: #243247;
+            font: inherit;
+        }
+
+        .section {
+            margin-top: 24px;
+            padding: 24px;
+            border: 1px solid #aab8c9;
+            border-radius: 8px;
+        }
+
+        dl {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 12px 24px;
+        }
+
+        dt {
+            font-weight: bold;
+        }
+
+        dd {
+            margin: 0;
+            overflow-wrap: anywhere;
+            white-space: pre-wrap;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 24px;
+            padding: 12px 22px;
+            background: #174ea6;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            background: #123d82;
+        }
+
+        :focus-visible {
+            outline: 3px solid #174ea6;
+            outline-offset: 4px;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 24px;
+            padding: 12px;
+            background: white;
+            color: #17365d;
+        }
+
+        .skip-link:focus {
+            top: 12px;
+        }
+
+        #details-message {
+            font-weight: bold;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 12px;
+            }
+
+            main, .section {
+                padding: 20px;
+            }
+
+            dl {
+                grid-template-columns: 1fr;
+                gap: 4px;
+            }
+
+            dd {
+                margin-bottom: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Keyboard users can jump directly to the main content. -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <main id="main-content" tabindex="-1">
+        <h1>Non-Conformance Report Details</h1>
+        <p><strong>CrossFire Canada</strong> — Document No. OPS-00011</p>
+        <p>Select an NCR to view its Quality Inspector information.</p>
+
+        <noscript>
+            <p>Enable JavaScript to view the report information.</p>
+        </noscript>
+
+        <label for="reportSelect">Choose an NCR report</label>
+        <select id="reportSelect">
+            <option value="NCR-001">
+                NCR-001 — Maple Industrial Supplies
+            </option>
+            <option value="NCR-002">
+                NCR-002 — Northern Metalworks
+            </option>
+            <option value="NCR-003">
+                NCR-003 — Precision Fastener Supply
+            </option>
+        </select>
+
+        <p id="details-message" role="status" aria-atomic="true"></p>
+
+        <!-- JavaScript fills each data-field with the selected report's value. -->
+        <section id="report-details" class="section"
+                 aria-labelledby="quality-heading" hidden>
+            <h2 id="quality-heading">Quality Inspector</h2>
+
+            <dl>
+                <dt>NCR Number</dt>
+                <dd data-field="ncrNumber"></dd>
+
+                <dt>Process Applicable</dt>
+                <dd data-field="process"></dd>
+
+                <dt>Supplier Name</dt>
+                <dd data-field="supplier"></dd>
+
+                <dt>Purchase Order or Production Number</dt>
+                <dd data-field="reference"></dd>
+
+                <dt>Sales Order Number</dt>
+                <dd data-field="salesOrder"></dd>
+
+                <dt>Item Description, including SAP Number</dt>
+                <dd data-field="item"></dd>
+
+                <dt>Quantity Received</dt>
+                <dd data-field="received"></dd>
+
+                <dt>Quantity Defective</dt>
+                <dd data-field="defective"></dd>
+
+                <dt>Defect Description</dt>
+                <dd data-field="defect"></dd>
+
+                <dt>Item Marked Nonconforming</dt>
+                <dd data-field="marked"></dd>
+
+                <dt>Quality Representative</dt>
+                <dd data-field="qualityRep"></dd>
+
+                <dt>Quality Inspection Date</dt>
+                <dd data-field="qualityDate"></dd>
+
+                <dt>Additional Information (optional)</dt>
+                <dd data-field="additional"></dd>
+            </dl>
+        </section>
+
+        <a href="index.html" class="button">Back to Home</a>
+        <a href="edit.html" id="edit-link" class="button">Edit NCR</a>
+    </main>
+</body>
+</html>
