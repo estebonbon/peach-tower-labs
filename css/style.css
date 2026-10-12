@@ -251,7 +251,26 @@ input[readonly] {
     min-height: 24px;
 }
 
+/*Details page only*/ 
 #details-message {
     display: none;
+}
+html:has(#reportSelect),
+body:has(#reportSelect) {
+    margin: 0 ;
+    padding: 0;
+    min-height: 100%;
+    background-color: #ecf0f1;
+}
+
+body:has(#reportSelect) {
+    display: block;
+}
+
+body:has(#reportSelect) main.content {
+    margin-top: 0;
+    padding-top: 32px;
+    min-height: 100vh;
+    background-color: #ecf0f1;
 }
 /*Add responsivness*/
