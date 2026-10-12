@@ -251,4 +251,7 @@ input[readonly] {
     min-height: 24px;
 }
 
+#details-message {
+    display: none;
+}
 /*Add responsivness*/

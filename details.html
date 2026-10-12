@@ -4,220 +4,157 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NCR Details | QualityTrack</title>
-
-    <!-- Load the report data and display logic. -->
-    <script src="details.js" defer></script>
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            padding: 24px;
-            background: #f2f5f9;
-            color: #243247;
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-        }
-
-        main {
-            max-width: 900px;
-            margin: auto;
-            padding: 32px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
-        }
-
-        h1, h2 {
-            color: #17365d;
-        }
-
-        h1 {
-            margin-top: 0;
-            font-size: 1.8rem;
-        }
-
-        h2 {
-            font-size: 1.2rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: bold;
-        }
-
-        select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #78879a;
-            border-radius: 6px;
-            background: white;
-            color: #243247;
-            font: inherit;
-        }
-
-        .section {
-            margin-top: 24px;
-            padding: 24px;
-            border: 1px solid #aab8c9;
-            border-radius: 8px;
-        }
-
-        dl {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 12px 24px;
-        }
-
-        dt {
-            font-weight: bold;
-        }
-
-        dd {
-            margin: 0;
-            overflow-wrap: anywhere;
-            white-space: pre-wrap;
-        }
-
-        .button {
-            display: inline-block;
-            margin-top: 24px;
-            padding: 12px 22px;
-            background: #174ea6;
-            color: white;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .button:hover {
-            background: #123d82;
-        }
-
-        :focus-visible {
-            outline: 3px solid #174ea6;
-            outline-offset: 4px;
-        }
-
-        .skip-link {
-            position: absolute;
-            top: -100px;
-            left: 24px;
-            padding: 12px;
-            background: white;
-            color: #17365d;
-        }
-
-        .skip-link:focus {
-            top: 12px;
-        }
-
-        #details-message {
-            font-weight: bold;
-        }
-
-        @media (max-width: 650px) {
-            body {
-                padding: 12px;
-            }
-
-            main, .section {
-                padding: 20px;
-            }
-
-            dl {
-                grid-template-columns: 1fr;
-                gap: 4px;
-            }
-
-            dd {
-                margin-bottom: 16px;
-            }
-        }
-    </style>
+    <meta name="description" content="View a Non-Conformance Report">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-
 <body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="images/crossfire Logo.png" alt="CrossFire Canada Logo">
+            <div class="crossfire-info">
+                <h2>CrossFire Canada</h2>
+                <p>Non-Conformance Report System</p>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i>Home</a></li>
+                <li><a href="ncr-log.html"><i class="fas fa-file-alt"></i>NCR Log</a></li>
+                <li><a href="create.html"><i class="fas fa-plus-circle"></i>Create NCR</a></li>
+                <li><a href="edit.html"><i class="fas fa-edit"></i>Edit NCR</a></li>
+                <li><a href="details.html" class="active" aria-current="page"><i class="fas fa-edit"></i>NCR Details</a></li>
+
+                <li><a href="archive.html"><i class="fas fa-archive"></i>Archive</a></li>
+            </ul>
+        </nav>
+        </div>
 
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <main id="main-content" tabindex="-1">
-        <h1>Non-Conformance Report Details</h1>
-        <p><strong>CrossFire Canada</strong> — Document No. OPS-00011</p>
-        <p>Select an NCR to view its Quality Inspector information.</p>
+    <main id="main-content" class="content" tabindex="-1">
+         <div class="row justify-content-center">
+            <div class="col-12">
 
-        <noscript>
-            <p>Enable JavaScript to view the report information.</p>
-        </noscript>
+                <section class="card border-0 shadow-sm">
+                    <div class="card-body p-4 p-md-5">
 
-        <label for="reportSelect">Choose an NCR report</label>
-        <select id="reportSelect">
-            <option value="NCR-001">
-                NCR-001 — Maple Industrial Supplies
-            </option>
-            <option value="NCR-002">
-                NCR-002 — Northern Metalworks
-            </option>
-            <option value="NCR-003">
-                NCR-003 — Precision Fastener Supply
-            </option>
-        </select>
+                        <!-- Page heading -->
+                        <header class="form-header mb-4">
+                            <div class="header-content">
+                                <span class="header-extra">
+                                    QUALITY MANAGEMENT NCR
+                                </span>
 
-        <p id="details-message" role="status" aria-atomic="true"></p>
+                                <h1 class="h2 mb-2">
+                                    Non-Conformance Report Details
+                                </h1>
 
-        
-        <section id="report-details" class="section"
-                 aria-labelledby="quality-heading" hidden>
-            <h2 id="quality-heading">Quality Inspector</h2>
+                                <p class="text-secondary mb-0">
+                                    CrossFire Canada — Document No. OPS-00011.
+                                    Select an existing NCR to view its
+                                    Quality Inspector information.
+                                </p>
+                            </div>
+                        </header>
 
-            <dl>
-                <dt>NCR Number</dt>
-                <dd data-field="ncrNumber"></dd>
+                <noscript>
+                    <p>Enable JavaScript to view the report information.</p>
+                </noscript>
 
-                <dt>Process Applicable</dt>
-                <dd data-field="process"></dd>
+                <div class="form-section">
+                    <label for="reportSelect" class="form-label">Select an NCR report
+                        <span class="required">*</span>
+                    </label>
+                    <select id="reportSelect" class="form-select">
+                        <option value="NCR-001">
+                            NCR-001 — Maple Industrial Supplies
+                        </option>
+                        <option value="NCR-002">
+                            NCR-002 — Northern Metalworks
+                        </option>
+                        <option value="NCR-003">
+                            NCR-003 — Precision Fastener Supply
+                        </option>
+                    </select>
+                </div>
 
-                <dt>Supplier Name</dt>
-                <dd data-field="supplier"></dd>
+                <p id="details-message" role="status" aria-atomic="true"></p>
 
-                <dt>Purchase Order or Production Number</dt>
-                <dd data-field="reference"></dd>
+                <!--Details-->
+                <h2 id="quality-heading">Quality Inspector</h2>
+                <section id="report-details" class="border rounded p-3 p-md-4 mt-4"
+                        aria-labelledby="quality-heading" hidden>
+            
+                    <dl class="mb-0">
+                        <div class="row mb-3">
+                            <dt class="col-md-4 fw-bold">NCR Number</dt>
+                            <dd class="col-md-8 mb-0" data-field="ncrNumber"></dd>
+                        </div>
 
-                <dt>Sales Order Number</dt>
-                <dd data-field="salesOrder"></dd>
-
-                <dt>Item Description, including SAP Number</dt>
-                <dd data-field="item"></dd>
-
-                <dt>Quantity Received</dt>
-                <dd data-field="received"></dd>
-
-                <dt>Quantity Defective</dt>
-                <dd data-field="defective"></dd>
-
-                <dt>Defect Description</dt>
-                <dd data-field="defect"></dd>
-
-                <dt>Item Marked Nonconforming</dt>
-                <dd data-field="marked"></dd>
-
-                <dt>Quality Representative</dt>
-                <dd data-field="qualityRep"></dd>
-
-                <dt>Quality Inspection Date</dt>
-                <dd data-field="qualityDate"></dd>
-
-                <dt>Additional Information (optional)</dt>
-                <dd data-field="additional"></dd>
-            </dl>
+                        <div class="row mb-3">
+                            <dt class="col-md-4 fw-bold">Process Applicable</dt>
+                            <dd class="col-md-8 mb-0" data-field="process"></dd>
+                        </div>
+                        <div class="row mb-3">
+                            <dt class="col-md-4 fw-bold">Supplier Name</dt>
+                            <dd class="col-md-8 mb-0" data-field="supplier"></dd>
+                        </div>
+                        <div class="row mb-3">
+                            <dt class="col-md-4 fw-bold">Purchase Order or Production Number</dt>
+                            <dd class="col-md-8 mb-0" data-field="reference"></dd>
+                        </div>
+                        <div class="row mb-3">
+                            <dt class="col-md-4 fw-bold">Sales Order Number</dt>
+                            <dd class="col-md-8 mb-0" data-field="salesOrder"></dd>
+                        </div>
+                        <div class="row mb-3">
+                            <dt class="col-md-4 fw-bold">Item Description, including SAP Number</dt>
+                            <dd class="col-md-8 mb-0" data-field="item"></dd>
+                        </div>
+                        <div class="row mb-3">
+                            <dt class="col-md-4 fw-bold">Quantity Received</dt>
+                            <dd class="col-md-8 mb-0" data-field="received"></dd>
+                        </div>
+                        <div class="row mb-3">
+                            <dt class="col-md-4 fw-bold">Quantity Defective</dt>
+                            <dd class="col-md-8 mb-0" data-field="defective"></dd>
+                        </div>
+                        <div class="row mb-3">
+                            <dt class="col-md-4 fw-bold">Defect Description</dt>
+                            <dd class="col-md-8 mb-0" data-field="defect"></dd>
+                        </div>
+                        <div class="row mb-3">
+                            <dt class="col-md-4 fw-bold">Item Marked Nonconforming</dt>
+                            <dd class="col-md-8 mb-0" data-field="marked"></dd>
+                        </div>
+                        <div class="row mb-3">
+                            <dt class="col-md-4 fw-bold">Quality Representative</dt>
+                            <dd class="col-md-8 mb-0" data-field="qualityRep"></dd>
+                        </div>
+                        <div class="row mb-3">
+                            <dt class="col-md-4 fw-bold">Quality Inspection Date</dt>
+                            <dd class="col-md-8 mb-0" data-field="qualityDate"></dd>
+                        </div>
+                        <div class="row mb-3">
+                            <dt class="col-md-4 fw-bold">Additional Information (optional)</dt>
+                            <dd class="col-md-8 mb-0" data-field="additional"></dd>
+                        </div>
+                    </dl>
+                </section>
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                    <a href="index.html" class="btn btn-outline-secondary"><i class="fas fa-arrow-left me-2"></i>Back to Home</a>
+                    <a href="edit.html" id="edit-link" class="btn btn-primary"><i class="fas fa-edit me-2"></i>Edit NCR</a>
+                </div>
+            </div>   
         </section>
-
-        <a href="index.html" class="button">Back to Home</a>
-        <a href="edit.html" id="edit-link" class="button">Edit NCR</a>
+    </div>
+    </div>        
     </main>
+    <script src="details.js"></script>
 </body>
 </html>

@@ -31,7 +31,8 @@
             </ul>
         </nav>
         </div>
-        <main class="content">
+        <a href="#main-content" class="skip-link">Skip to main content</a>
+        <main id="main-content" class="content">
         <div class="row justify-content-center">
             <div class="col-12">
 
@@ -294,8 +295,17 @@
                 let selector = document.getElementById("reportSelect");
                 let message = document.getElementById("form-message");
                 let cancelButton = document.getElementById("cancel-button");
+                
+                // Read the NCR ID passed from the details page
+                let params = new URLSearchParams(window.location.search);
+                let requestId = params.get("id");
 
-                let currentReportId = selector.value;
+                // Use the requested NCR if exists, otherwise use the dropdown default 
+                let currentReportId = Object.hasOwn(reports, requestId) ? requestId : selector.value;
+
+                // Make the dropdown match the selected NCR 
+                selector.value = currentReportId;
+                //let currentReportId = selector.value;
 
                 form.noValidate = true;
 
@@ -449,7 +459,7 @@
 
                         document
                             .getElementById("nonconformingYes")
-                            .tCustomValidity(
+                            .setCustomValidity(
                                 "Please select Yes or No."
                             );
 
