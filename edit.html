@@ -144,7 +144,7 @@
                     <fieldset class="form-section">
                         <legend class="section-title">Engineering Review</legend>
                                     <div class="row g-3">
-                                            <div class="col-12">
+                                            <div class="col-1 col-md-6">
                                                 <fieldset>
                                                     <legend class="form-label fs-6">
                                                         Identify Process Applicable
@@ -177,6 +177,40 @@
                                                         </div>
                                                     </div>
                                                 </fieldset>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                <fieldset>                                              
+                                                <legend class="form-label fs-6">Engineering Review Required?
+                                                <span class="required">*</span></legend>
+                                                <div class="d-flex gap-4">
+                                                    <div class="form-check">
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="radio"
+                                                            id="engineeringYes"
+                                                            name="engineeringRequired"
+                                                            value="yes"
+                                                            required>
+                                                        <label class="form-check-label" for="engineeringYes">
+                                                            Yes
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="form-check">
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="radio"
+                                                            id="engineeringNo"
+                                                            name="engineeringRequired"
+                                                            value="no"
+                                                            required>
+                                                        <label class="form-check-label" for="engineeringNo">
+                                                            No
+                                                        </label>
+                                                    </div>                                             
+                                                </div>
+                                                
+                                            </fieldset>
                                             </div>
                                         </div>
                     </fieldset>
@@ -285,6 +319,7 @@
                         quantityReceived: "20",
                         quantityDefective: "3",
                         itemMarkedNonconforming: "yes",
+                        engineeringRequired: "yes",
                         additional: "Inspection photos show cracks beside the mounting holes."
                     },
 
@@ -300,6 +335,7 @@
                         quantityReceived: "15",
                         quantityDefective: "2",
                         itemMarkedNonconforming: "yes",
+                        engineeringRequired: "no",
                         additional: "Surface inspection photos document the coating damage."
                     },
 
@@ -315,6 +351,7 @@
                         quantityReceived: "50",
                         quantityDefective: "10",
                         itemMarkedNonconforming: "yes",
+                        engineeringRequired: "yes",
                         additional: "Measurement records confirm the incorrect bolt lengths."
                     }
                 };
