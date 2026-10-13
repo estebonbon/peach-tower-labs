@@ -11,6 +11,10 @@ This repository contains our group's work for the CrossFire Non-Conformance Repo
 
 These instructions explain how to download, edit, save, and upload your work to GitHub.
 
+## PLEASE REMEMBER TO SWITCH TO YOUR LOCAL MAIN BRANCH ON THE TERMINAL.
+## THEN PULL ORIGIN MAIN BRANCH FROM GITHUB WHICH WILL PULL THE LATEST MERGE THAT YOU HAVE JUST DONE
+## IF YOU DO NOT DO THIS THEN NEXT TIME YOU PUSH AN UPDATE YOU MIGHT UPDATE REPO WITH AN OLD FILE FROM YOUR LOCAL 
+
 ### 1. Clone the Repository (First Time on a Computer)
 
 Open VS Code, open the terminal, and enter:
