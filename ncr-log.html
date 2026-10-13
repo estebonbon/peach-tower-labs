@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCR Log</title>
+     <meta name="description" content="Edit an existing Non-Conformance Report">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="images/crossfire Logo.png" alt="CrossFire Canada Logo">
+            <div class="crossfire-info">
+                <h2>CrossFire Canada</h2>
+                <p>Non-Conformance Report System</p>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i>Home</a></li>
+                <li><a href="ncr-log.html" class="active" aria-current="page"><i class="fas fa-file-alt"></i>NCR Log</a></li>
+                <li><a href="create.html"><i class="fas fa-plus-circle"></i>Create NCR</a></li>
+                <li><a href="edit.html"><i class="fas fa-edit"></i>Edit NCR</a></li>
+                <li><a href="archive.html"><i class="fas fa-archive"></i>Archive</a></li>
+            </ul>
+        </nav>
+    </div>
+    
+    <main class="content status-page">
+          <div class="row justify-content-center">
+            <div class="col-12 "> <!--col-lg-10-->
+                <section class="card border-0 shadow-sm">
+                    <div class="card-body p-4 p-md-5">
+                        <header class="form-header mb-4">
+                            <div class="header-content">
+                                <span class="header-extra">QUALITY MANAGEMENT NCR</span>
+                                <h1 class="h2 mb-2">NCR Log</h1>
+                                <p class="text-secondary mb-0">
+                                     View current and completed NCRs, reserve the next
+                                    available NCR number, or update an existing report.
+                                </p>
+                            </div>
+                        </header> 
+    
+            <!-- <div class="alert alert-info" role="status">
+                <strong>Next available NCR number:</strong>
+                <span id="next-ncr-number">2026-004</span>
+            </div>> -->
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+
+                    <caption class="visually-hidden">
+                        NCR Log containing current and completed reports
+                    </caption>
+                <div class="table-head">
+                    <thead>
+                        <tr>
+                            <th scope="col">NCR Number</th>
+                            <th scope="col">Supplier</th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Problem</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                        
+                    </thead>
+                </div>
+
+                    <tbody id="ncr-table-body">
+
+                        <tr>
+                            <td>NCR-001</td>
+                            <td>Maple Industrial Supplies</td>
+                            <td>Steel mounting bracket, SAP No. 104582</td>
+                            <td>Three brackets have cracks near the mounting holes.</td>
+
+                            <td>
+                                <select class="form-select form-select-sm"
+                                        aria-label="Status for NCR-001">
+                                    <option value="Open" selected>Open</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Complete">Complete</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <a href="details.html?id=NCR-001"class="btn btn-sm btn-outline-primary">
+                                        Details
+                                    </a>
+
+                                    <a href="edit.html?id=NCR-001"
+                                    class="btn btn-sm btn-outline-primary">
+                                        Edit
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>NCR-002</td>
+                            <td>Northern Metalworks</td>
+                            <td>Aluminium enclosure panel, SAP No. 207316</td>
+                            <td>Two panels were scratched during assembly.</td>
+
+                            <td>
+                                <select class="form-select form-select-sm"aria-label="Status for NCR-002">
+
+                                    <option value="Open">Open</option>
+                                    <option value="In Progress" selected>In Progress</option>
+                                    <option value="Complete">Complete</option>
+                                    
+                                </select>
+                            </td>
+
+                                <td>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <a href="details.html?id=NCR-002"
+                                        class="btn btn-sm btn-outline-primary">
+                                            Details
+                                        </a>
+
+                                        <a href="edit.html?id=NCR-002"
+                                        class="btn btn-sm btn-outline-primary">
+                                            Edit
+                                        </a>
+                                    </div>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>NCR-003</td>
+                            <td>Precision Fastener Supply</td>
+                            <td>M12 × 40 mm hex bolt, SAP No. 309724</td>
+                            <td>Ten bolts measure 35 mm instead of 40 mm.</td>
+
+                            <td>
+                                <select class="form-select form-select-sm"
+                                        aria-label="Status for NCR-003">
+                                    <option value="Open">Open</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Complete" selected>Complete</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <a href="details.html?id=NCR-003"
+                                    class="btn btn-sm btn-outline-primary">
+                                        Details
+                                    </a>
+
+                                    <a href="edit.html?id=NCR-003"
+                                    class="btn btn-sm btn-outline-primary">
+                                        Edit
+                                    </a>
+                                </div>
+                             </td>
+                        </tr>
+
+                    </tbody>
+                    
+                </table>
+        </div>
+
+            <p id="log-help" class="text-secondary">
+                Select Details to review a report or Edit to update its
+                Quality Inspector information.
+            </p>
+
+        </section>
+            </div>
+    </main>
+<script src = "scripts/ncr-log.js"></script>
+</body>
+</html>
