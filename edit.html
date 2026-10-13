@@ -360,6 +360,7 @@
                 let selector = document.getElementById("reportSelect");
                 let message = document.getElementById("form-message");
                 let cancelButton = document.getElementById("cancel-button");
+<<<<<<< Updated upstream
                 
                 let params = new URLSearchParams(window.location.search);
                 let reportFromUrl = params.get("id");
@@ -371,6 +372,16 @@
 
                 let currentReportId = selector.value;
                
+=======
+                // get the data carried from details paged
+                let params = new URLSearchParams(window.location.search);
+                let selectedNcr = params.get("ncr");
+
+                if (selectedNcr && reports[selectedNcr]) {
+                    selector.value = selectedNcr;
+                }
+                let currentReportId = selectedNcr.value;
+>>>>>>> Stashed changes
 
                 form.noValidate = true;
 
