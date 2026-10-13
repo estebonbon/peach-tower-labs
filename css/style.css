@@ -250,6 +250,9 @@ input[readonly] {
     margin-top: 10px;
     min-height: 24px;
 }
-
-
+.status-page table thead th {
+    background-color: #E8EEF5;
+    color: #000000;
+    font-weight: 600;
+}
 /*Add responsivness*/
