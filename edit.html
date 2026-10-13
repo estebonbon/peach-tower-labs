@@ -324,8 +324,16 @@
                 let message = document.getElementById("form-message");
                 let cancelButton = document.getElementById("cancel-button");
 
-                let currentReportId = selector.value;
+                // get the data from the details page 
+                let params = new URLSearchParams(window.location.search);
+                let reportFromUrl = params.get("id");
 
+                if (reportFromUrl && reports[reportFromUrl]) {
+                    selector.value = reportFromUrl;
+                }
+
+                let currentReportId = selector.value;
+             
                 form.noValidate = true;
 
                 /* Load Report */
