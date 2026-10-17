@@ -235,8 +235,11 @@ legend {
 }
 /*NCR and date read only field*/
 input[readonly] {
-    background-color: #F3F4F6;
-    color: #4A5568;
+    background-color: #E8EEF5;
+    border: 1px solid #CBD5E0;
+    color: #173451;
+    font-weight: 600;
+    cursor: not-allowed;
 }
 .form-check-label {
     font-weight: normal;
@@ -265,8 +268,10 @@ input[readonly] {
 }
 #quantityReceived,
 #quantityDefective {
+    background-color: #f8fafc;
     width: 120px;
     max-width: 100%;
+    box-shadow: #AEB7C4;
     
 }
 .form-actions button {
