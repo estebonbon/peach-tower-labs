@@ -27,7 +27,7 @@
                 <li><a href="ncr-log.html"><i class="fas fa-file-alt"></i>NCR Log</a></li>
                 <li><a href="create.html"><i class="fas fa-plus-circle"></i>Create NCR</a></li>
                 <li><a href="edit.html" class="active" aria-current="page"><i class="fas fa-edit"></i>Edit NCR</a></li>
-                <li><a href="create.html"><i class="fas fa-plus-circle"></i>NCR Details</a></li>
+                <li><a href="details.html"><i class="fas fa-circle-info"></i>NCR Details</a></li>
                 <li><a href="archive.html"><i class="fas fa-archive"></i>Archive</a></li>
             </ul>
         </nav>
@@ -103,7 +103,7 @@
                         <legend class="section-title"> Supplier & Product Information</legend>
                                     <div class="row g-3">
                                         <div class="col-12 col-md-6">
-                                                <label for="supplierId" class="form-label">Supplier Name - ID<span class="required">*</span></label>
+                                                <label for="supplierId" class="form-label">Supplier Name/ID<span class="required">*</span></label>
                                                 <input type="text"
                                                     class="form-control"
                                                     id="supplierId"
@@ -129,6 +129,7 @@
                                                     class="form-control"
                                                     id="referenceNumber"
                                                     name="referenceNumber"
+                                                    placeholder="e.g., PO-12345"
                                                     required>
                                         </div>
 
@@ -138,11 +139,105 @@
                                                     type="text"
                                                     class="form-control"
                                                     id="salesOrderNumber"
-                                                    name="salesOrderNumber">
+                                                    name="salesOrderNumber"
+                                                    placeholder="e.g., SO-54321">
                                         </div>
                                     </div>
                     </fieldset>
-                    <fieldset class="form-section">
+                   
+                    <!--Defect info section-->
+                                    <fieldset class="form-section">
+                                        <legend class="section-title">Defect Information</legend>
+                                        <div class="row g-3">
+                                                <div class="col-12 col-md-4">
+                                                    <fieldset>
+                                                        <legend class="form-label fs-6">
+                                                            Item Marked NonConforming
+                                                            <span class="required">*</span>
+                                                        </legend>
+                                                        <div class="d-flex gap-3">
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input"
+                                                                    type="radio"
+                                                                    id="nonconformingYes"
+                                                                    name="itemMarkedNonconforming"
+                                                                    value="yes"
+                                                                    required>
+                                                                <label class="form-check-label" for="nonconformingYes">Yes</label>
+                                                                
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input"
+                                                                    type="radio"
+                                                                    id="nonconformingNo"
+                                                                    name="itemMarkedNonconforming"
+                                                                    value="no"
+                                                                    required>
+                                                                <label class="form-check-label" for="nonconformingNo">No</label>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                </fieldset>
+                                            </div>
+                                            <div class="col-12 col-md-3">
+                                                        <label for="quantityReceived" class="form-label">Quantity Received
+                                                            <span class="required">*</span>
+                                                        </label>
+                                                        
+                                                        <input
+                                                            type="number"
+                                                            class="form-control"
+                                                            id="quantityReceived"
+                                                            name="quantityReceived"
+                                                            min="0"
+                                                            step="1"
+                                                            required>
+                                                    </div>
+
+                                                    <div class="col-12 col-md-3">
+                                                        <label for="quantityDefective" class="form-label">Quantity Defective<span class="required">*</span></label>
+                                                        
+                                                        <input
+                                                            type="number"
+                                                            class="form-control"
+                                                            id="quantityDefective"
+                                                            name="quantityDefective"
+                                                            min="0"
+                                                            step="1"
+                                                            required>
+                                                    </div>
+                                            </div>
+                                    
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label for="defectDescription" class="form-label">Defect Description
+                                                <span class="required">*</span></label>  
+                                                <textarea
+                                                    class="form-control"
+                                                    id="defectDescription"
+                                                    name="defectDescription"
+                                                    rows="4"
+                                                    placeholder="Describe the defect..."
+                                                    required></textarea>
+                                            </div>
+                                            
+                                                
+
+                                                <div class="col-12">
+                                                    <label for="additional" class="form-label">Additional information
+                                                    <span class="optional">(Optional)</span></label>
+                                                    <textarea
+                                                        class="form-control"
+                                                        id="additional"
+                                                        name="additional"
+                                                        placeholder="Add, upload any additional information including drawings,sketches and pictures"
+                                                        rows="4"></textarea>
+                                                </div>
+                                        </div>                                           
+                                    </fieldset>
+                             <fieldset class="form-section">
                         <legend class="section-title">Engineering Review</legend>
                                     <div class="row g-3">
                                             <div class="col-12 col-md-6">
@@ -215,461 +310,19 @@
                                     </div>
                     </fieldset>
 
-                    <fieldset class="form-section">
-                        <legend class="section-title">Defect Information</legend>
-                        <div class="row g-3">
-                                            <div class="col-12">
-                                                <label for="defectDescription" class="form-label">Defect Description<span class="required">*</span></label>
-                                                <textarea
-                                                    class="form-control"
-                                                    id="defectDescription"
-                                                    name="defectDescription"
-                                                    rows="4"
-                                                    required></textarea>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <label for="quantityReceived" class="form-label">Quantity Received<span class="required">*</span></label>
-                                                <input
-                                                    type="number"
-                                                    class="form-control"
-                                                    id="quantityReceived"
-                                                    name="quantityReceived"
-                                                    min="0"
-                                                    step="1"
-                                                    required>
-                                            </div>
-
-                                            <div class="col-12 col-md-6">
-                                                <label for="quantityDefective" class="form-label">Quantity Defective<span class="required">*</span></label>
-                                                <input
-                                                    type="number"
-                                                    class="form-control"
-                                                    id="quantityDefective"
-                                                    name="quantityDefective"
-                                                    min="0"
-                                                    step="1"
-                                                    required>
-                                            </div>
-                                            <div class="col-12">
-                                                <label for="additional" class="form-label">Additional information, including drawings,
-                                                sketches and pictures <span class="optional">(Optional)</span></label>
-                                                <textarea
-                                                    class="form-control"
-                                                    id="additional"
-                                                    name="additional"
-                                                    rows="4"></textarea>
-                                            </div>
-
-
-                                            <div class="col-12">
-                                                <fieldset>
-                                                    <legend class="form-label fs-6">
-                                                        Item Marked NonConforming
-                                                        <span class="required">*</span>
-                                                    </legend>
-                                                    <div class="d-flex gap-3">
-                                                        <div class="form-check">
-                                                            <input
-                                                                class="form-check-input"
-                                                                type="radio"
-                                                                id="nonconformingYes"
-                                                                name="itemMarkedNonconforming"
-                                                                value="yes"
-                                                                required>
-                                                            <label class="form-check-label" for="nonconformingYes">Yes</label>
-                                                        </div>
-                                                        <div class="form-check">
-                                                            <input
-                                                                class="form-check-input"
-                                                                type="radio"
-                                                                id="nonconformingNo"
-                                                                name="itemMarkedNonconforming"
-                                                                value="no"
-                                                                required>
-                                                            <label class="form-check-label" for="nonconformingNo">No</label>
-                                                        </div>
-                                                    </div>
-                                                </fieldset>
-                                            </div>
-                                </div>
-                            </fieldset>
                                     <p id="form-message" class="mb-3" role="status" aria-live="polite"></p>
-                                    <div class=" form-actions d-flex flex-column flex-sm-row gap-2">
-                                        <button type="submit" class="btn btn-primary">Save</button>
-                                        <button type="button" id="cancel-button" class="btn btn-outline-secondary">Cancel</button>
-                                    </div>
+                                    <div class="form-actions d-flex flex-wrap gap-2 mt-4">
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk"></i>Save Changes</button>
+                                <button type="button" id="save-draft-button" class="btn-outline-secondary btn-draft"><i class="fas fa-file-pen"></i>Save as Draft</button>
+                                <button type="button" id="cancel-button" class="btn btn-outline-secondary"><i class="fas fa-xmark"></i>Cancel</button>
+                            </div>
                         </form>
                     </div>
                     </div>
                 </section>
             </div>
     </main>
-        <script>
-            const reports = {
-                    "NCR-001": {
-                        ncrNumber: "NCR-001",
-                        dateCreated: "2026-10-01",
-                        supplier: "Maple Industrial Supplies",
-                        productId: "Steel mounting bracket, SAP No. 104582",
-                        processApplicable: "supplier-rec-insp",
-                        engineeringRequired: "yes",
-                        referenceNumber: "PO-45821",
-                        salesOrderNumber: "SO-78210",
-                        defectDescription: "Three brackets have cracks near the mounting holes.",
-                        quantityReceived: "20",
-                        quantityDefective: "3",
-                        itemMarkedNonconforming: "yes",
-                        additional: "Inspection photos show cracks beside the mounting holes."
-                    },
-
-                    "NCR-002": {
-                        ncrNumber: "NCR-002",
-                        dateCreated: "2026-10-02",
-                        supplier: "Northern Metalworks",
-                        productId: "Aluminium enclosure panel, SAP No. 207316",
-                        processApplicable: "wip-production-order",
-                        engineeringRequired: "no",
-                        referenceNumber: "PROD-63142",
-                        salesOrderNumber: "SO-78235",
-                        defectDescription: "Two panels were scratched during assembly.",
-                        quantityReceived: "15",
-                        quantityDefective: "2",
-                        itemMarkedNonconforming: "yes",
-                        additional: "Surface inspection photos document the coating damage."
-                    },
-
-                    "NCR-003": {
-                        ncrNumber: "NCR-003",
-                        dateCreated: "2026-10-03",
-                        supplier: "Precision Fastener Supply",
-                        productId: "M12 × 40 mm hex bolt, SAP No. 309724",
-                        processApplicable: "supplier-rec-insp",
-                        engineeringRequired: "yes",
-                        referenceNumber: "PO-45903",
-                        salesOrderNumber: "SO-78301",
-                        defectDescription: "Ten bolts measure 35 mm instead of 40 mm.",
-                        quantityReceived: "50",
-                        quantityDefective: "10",
-                        itemMarkedNonconforming: "yes",
-                        additional: "Measurement records confirm the incorrect bolt lengths."
-                    }
-                };
-
-                let form = document.getElementById("edit-form");
-                let selector = document.getElementById("reportSelect");
-                let message = document.getElementById("form-message");
-                let cancelButton = document.getElementById("cancel-button");
-
-                let currentReportId = selector.value;
-
-                form.noValidate = true;
-
-                /* Load Report */
-              
-                function loadReport(reportId) {
-
-                    let report = reports[reportId];
-
-                    if (!report) {
-                        return;
-                    }
-
-                    for (let field of form.elements) {
-
-                        if (!field.name) {
-                            continue;
-                        }
-
-                        field.setCustomValidity("");
-                        field.removeAttribute("aria-invalid");
-
-                        if (field.type === "radio") {
-
-                            field.checked =
-                                report[field.name] === field.value;
-
-                        } else {
-
-                            field.value =
-                                report[field.name] || "";
-                        }
-                    }
-
-                    message.textContent = "";
-                }
-         
-                /* Read Values */
-               
-                function readValues() {
-
-                    let values = {};
-
-                    for (let field of form.elements) {
-
-                        if (!field.name) {
-                            continue;
-                        }
-
-                        if (field.type === "radio") {
-
-                            if (field.checked) {
-                                values[field.name] = field.value;
-                            }
-
-                        } else {
-
-                            values[field.name] = field.value;
-                        }
-                    }
-
-                    return values;
-                }
-
-              
-                /* Unsaved Changes */
-                function hasUnsavedChanges() {
-
-                    let currentValues = readValues();
-                    let originalValues = reports[currentReportId];
-
-                    for (let key in originalValues) {
-
-                        if (
-                            String(currentValues[key] || "") !==
-                            String(originalValues[key] || "")
-                        ) {
-                            return true;
-                        }
-                    }
-
-                    return false;
-                }
-
-                /* Validation */
-               
-                function validateFields() {
-
-                    for (let field of form.elements) {
-
-                        if (!field.name) {
-                            continue;
-                        }
-
-                        field.setCustomValidity("");
-
-                        if (
-                            field.required &&
-                            field.type !== "radio" &&
-                            !field.value.trim()
-                        ) {
-                            field.setCustomValidity(
-                                "Please complete this field."
-                            );
-                        }
-                    }
-
-                    let received =
-                        document.getElementById("quantityReceived");
-
-                    let defective =
-                        document.getElementById("quantityDefective");
-
-                    if (
-                        received.value &&
-                        defective.value &&
-                        Number(defective.value) >
-                        Number(received.value)
-                    ) {
-                        defective.setCustomValidity(
-                            "Quantity Defective cannot exceed Quantity Received."
-                        );
-                    }
-
-                    let processSelected =
-                        document.querySelector(
-                            'input[name="processApplicable"\]:checked'
-                        );
-
-                    if (!processSelected) {
-
-                        document
-                            .getElementById("processSupplier")
-                            .setCustomValidity(
-                                "Please select a process."
-                            );
-
-                    } else {
-
-                        document
-                            .getElementById("processSupplier")
-                            .setCustomValidity("");
-                    }
-
-                    let markedSelected =
-                        document.querySelector(
-                            'input[name="itemMarkedNonconforming"\]:checked'
-                        );
-
-                    if (!markedSelected) {
-
-                        document
-                            .getElementById("nonconformingYes")
-                            .tCustomValidity(
-                                "Please select Yes or No."
-                            );
-
-                    } else {
-
-                        document
-                            .getElementById("nonconformingYes")
-                            .setCustomValidity("");
-                    }
-                }
-              
-                /* Accessibility */
-
-                form.addEventListener(
-                    "invalid",
-                    function (event) {
-
-                        event.target.setAttribute(
-                            "aria-invalid",
-                            "true"
-                        );
-                    },
-                    true
-                );
-
-                /* Live Validation */
-                form.addEventListener("input", function () {
-
-                    validateFields();
-
-                    for (let field of form.elements) {
-
-                        if (
-                            field.validity &&
-                            field.validity.valid
-                        ) {
-                            field.removeAttribute(
-                                "aria-invalid"
-                            );
-                        }
-                    }
-
-                    message.textContent = "";
-                });
-        
-                /* Change NCR */
-                selector.addEventListener(
-                    "change",
-                    function () {
-
-                        if (hasUnsavedChanges()) {
-
-                            let discard = confirm(
-                                "Discard unsaved changes?"
-                            );
-
-                            if (!discard) {
-
-                                selector.value = currentReportId;
-                                return;
-                            }
-                        }
-
-                        currentReportId = selector.value;
-
-                        loadReport(currentReportId);
-
-                        message.textContent =
-                            currentReportId +
-                            " loaded successfully.";
-                    }
-                );
-
-                /* Save */  
-                form.addEventListener(
-                    "submit",
-                    function (event) {
-
-                        event.preventDefault();
-
-                        validateFields();
-
-                        if (!form.reportValidity()) {
-
-                            let firstInvalid =
-                                form.querySelector(":invalid");
-
-                            if (firstInvalid) {
-
-                                firstInvalid.focus();
-
-                                firstInvalid.scrollIntoView({
-                                    behavior: "smooth",
-                                    block: "center"
-                                });
-                            }
-
-                            message.textContent =
-                                "Please correct the highlighted fields.";
-
-                            return;
-                        }
-
-                        if (!hasUnsavedChanges()) {
-
-                            alert(
-                                "There are no changes to save."
-                            );
-
-                            return;
-                        }
-
-                        reports[currentReportId] =
-                            readValues();
-
-                        message.textContent =
-                            "Changes saved successfully.";
-
-                        alert(
-                            "Changes saved successfully."
-                        );
-                    }
-                );
-
-                /* Cancel */
-                cancelButton.addEventListener(
-                    "click",
-                    function () {
-
-                        if (!hasUnsavedChanges()) {
-
-                            alert(
-                                "There are no changes to cancel."
-                            );
-
-                            return;
-                        }
-
-                        let discard = confirm(
-                            "Cancel all changes?"
-                        );
-
-                        if (!discard) {
-                            return;
-                        }
-
-                        loadReport(currentReportId);
-
-                        message.textContent =
-                            "Changes cancelled.";
-                    }
-                );
-                /* Initial Load */
-                loadReport(currentReportId);
-
-        </script>
+    <script src="js/data.js"></script>
+    <script src="js/edit.js"></script>
 </body>
 </html>

@@ -1,0 +1,184 @@
+// Find the controls in edit.html.
+const form = document.getElementById("edit-form");
+const selector = document.getElementById("reportSelect");
+const message = document.getElementById("form-message");
+const cancelButton = document.getElementById("cancel-button");
+
+let params = new URLSearchParams(window.location.search);
+let reportFromUrl = params.get("id");
+
+if (reportFromUrl && reports[reportFromUrl]) {
+    selector.value = reportFromUrl;
+}
+
+
+let currentReportId = selector.value;
+
+// JavaScript runs validation before saving.
+form.noValidate = true;
+
+// Fill the form with the selected existing report.
+function loadReport(reportId) {
+    const report = reports[reportId];
+
+    for (const field of form.elements) {
+        if (!field.name) continue;
+
+        field.setCustomValidity("");
+        field.removeAttribute("aria-invalid");
+
+        if (field.type === "radio") {
+            field.checked = report[field.name] === field.value;
+        } else {
+            field.value = report[field.name] ?? "";
+        }
+    }
+}
+
+// Read all Quality Inspector form values.
+function readValues() {
+    const values = {};
+
+    for (const field of form.elements) {
+        if (!field.name) continue;
+
+        if (field.type === "radio") {
+            if (!(field.name in values)) {
+                values[field.name] = "";
+            }
+
+            if (field.checked) {
+                values[field.name] = field.value;
+            }
+        } else {
+            values[field.name] = field.value;
+        }
+    }
+
+    return values;
+}
+
+// Check whether the form differs from the last saved report.
+function hasUnsavedChanges() {
+    const values = readValues();
+
+    return Object.keys(values).some(
+        name => values[name] !== reports[currentReportId][name]
+    );
+}
+
+// Validate required fields and quantities.
+function validateFields() {
+    for (const field of form.querySelectorAll(
+        'input:not([type="radio"]), textarea'
+    )) {
+        field.setCustomValidity("");
+
+        if (field.required && !field.value.trim()) {
+            field.setCustomValidity("Please complete this field.");
+        }
+    }
+
+    const received = document.getElementById("quantityReceived");
+    const defective = document.getElementById("quantityDefective");
+
+    if (
+        received.value !== "" &&
+        defective.value !== "" &&
+        Number(quantityDefective.value) > Number(quantityReceived.value)
+    ) {
+        defective.setCustomValidity(
+            "Quantity Defective cannot exceed Quantity Received."
+        );
+    }
+}
+
+// Mark invalid fields for screen readers.
+form.addEventListener("invalid", function (event) {
+    event.target.setAttribute("aria-invalid", "true");
+}, true);
+
+// Update validation while the user edits.
+form.addEventListener("input", function () {
+    validateFields();
+
+    for (const field of form.elements) {
+        if (field.validity?.valid) {
+            field.removeAttribute("aria-invalid");
+        }
+    }
+
+    message.textContent = "";
+});
+
+// Switch to another existing NCR.
+selector.addEventListener("change", function () {
+    if (hasUnsavedChanges()) {
+        const discard = window.confirm(
+            "Discard your unsaved changes and switch reports?"
+        );
+
+        if (!discard) {
+            selector.value = currentReportId;
+            return;
+        }
+    }
+
+    currentReportId = selector.value;
+    loadReport(currentReportId);
+
+    message.textContent = currentReportId + " loaded for editing.";
+});
+
+// Confirm and save changes.
+form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    validateFields();
+
+    if (!form.reportValidity()) {
+        message.textContent = "Please correct the invalid fields.";
+        return;
+    }
+
+    if (!hasUnsavedChanges()) {
+        message.textContent = "There are no changes to save.";
+        window.alert("There are no changes to save.");
+        return;
+    }
+
+    const save = window.confirm(
+        "Are you sure you want to save changes to " + currentReportId + "?"
+    );
+
+    if (!save) return;
+
+    Object.assign(reports[currentReportId], readValues());
+
+    message.textContent =
+        "Changes to " + currentReportId + " saved successfully.";
+
+    window.alert("Changes saved successfully.");
+});
+
+// Cancel edits and stay on the edit page.
+cancelButton.addEventListener("click", function () {
+    if (!hasUnsavedChanges()) {
+        message.textContent = "There are no changes to cancel.";
+        window.alert("There are no changes to cancel.");
+        return;
+    }
+
+    const discard = window.confirm(
+        "Are you sure you want to cancel your changes?"
+    );
+
+    if (!discard) return;
+
+    loadReport(currentReportId);
+
+    message.textContent = "Changes cancelled. Saved values restored.";
+    window.alert("Your changes have been cancelled.");
+});
+
+// Load the first NCR when the page opens.
+loadReport(currentReportId);
