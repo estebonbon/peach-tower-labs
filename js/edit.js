@@ -1,16 +1,59 @@
+// Existing NCR report data.
+const reports = {
+    "NCR-001": {
+        process: "supplier",
+        supplier: "Maple Industrial Supplies",
+        ncrNumber: "NCR-001",
+        reference: "PO-45821",
+        salesOrder: "SO-78210",
+        item: "Steel mounting bracket, SAP No. 104582",
+        received: "20",
+        defective: "3",
+        defect: "Three brackets have cracks near the mounting holes.",
+        marked: "yes",
+        qualityRep: "Sarah Wilson",
+        qualityDate: "2026-10-01",
+        additional: "Inspection photos show cracks beside the mounting holes."
+    },
+
+    "NCR-002": {
+        process: "wip",
+        supplier: "Northern Metalworks",
+        ncrNumber: "NCR-002",
+        reference: "PROD-63142",
+        salesOrder: "SO-78235",
+        item: "Aluminium enclosure panel, SAP No. 207316",
+        received: "15",
+        defective: "2",
+        defect: "Two panels were scratched during assembly, exposing the metal beneath the coating.",
+        marked: "yes",
+        qualityRep: "Omar Ali",
+        qualityDate: "2026-10-02",
+        additional: "Surface inspection photos document the coating damage."
+    },
+
+    "NCR-003": {
+        process: "supplier",
+        supplier: "Precision Fastener Supply",
+        ncrNumber: "NCR-003",
+        reference: "PO-45903",
+        salesOrder: "SO-78301",
+        item: "M12 × 40 mm hex bolt, SAP No. 309724",
+        received: "50",
+        defective: "10",
+        defect: "Ten bolts measure 35 mm in length instead of the specified 40 mm.",
+        marked: "yes",
+        qualityRep: "Grace Thompson",
+        qualityDate: "2026-10-01",
+        additional: "Measurement records confirm the incorrect bolt lengths."
+    }
+};
+
 // Find the controls in edit.html.
 const form = document.getElementById("edit-form");
 const selector = document.getElementById("reportSelect");
 const message = document.getElementById("form-message");
 const cancelButton = document.getElementById("cancel-button");
-
-let params = new URLSearchParams(window.location.search);
-let reportFromUrl = params.get("id");
-
-if (reportFromUrl && reports[reportFromUrl]) {
-    selector.value = reportFromUrl;
-}
-
 
 let currentReportId = selector.value;
 
@@ -79,13 +122,13 @@ function validateFields() {
         }
     }
 
-    const received = document.getElementById("quantityReceived");
-    const defective = document.getElementById("quantityDefective");
+    const received = document.getElementById("received");
+    const defective = document.getElementById("defective");
 
     if (
         received.value !== "" &&
         defective.value !== "" &&
-        Number(quantityDefective.value) > Number(quantityReceived.value)
+        Number(defective.value) > Number(received.value)
     ) {
         defective.setCustomValidity(
             "Quantity Defective cannot exceed Quantity Received."

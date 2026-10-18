@@ -64,14 +64,33 @@
                         <legend class="section-title">Report Information</legend>           
                                 <div class="row g-3">
                                     <div class="col-12 col-md-6">                     
-                                            <label for="reportSelect" class="form-label">Select NCR Report
+                                            <label for="reportSelect" class="form-label">Search NCR Report
                                                 <span class="required">*</span>
                                             </label>
-                                                <select id="reportSelect" class="form-select">
-                                                    <option value="NCR-001">NCR-001— Maple Industrial Supplies</option>
-                                                    <option value="NCR-002">NCR-002— Northern Metalworks</option>
-                                                    <option value="NCR-003">NCR-003— Precision Fastener Supply</option>
-                                                </select>
+                                                <div id="reportSelect" class="search-box">
+                                                    <i class="fas fa-search"></i>
+                                                    <input
+                                                        type="search"
+                                                        id="reportSearch"
+                                                        class="form-control"
+                                                        placeholder="Search by NCR number or supplier..."
+                                                        autocomplete="off"
+                                                        aria-describedby="search-help"
+                                                        aria-controls="report-search-results"
+                                                        aria-expanded="false"
+                                                        required>
+                                                </div>
+                                                <small id="search-help" class="text-secondary">
+                                                    Type an NCR number or supplier name, then select a report.
+                                                </small>
+
+                                                <div
+                                                    id="report-search-results"
+                                                    class="list-group mt-2"
+                                                    role="listbox"
+                                                    aria-label="Matching NCR reports"
+                                                    hidden>
+                                                </div>
                                     </div>
                                     <div class="col-12 col-md-6">
 
@@ -96,6 +115,37 @@
                                             name="dateCreated"
                                             readonly>
                                     </div>
+                                    <div class="col-12 col-md-6">
+                                        <label for="qualityRep" class="form-label">
+                                            Quality Representitive
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="qualityRep"
+                                            name="qualityRep"
+                                            placeholder="Assigned when login"
+                                            readonly>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                    <label for="status" class="form-label">
+                                        NCR Status
+                                        <span class="required">*</span>
+                                    </label>
+
+                                    <select
+                                        id="status"
+                                        name="status"
+                                        class="form-select"
+                                        required>
+                                        <option value="">Select a status</option>
+                                        <option value="Draft">Draft</option>
+                                        <option value="Open">Open</option>
+                                        <option value="Under Review">In progress</option>
+                                        <option value="Closed">Closed</option>
+                                    </select>
+                                </div>
                                 </div>
                     </fieldset>
 
