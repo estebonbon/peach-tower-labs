@@ -1,5 +1,4 @@
- 
-const reports = {
+ const reports = {
     "NCR-001": {
         ncrNumber: "NCR-001",
         dateCreated: "2026-10-01",
@@ -188,7 +187,194 @@ const reports = {
         qualityRep: "Sarah Wilson",
         qualityDate: "2026-10-10",
         status: "Open"
-    }
+    },
+
+    "NCR-011": {
+        ncrNumber: "NCR-011",
+        dateCreated: "2026-10-11",
+        supplier: "Atlantic Packaging Solutions",
+        productId: "Protective packaging, SAP No. 620601",
+        processApplicable: "supplier-rec-insp",
+        referenceNumber: "PO-46002",
+        salesOrderNumber: "SO-78394",
+        defectDescription: "Packaging arrived torn and insufficient to protect components.",
+        quantityReceived: "200",
+        quantityDefective: "25",
+        engineeringRequired: "no",
+        itemMarkedNonconforming: "yes",
+        additional: "Damaged packaging was documented upon receipt.",
+        qualityRep: "Emily Carter",
+        qualityDate: "2026-10-11",
+        status: "Closed"
+    },
+
+    "NCR-012": {
+        ncrNumber: "NCR-012",
+        dateCreated: "2026-10-12",
+        supplier: "Western Industrial Components",
+        productId: "Bearing assembly, SAP No. 620724",
+        processApplicable: "supplier-rec-insp",
+        referenceNumber: "PO-46008",
+        salesOrderNumber: "SO-78401",
+        defectDescription: "Bearing assemblies contain excessive rotational resistance.",
+        quantityReceived: "75",
+        quantityDefective: "9",
+        engineeringRequired: "yes",
+        itemMarkedNonconforming: "yes",
+        additional: "Awaiting technical evaluation and supplier corrective action.",
+        qualityRep: "Michael Chen",
+        qualityDate: "2026-10-12",
+        status: "Open"
+    },
+
+    "NCR-013": {
+        ncrNumber: "NCR-013",
+        dateCreated: "2026-10-13",
+        supplier: "Ontario Cable and Wire",
+        productId: "Copper cable, SAP No. 620815",
+        processApplicable: "supplier-rec-insp",
+        referenceNumber: "PO-46015",
+        salesOrderNumber: "SO-78407",
+        defectDescription: "Cable insulation has visible cuts in several locations.",
+        quantityReceived: "150",
+        quantityDefective: "11",
+        engineeringRequired: "no",
+        itemMarkedNonconforming: "yes",
+        additional: "Affected cable sections have been isolated.",
+        qualityRep: "Sarah Mitchell",
+        qualityDate: "2026-10-13",
+        status: "Complete"
+    },
+
+    "NCR-014": {
+        ncrNumber: "NCR-014",
+        dateCreated: "2026-10-14",
+        supplier: "Precision Machining Ltd.",
+        productId: "Mounting bracket, SAP No. 620906",
+        processApplicable: "supplier-rec-insp",
+        referenceNumber: "PO-46021",
+        salesOrderNumber: "SO-78412",
+        defectDescription: "Mounting holes are incorrectly positioned.",
+        quantityReceived: "90",
+        quantityDefective: "14",
+        engineeringRequired: "yes",
+        itemMarkedNonconforming: "yes",
+        additional: "Dimensional inspection results have been sent to Engineering.",
+        qualityRep: "Daniel Brooks",
+        qualityDate: "2026-10-14",
+        status: "In Progress"
+    },
+
+    "NCR-015": {
+        ncrNumber: "NCR-015",
+        dateCreated: "2026-10-15",
+        supplier: "Maple Industrial Supplies",
+        productId: "Stainless steel clamp, SAP No. 621015",
+        processApplicable: "supplier-rec-insp",
+        referenceNumber: "PO-46028",
+        salesOrderNumber: "SO-78419",
+        defectDescription: "Several clamps show corrosion on the surface.",
+        quantityReceived: "120",
+        quantityDefective: "10",
+        engineeringRequired: "no",
+        itemMarkedNonconforming: "yes",
+        additional: "Supplier has been notified and replacement parts received.",
+        qualityRep: "Grace Thompson",
+        qualityDate: "2026-10-15",
+        status: "Closed"
+    },
+
+    "NCR-016": {
+        ncrNumber: "NCR-016",
+        dateCreated: "2026-10-16",
+        supplier: "Northern Fastener Group",
+        productId: "Lock nuts, SAP No. 621122",
+        processApplicable: "supplier-rec-insp",
+        referenceNumber: "PO-46035",
+        salesOrderNumber: "SO-78425",
+        defectDescription: "Lock nuts do not maintain the required locking torque.",
+        quantityReceived: "300",
+        quantityDefective: "22",
+        engineeringRequired: "yes",
+        itemMarkedNonconforming: "yes",
+        additional: "Testing results are being reviewed by Engineering.",
+        qualityRep: "Emily Carter",
+        qualityDate: "2026-10-16",
+        status: "Open"
+    },
+
+    "NCR-017": {
+        ncrNumber: "NCR-017",
+        dateCreated: "2026-10-17",
+        supplier: "Summit Electrical Supplies",
+        productId: "Terminal block, SAP No. 621208",
+        processApplicable: "supplier-rec-insp",
+        referenceNumber: "PO-46041",
+        salesOrderNumber: "SO-78431",
+        defectDescription: "Terminal block dimensions differ from the approved drawing.",
+        quantityReceived: "100",
+        quantityDefective: "7",
+        engineeringRequired: "yes",
+        itemMarkedNonconforming: "yes",
+        additional: "Dimensional deviation requires engineering assessment.",
+        qualityRep: "Michael Chen",
+        qualityDate: "2026-10-17",
+        status: "In Progress"
+    },
+
+    "NCR-018": {
+        ncrNumber: "NCR-018",
+        dateCreated: "2026-10-18",
+        supplier: "Atlantic Packaging Solutions",
+        productId: "Component shipping carton, SAP No. 621315",
+        processApplicable: "supplier-rec-insp",
+        referenceNumber: "PO-46048",
+        salesOrderNumber: "SO-78438",
+        defectDescription: "Carton labels show an incorrect part number.",
+        quantityReceived: "250",
+        quantityDefective: "30",
+        engineeringRequired: "no",
+        itemMarkedNonconforming: "yes",
+        additional: "Corrected labels are being applied before release.",
+        qualityRep: "Sarah Mitchell",
+        qualityDate: "2026-10-18",
+        status: "Open"
+    }, 
+    "NCR-019": {
+    ncrNumber: "NCR-019",
+    dateCreated: "2026-10-17",
+    supplier: "Northern Industrial Components",
+    productId: "Stainless Steel Fasteners, SAP No. 620391",
+    processApplicable: "supplier-rec-insp",
+    referenceNumber: "PO-46012",
+    salesOrderNumber: "SO-78403",
+    defectDescription: "Several fasteners have damaged threads and cannot be properly installed.",
+    quantityReceived: "250",
+    quantityDefective: "18",
+    engineeringRequired: "yes",
+    itemMarkedNonconforming: "yes",
+    additional: "Defective fasteners were separated from acceptable stock pending engineering review.",
+    qualityRep: "Grace Thompson",
+    qualityDate: "2026-10-17",
+    status: "In Progress"
+},
+
+"NCR-020": {
+    ncrNumber: "NCR-020",
+    dateCreated: "2026-10-18",
+    supplier: "Pacific Packaging Solutions",
+    productId: "Protective Foam Inserts, SAP No. 620427",
+    processApplicable: "supplier-rec-insp",
+    referenceNumber: "PO-46028",
+    salesOrderNumber: "SO-78419",
+    defectDescription: "Protective foam inserts have incorrect dimensions and do not fit the designated packaging.",
+    quantityReceived: "120",
+    quantityDefective: "25",
+    engineeringRequired: "no",
+    itemMarkedNonconforming: "yes",
+    additional: "Affected inserts were quarantined, and the supplier was notified of the dimensional issue.",
+    qualityRep: "Michael Chen",
+    qualityDate: "2026-10-18",
+    status: "Open"
+}
 };
-
-
