@@ -84,6 +84,9 @@ if (document.getElementById("report-details")) {
     const message = document.getElementById("details-message");
     const reportDetails = document.getElementById("report-details");
     const editLink = document.getElementById("edit-link");
+    const statusFilter = document.getElementById("statusFilter");
+    const engineeringFilter = document.getElementById("engineeringFilter");
+    const clearFiltersButton =  document.getElementById("clear-filters");
 
     // Create the search results container.
     const resultsList = document.createElement("div");
@@ -163,54 +166,105 @@ if (document.getElementById("report-details")) {
 
     // Search by NCR number or supplier name.
     function searchReports() {
-        const query = searchInput.value.trim().toLowerCase();
+    const query = searchInput.value.trim().toLowerCase();
+    const selectedStatus = statusFilter.value.toLowerCase();
+    const selectedEngineering = engineeringFilter.value.toLowerCase();
 
-        resultsList.replaceChildren();
-        reportDetails.hidden = true;
-        editLink.hidden = true;
+    resultsList.replaceChildren();
 
-        if (!query) {
-            resultsList.hidden = true;
-            message.textContent = "";
-            return;
-        }
+    reportDetails.hidden = true;
+    editLink.hidden = true;
 
-        const matches = Object.entries(reports).filter(
-            ([reportId, report]) =>
+    // Filter reports by search text, status and engineering review.
+    const matches = Object.entries(reports).filter(
+        ([reportId, report]) => {
+            const matchesSearch =
+                !query ||
                 reportId.toLowerCase().includes(query) ||
-                (report.supplier ?? "").toLowerCase().includes(query)
-        );
+                (report.supplier ?? "").toLowerCase().includes(query);
 
-        if (matches.length === 0) {
-            resultsList.hidden = true;
-            message.textContent = "No matching NCR reports found.";
-            return;
+            const matchesStatus =
+                !selectedStatus ||
+                String(report.status ?? "").toLowerCase() ===
+                    selectedStatus;
+
+            const engineeringValue =
+                String(report.engineeringRequired ?? "")
+                    .trim()
+                    .toLowerCase();
+
+            const matchesEngineering =
+                !selectedEngineering ||
+                engineeringValue === selectedEngineering;
+
+            return (
+                matchesSearch &&
+                matchesStatus &&
+                matchesEngineering
+            );
         }
+    );
 
-        // Create a clickable result for each match.
-        matches.forEach(([reportId, report]) => {
-            const result = document.createElement("button");
+    // Show a message if no reports match.
+    if (matches.length === 0) {
+        resultsList.hidden = true;
 
-            result.type = "button";
-            result.className = "list-group-item list-group-item-action";
-            result.setAttribute("role", "option");
-            result.textContent =
-                `${reportId} — ${report.supplier}`;
+        const hasFilters =
+            selectedStatus || selectedEngineering;
 
-            result.addEventListener("click", () => {
-                showReport(reportId);
-            });
+        message.textContent = query || hasFilters
+            ? "No NCR reports match your search and filters."
+            : "No NCR reports available.";
 
-            resultsList.appendChild(result);
+        return;
+    }
+
+    // Create a clickable result for each matching report.
+    matches.forEach(([reportId, report]) => {
+        const result = document.createElement("button");
+
+        result.type = "button";
+        result.className =
+            "list-group-item list-group-item-action";
+        result.setAttribute("role", "option");
+
+        result.textContent =
+            `${reportId} — ${report.supplier}`;
+
+        result.addEventListener("click", () => {
+            showReport(reportId);
         });
 
-        resultsList.hidden = false;
-        message.textContent =
-            `${matches.length} matching report(s) found.`;
-    }
+        resultsList.appendChild(result);
+    });
+
+    resultsList.hidden = false;
+
+    message.textContent =
+        `${matches.length} matching report(s) found.`;
+}
 
     // Update results as the user types.
     searchInput.addEventListener("input", searchReports);
+
+    statusFilter.addEventListener("change", searchReports);
+
+    engineeringFilter.addEventListener("change", searchReports);
+
+    // Reset filters and search text.
+    clearFiltersButton.addEventListener("click", () => {
+        searchInput.value = "";
+        statusFilter.value = "";
+        engineeringFilter.value = "";
+
+        resultsList.replaceChildren();
+        resultsList.hidden = true;
+
+        reportDetails.hidden = true;
+        editLink.hidden = true;
+
+        message.textContent = "";
+    });
 
     // Load an NCR when its ID is supplied in the URL.
     const requestedId =
