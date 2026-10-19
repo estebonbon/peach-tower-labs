@@ -1,4 +1,5 @@
  const reports = {
+const reports = {
     "NCR-001": {
         ncrNumber: "NCR-001",
         dateCreated: "2026-10-01",
