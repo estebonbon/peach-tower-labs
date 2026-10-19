@@ -3,14 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archive</title>
+    <meta name="description" content="Browse archived CrossFire Canada Non-Conformance Reports.">
+    <title>Archive | CrossFire NCR System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-    <h1>Archived Documents</h1>
-    <ul>
-        <li><a href="document1.html">Document 1</a></li>
-        <li><a href="document2.html">Document 2</a></li>
-        <li><a href="document3.html">Document 3</a></li>
-    </ul>
+<body class="archive-page">
+    <a class="archive-skip" href="#archive-content">Skip to archived reports</a>
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="images/crossfire Logo.png" alt="CrossFire Canada Logo">
+            <div class="crossfire-info">
+                <h2>CrossFire Canada</h2>
+                <p>Non-Conformance Report System</p>
+            </div>
+        </div>
+        <nav aria-label="Main navigation"><ul><li><a href="index.html"><i class="fas fa-home" aria-hidden="true"></i>Home</a></li>
+<li><a href="ncr-log.html"><i class="fas fa-file-alt" aria-hidden="true"></i>NCR Log</a></li>
+<li><a href="create.html"><i class="fas fa-plus-circle" aria-hidden="true"></i>Create NCR</a></li>
+<li><a href="edit.html"><i class="fas fa-edit" aria-hidden="true"></i>Edit NCR</a></li>
+<li><a href="archive.html" class="active" aria-current="page"><i class="fas fa-archive" aria-hidden="true"></i>Archive</a></li></ul></nav>
+    </aside>
+    <main class="content" id="archive-content" tabindex="-1">
+        <section class="card archive-card" aria-labelledby="archive-title">
+            <header class="form-header">
+                <span class="header-extra">QUALITY MANAGEMENT NCR</span>
+                <h1 id="archive-title">Archived Non-Conformance Reports</h1>
+                <p>Review archived reports and their non-conformance details.</p>
+            </header>
+            <div class="archive-heading">
+                <h2>Archived Reports <span class="archive-count">3</span></h2>
+                <a class="archive-create" href="create.html"><i class="fas fa-plus-circle" aria-hidden="true"></i> Create NCR</a>
+            </div>
+            <p class="archive-note" id="archive-note">Sample archive preview. These records reuse the edit page's sample data; archive status and dates are illustrative.</p>
+            <div class="archive-table-wrapper" role="region" aria-label="Archived reports table" tabindex="0">
+                <table class="archive-table" aria-describedby="archive-note">
+                    <caption>Sample archived NCR records — expand View details to read a report.</caption>
+                    <thead><tr><th scope="col">NCR Number</th><th scope="col">Supplier</th><th scope="col">Product</th><th scope="col">Archived Date</th><th scope="col">Status</th><th scope="col">Details</th></tr></thead>
+                    <tbody><tr>
+        <th scope="row">NCR-001</th>
+        <td>Maple Industrial Supplies</td>
+        <td>Steel mounting bracket, SAP No. 104582</td>
+        <td><time datetime="2026-10-01">2026-10-01</time></td>
+        <td><span class="archive-status">Archived</span></td>
+        <td><details class="archive-details"><summary>View details</summary>
+            <dl><dt>Reference number</dt><dd>PO-45821</dd>
+            <dt>Sales order</dt><dd>SO-78210</dd>
+            <dt>Process</dt><dd>Supplier / Receiving Inspection</dd>
+            <dt>Quantity received / defective</dt><dd>20 / 3</dd>
+            <dt>Description of non-conformance</dt><dd>Three brackets have cracks near the mounting holes.</dd>
+            <dt>Quality representative</dt><dd>Yousra Fageer</dd>
+            <dt>Additional information</dt><dd>Inspection photos show cracks beside the mounting holes.</dd></dl>
+        </details></td>
+    </tr><tr>
+        <th scope="row">NCR-002</th>
+        <td>Northern Metalworks</td>
+        <td>Aluminium enclosure panel, SAP No. 207316</td>
+        <td><time datetime="2026-10-02">2026-10-02</time></td>
+        <td><span class="archive-status">Archived</span></td>
+        <td><details class="archive-details"><summary>View details</summary>
+            <dl><dt>Reference number</dt><dd>PROD-63142</dd>
+            <dt>Sales order</dt><dd>SO-78235</dd>
+            <dt>Process</dt><dd>Work in Progress / Production</dd>
+            <dt>Quantity received / defective</dt><dd>15 / 2</dd>
+            <dt>Description of non-conformance</dt><dd>Two panels were scratched during assembly, exposing the metal beneath the coating.</dd>
+            <dt>Quality representative</dt><dd>Christian Chaves</dd>
+            <dt>Additional information</dt><dd>Surface inspection photos document the coating damage.</dd></dl>
+        </details></td>
+    </tr><tr>
+        <th scope="row">NCR-003</th>
+        <td>Precision Fastener Supply</td>
+        <td>M12 × 40 mm hex bolt, SAP No. 309724</td>
+        <td><time datetime="2026-10-01">2026-10-01</time></td>
+        <td><span class="archive-status">Archived</span></td>
+        <td><details class="archive-details"><summary>View details</summary>
+            <dl><dt>Reference number</dt><dd>PO-45903</dd>
+            <dt>Sales order</dt><dd>SO-78301</dd>
+            <dt>Process</dt><dd>Supplier / Receiving Inspection</dd>
+            <dt>Quantity received / defective</dt><dd>50 / 10</dd>
+            <dt>Description of non-conformance</dt><dd>Ten bolts measure 35 mm in length instead of the specified 40 mm.</dd>
+            <dt>Quality representative</dt><dd>Giuseppe Igat</dd>
+            <dt>Additional information</dt><dd>Measurement records confirm the incorrect bolt lengths.</dd></dl>
+        </details></td>
+    </tr></tbody>
+                </table>
+            </div>
+            <p class="archive-footer">*Archive data will be supplied by the backend when connected.</p>
+        </section>
+    </main>
 </body>
 </html>
