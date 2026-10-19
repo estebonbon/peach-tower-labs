@@ -4,6 +4,7 @@ html {
 }
 
 body {
+    background-color: #ffffff; 
     background-color: #ecf0f1; 
     color: #263445;
     font-family: "Noto Sans", Arial, sans-serif;
@@ -265,6 +266,13 @@ input[readonly] {
     justify-content: flex-end;
     gap: 12px;
     padding-top: 5px;
+}
+#quantityReceived,
+#quantityDefective {
+    width: 120px;
+    max-width: 100%;
+    
+}
 }
 #quantityReceived,
 #quantityDefective {
