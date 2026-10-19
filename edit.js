@@ -11,6 +11,7 @@ const reports = {
         defective: "3",
         defect: "Three brackets have cracks near the mounting holes.",
         marked: "yes",
+        engineeringRequired: "yes",
         qualityRep: "Sarah Wilson",
         qualityDate: "2026-10-01",
         additional: "Inspection photos show cracks beside the mounting holes."
@@ -27,6 +28,7 @@ const reports = {
         defective: "2",
         defect: "Two panels were scratched during assembly, exposing the metal beneath the coating.",
         marked: "yes",
+        engineeringRequired: "no",
         qualityRep: "Omar Ali",
         qualityDate: "2026-10-02",
         additional: "Surface inspection photos document the coating damage."
@@ -43,6 +45,7 @@ const reports = {
         defective: "10",
         defect: "Ten bolts measure 35 mm in length instead of the specified 40 mm.",
         marked: "yes",
+        engineeringRequired: "yes",
         qualityRep: "Grace Thompson",
         qualityDate: "2026-10-01",
         additional: "Measurement records confirm the incorrect bolt lengths."

@@ -1,3 +1,4 @@
+ const reports = {
 const reports = {
     "NCR-001": {
         ncrNumber: "NCR-001",
