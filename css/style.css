@@ -251,6 +251,83 @@ input[readonly] {
     min-height: 24px;
 }
 
+/* NCR Status Badges */
+.ncr-status {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: 1px solid;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* Active - Green */
+.ncr-status.active {
+    color: #198754;
+    background-color: #e8f7ed;
+    border-color: #198754;
+}
+
+body,
+.content,
+.status-page {
+    background-color: #ffffff;
+}
+
+/* Closed - CrossFire Dark Blue */
+.ncr-status.closed {
+    color: #17365d;
+    background-color: #e9eff8;
+    border-color: #17365d;
+}
+
+/* NCR Log - Remove card background and shadow */
+.status-page .card {
+    background-color: #ffffff;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* NCR-Log page */
+/* NCR Log Table */
+.ncr-log-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid #dce5ef;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Table Header */
+.ncr-log-table thead th {
+    background-color: #e7edf4;
+    color: #17365d;
+    font-weight: 700;
+    padding: 20px;
+    border-bottom: 1px solid #dce5ef;
+}
+
+/* Table Rows */
+.ncr-log-table tbody td {
+    background-color: #ffffff;
+    color: #40546b;
+    padding: 22px 20px;
+    border-bottom: 1px solid #dce5ef;
+    vertical-align: middle;
+}
+
+/* Remove bottom border from last row */
+.ncr-log-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* NCR Number */
+.ncr-log-table tbody td:first-child {
+    color: #17365d;
+    font-weight: 700;
+}
+
 /*Add responsivness*/
 
 /* Archive page */
