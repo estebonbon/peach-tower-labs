@@ -9,25 +9,40 @@ async function getNCRs() {
         const tableBody = document.getElementById('ncr-table-body');
 
         //Search feature
-        const activeCheckbox = document.getElementById('activeOnly');
-
         function filterNCRs() {
             const searchValue = document.getElementById('ncrSearch').value.trim();
-        
-            tableBody.querySelectorAll('tr').forEach(row => {
-                const ncrNumber = row.cells[0].textContent;
-                const status = row.cells[3].textContent.trim();
+            const activeChecked = document.getElementById('activeOnly').checked;
+            const closedChecked = document.getElementById('closedOnly').checked;
+            const engineeringChecked = document.getElementById('engineeringOnly').checked;
+
+            response.data.forEach((ncr, index) => {
+                const row = tableBody.rows[index];
             
-                const matchesSearch = ncrNumber.includes(searchValue);
-                const matchesStatus = !activeCheckbox.checked || status === 'Active';
+                const matchesSearch = ncr.ncrNumber.includes(searchValue);
             
-                row.style.display = matchesSearch && matchesStatus ? '' : 'none';
+                const matchesStatus =
+                    (!activeChecked && !closedChecked) ||
+                    (activeChecked && ncr.status === 'Active') ||
+                    (closedChecked && ncr.status === 'Closed');
+            
+                const matchesEngineering =
+                    !engineeringChecked || ncr.engineeringRequired === 'yes';
+            
+                row.style.display =
+                    matchesSearch && matchesStatus && matchesEngineering
+                        ? ''
+                        : 'none';
             });
         }
+        
+        document.getElementById('ncrSearch').addEventListener('input', filterNCRs);
+        document.getElementById('activeOnly').addEventListener('change', filterNCRs);
+        document.getElementById('closedOnly').addEventListener('change', filterNCRs);
+        document.getElementById('engineeringOnly').addEventListener('change', filterNCRs);
 
         document.getElementById('ncrSearch').addEventListener('input', filterNCRs);
-        activeCheckbox.addEventListener('change', filterNCRs);
         
+
         tableBody.innerHTML = '';
 
         response.data.forEach(ncr => {

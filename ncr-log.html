@@ -67,12 +67,23 @@
                 >
             </div>
 
-            <!-- This section is the checkbox for active records -->
-            <div class="form-check mb-3">
-                <input class="form-check-input" type="checkbox" id="activeOnly">
-                <label class="form-check-label" for="activeOnly">
-                    Show Active Only
-                </label>
+            <div class="d-flex flex-row align-items-center gap-4 mb-3 flex-nowrap">
+
+                <div class="form-check mb-0">
+                    <input class="form-check-input" type="checkbox" id="activeOnly">
+                    <label class="form-check-label" for="activeOnly">Show Active </label>
+                </div>
+            
+                <div class="form-check mb-0">
+                    <input class="form-check-input" type="checkbox" id="closedOnly">
+                    <label class="form-check-label" for="closedOnly">Show Closed </label>
+                </div>
+            
+                <div class="form-check mb-0">
+                    <input class="form-check-input" type="checkbox" id="engineeringOnly">
+                    <label class="form-check-label" for="engineeringOnly">Engineering Required</label>
+                </div>
+            
             </div>
 
             <div class="table-responsive">

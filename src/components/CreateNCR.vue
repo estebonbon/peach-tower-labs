@@ -324,6 +324,106 @@ async function saveNCR() {
                 </div>
               </fieldset>
 
+              <!-- DEFECT INFORMATION -->
+              <fieldset class="form-section">
+                <legend class="section-title">Defect Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-12 col-md-4">
+                    <fieldset>
+                      <legend class="form-label fs-6">
+                        Item Marked Nonconforming
+                        <span class="required">*</span>
+                      </legend>
+
+                      <div class="d-flex gap-3">
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            id="nonconformingYes"
+                            name="itemMarkedNonconforming"
+                            value="yes"
+                            required
+                            v-model="ncr.itemMarkedNonconforming"
+                          >
+                          <label class="form-check-label" for="nonconformingYes">
+                            Yes
+                          </label>
+                        </div>
+
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            id="nonconformingNo"
+                            name="itemMarkedNonconforming"
+                            value="no"
+                            v-model="ncr.itemMarkedNonconforming"
+                          >
+                          <label class="form-check-label" for="nonconformingNo">
+                            No
+                          </label>
+                        </div>
+                        <small v-if="errors.itemMarkedNonconforming" class="text-danger">{{ errors.itemMarkedNonconforming }}</small>
+                      </div>
+                    </fieldset>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                    <label for="quantityReceived" class="form-label">
+                      Quantity Received <span class="required">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="quantityReceived"
+                      name="quantityReceived"
+                      min="0"
+                      step="1"
+                      required
+                      placeholder="type in a number ex: 12 units"
+                      v-model="ncr.quantityReceived"
+                    >
+                    <small v-if="errors.quantityReceived" class="text-danger">{{ errors.quantityReceived }}</small>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                    <label for="quantityDefective" class="form-label">
+                      Quantity Defective <span class="required">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="quantityDefective"
+                      name="quantityDefective"
+                      min="0"
+                      step="1"
+                      required
+                      placeholder="type in number ex: 9 units"
+                      v-model="ncr.quantityDefective"
+                    >
+                    <small v-if="errors.quantityDefective" class="text-danger">{{ errors.quantityDefective }}</small>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="defectDescription" class="form-label">
+                      Defect Description <span class="required">*</span>
+                    </label>
+                    <textarea
+                      class="form-control"
+                      id="defectDescription"
+                      name="defectDescription"
+                      rows="4"
+                      placeholder="Describe the defect... eg: The welded joints dont meet ISO standards"
+                      required
+                      v-model="ncr.defectDescription"
+                    ></textarea>
+                    <small v-if="errors.defectDescription" class="text-danger">{{ errors.defectDescription }}</small>
+                  </div>
+                </div>  
+              </fieldset>
+
               <!-- ENGINEERING REVIEW -->
               <fieldset class="form-section">
                 <legend class="section-title">Engineering Review</legend>
@@ -407,106 +507,6 @@ async function saveNCR() {
                           </label>
                         </div>
                         <small v-if="errors.engineeringRequired" class="text-danger">{{ errors.engineeringRequired }}</small>
-                      </div>
-                    </fieldset>
-                  </div>
-                </div>
-              </fieldset>
-
-              <!-- DEFECT INFORMATION -->
-              <fieldset class="form-section">
-                <legend class="section-title">Defect Information</legend>
-
-                <div class="row g-3">
-                  <div class="col-12">
-                    <label for="defectDescription" class="form-label">
-                      Defect Description <span class="required">*</span>
-                    </label>
-                    <textarea
-                      class="form-control"
-                      id="defectDescription"
-                      name="defectDescription"
-                      rows="4"
-                      placeholder="Describe the defect... eg: The welded joints dont meet ISO standards"
-                      required
-                      v-model="ncr.defectDescription"
-                    ></textarea>
-                    <small v-if="errors.defectDescription" class="text-danger">{{ errors.defectDescription }}</small>
-                  </div>
-
-                  <div class="col-12 col-md-6">
-                    <label for="quantityReceived" class="form-label">
-                      Quantity Received <span class="required">*</span>
-                    </label>
-                    <input
-                      type="number"
-                      class="form-control"
-                      id="quantityReceived"
-                      name="quantityReceived"
-                      min="0"
-                      step="1"
-                      required
-                      placeholder="type in a number ex: 12 units"
-                      v-model="ncr.quantityReceived"
-                    >
-                    <small v-if="errors.quantityReceived" class="text-danger">{{ errors.quantityReceived }}</small>
-                  </div>
-
-                  <div class="col-12 col-md-6">
-                    <label for="quantityDefective" class="form-label">
-                      Quantity Defective <span class="required">*</span>
-                    </label>
-                    <input
-                      type="number"
-                      class="form-control"
-                      id="quantityDefective"
-                      name="quantityDefective"
-                      min="0"
-                      step="1"
-                      required
-                      placeholder="type in number ex: 9 units"
-                      v-model="ncr.quantityDefective"
-                    >
-                    <small v-if="errors.quantityDefective" class="text-danger">{{ errors.quantityDefective }}</small>
-                  </div>
-
-                  <div class="col-12">
-                    <fieldset>
-                      <legend class="form-label fs-6">
-                        Item Marked Nonconforming
-                        <span class="required">*</span>
-                      </legend>
-
-                      <div class="d-flex gap-3">
-                        <div class="form-check">
-                          <input
-                            class="form-check-input"
-                            type="radio"
-                            id="nonconformingYes"
-                            name="itemMarkedNonconforming"
-                            value="yes"
-                            required
-                            v-model="ncr.itemMarkedNonconforming"
-                          >
-                          <label class="form-check-label" for="nonconformingYes">
-                            Yes
-                          </label>
-                        </div>
-
-                        <div class="form-check">
-                          <input
-                            class="form-check-input"
-                            type="radio"
-                            id="nonconformingNo"
-                            name="itemMarkedNonconforming"
-                            value="no"
-                            v-model="ncr.itemMarkedNonconforming"
-                          >
-                          <label class="form-check-label" for="nonconformingNo">
-                            No
-                          </label>
-                        </div>
-                        <small v-if="errors.itemMarkedNonconforming" class="text-danger">{{ errors.itemMarkedNonconforming }}</small>
                       </div>
                     </fieldset>
                   </div>
