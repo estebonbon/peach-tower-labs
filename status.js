@@ -58,13 +58,17 @@ async function getNCRs() {
                     </span>
                 </td>
                 <td>
-                    <a href="details.html?id=${ncr.id}" class="btn btn-outline-primary btn-sm">
-                        Details
-                    </a>
+                    <div class="d-flex .action-buttons flex-nowrap justify-content-around align-items-center gap-2">
+                        <a href="details.html?id=${ncr.id}"
+                           class="btn btn-primary">
+                            Details
+                        </a>
 
-                    <a href="edit.html?id=${ncr.id}" class="btn btn-primary btn-sm">
-                        Edit
-                    </a>
+                        <a href="edit.html?id=${ncr.id}"
+                           class="btn btn-secondary">
+                            Edit
+                        </a>
+                    </div>
                 </td>
             `;
         
@@ -80,3 +84,4 @@ async function getNCRs() {
 
 // Run when the page loads
 document.addEventListener('DOMContentLoaded', getNCRs);
+

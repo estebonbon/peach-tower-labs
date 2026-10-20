@@ -26,3 +26,10 @@ if (document.getElementById('DetailsPage')) {
     app.use(Toast);
     app.mount('#DetailsPage');
 }
+
+//Archive Detials
+if (document.getElementById('ArchiveDetailsPage')) {
+    const app = createApp(DetailsNCR);
+    app.use(Toast);
+    app.mount('#ArchiveDetailsPage');
+}
