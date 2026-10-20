@@ -328,6 +328,9 @@ body,
     font-weight: 700;
 }
 
+.form-check {
+    white-space: nowrap;
+}
 /*Add responsivness*/
 
 /* Archive page */
