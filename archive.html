@@ -33,67 +33,24 @@
             <header class="form-header">
                 <span class="header-extra">QUALITY MANAGEMENT NCR</span>
                 <h1 id="archive-title">Archived Non-Conformance Reports</h1>
-                <p>Review archived reports and their non-conformance details.</p>
+                <p>Review closed reports and their non-conformance details.</p>
             </header>
             <div class="archive-heading">
-                <h2>Archived Reports <span class="archive-count">3</span></h2>
+                <h2>Archived Reports <span class="archive-count" id="archive-count">0</span></h2>
                 <a class="archive-create" href="create.html"><i class="fas fa-plus-circle" aria-hidden="true"></i> Create NCR</a>
             </div>
-            <p class="archive-note" id="archive-note">Sample archive preview. These records reuse the edit page's sample data; archive status and dates are illustrative.</p>
+            <p class="archive-note" id="archive-note">Only NCRs with a status of Closed are shown.</p>
             <div class="archive-table-wrapper" role="region" aria-label="Archived reports table" tabindex="0">
                 <table class="archive-table" aria-describedby="archive-note">
-                    <caption>Sample archived NCR records — expand View details to read a report.</caption>
-                    <thead><tr><th scope="col">NCR Number</th><th scope="col">Supplier</th><th scope="col">Product</th><th scope="col">Archived Date</th><th scope="col">Status</th><th scope="col">Details</th></tr></thead>
-                    <tbody><tr>
-        <th scope="row">NCR-001</th>
-        <td>Maple Industrial Supplies</td>
-        <td>Steel mounting bracket, SAP No. 104582</td>
-        <td><time datetime="2026-10-01">2026-10-01</time></td>
-        <td><span class="archive-status">Archived</span></td>
-        <td><details class="archive-details"><summary>View details</summary>
-            <dl><dt>Reference number</dt><dd>PO-45821</dd>
-            <dt>Sales order</dt><dd>SO-78210</dd>
-            <dt>Process</dt><dd>Supplier / Receiving Inspection</dd>
-            <dt>Quantity received / defective</dt><dd>20 / 3</dd>
-            <dt>Description of non-conformance</dt><dd>Three brackets have cracks near the mounting holes.</dd>
-            <dt>Quality representative</dt><dd>Yousra Fageer</dd>
-            <dt>Additional information</dt><dd>Inspection photos show cracks beside the mounting holes.</dd></dl>
-        </details></td>
-    </tr><tr>
-        <th scope="row">NCR-002</th>
-        <td>Northern Metalworks</td>
-        <td>Aluminium enclosure panel, SAP No. 207316</td>
-        <td><time datetime="2026-10-02">2026-10-02</time></td>
-        <td><span class="archive-status">Archived</span></td>
-        <td><details class="archive-details"><summary>View details</summary>
-            <dl><dt>Reference number</dt><dd>PROD-63142</dd>
-            <dt>Sales order</dt><dd>SO-78235</dd>
-            <dt>Process</dt><dd>Work in Progress / Production</dd>
-            <dt>Quantity received / defective</dt><dd>15 / 2</dd>
-            <dt>Description of non-conformance</dt><dd>Two panels were scratched during assembly, exposing the metal beneath the coating.</dd>
-            <dt>Quality representative</dt><dd>Christian Chaves</dd>
-            <dt>Additional information</dt><dd>Surface inspection photos document the coating damage.</dd></dl>
-        </details></td>
-    </tr><tr>
-        <th scope="row">NCR-003</th>
-        <td>Precision Fastener Supply</td>
-        <td>M12 × 40 mm hex bolt, SAP No. 309724</td>
-        <td><time datetime="2026-10-01">2026-10-01</time></td>
-        <td><span class="archive-status">Archived</span></td>
-        <td><details class="archive-details"><summary>View details</summary>
-            <dl><dt>Reference number</dt><dd>PO-45903</dd>
-            <dt>Sales order</dt><dd>SO-78301</dd>
-            <dt>Process</dt><dd>Supplier / Receiving Inspection</dd>
-            <dt>Quantity received / defective</dt><dd>50 / 10</dd>
-            <dt>Description of non-conformance</dt><dd>Ten bolts measure 35 mm in length instead of the specified 40 mm.</dd>
-            <dt>Quality representative</dt><dd>Giuseppe Igat</dd>
-            <dt>Additional information</dt><dd>Measurement records confirm the incorrect bolt lengths.</dd></dl>
-        </details></td>
-    </tr></tbody>
+                    <caption>Closed NCR records — expand View details to read a report.</caption>
+                    <thead><tr><th scope="col">NCR Number</th><th scope="col">Supplier</th><th scope="col">Product</th><th scope="col">Date Created</th><th scope="col">Status</th><th scope="col">Details</th></tr></thead>
+                    <tbody id="archive-table-body"></tbody>
                 </table>
             </div>
-            <p class="archive-footer">*Archive data will be supplied by the backend when connected.</p>
+            <p class="archive-footer">Reports are loaded from the shared NCR data set.</p>
         </section>
     </main>
+    <script src="js/data.js"></script>
+    <script src="js/archive.js"></script>
 </body>
 </html>
