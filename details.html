@@ -1,18 +1,20 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NCR Details | QualityTrack</title>
-    <meta name="description" content="View a Non-Conformance Report">
+    <title>NCR Details</title>
+    <meta name="description" content="View an existing Non-Conformance Report">
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+
+<body class="bg-light">
     <div class="sidebar">
         <div class="logo">
             <img src="images/crossfire Logo.png" alt="CrossFire Canada Logo">
@@ -21,215 +23,21 @@
                 <p>Non-Conformance Report System</p>
             </div>
         </div>
+
         <nav>
             <ul>
                 <li><a href="index.html"><i class="fas fa-home"></i>Home</a></li>
                 <li><a href="ncr-log.html"><i class="fas fa-file-alt"></i>NCR Log</a></li>
                 <li><a href="create.html"><i class="fas fa-plus-circle"></i>Create NCR</a></li>
                 <li><a href="edit.html"><i class="fas fa-edit"></i>Edit NCR</a></li>
-                <li><a href="#" class="active" aria-current="page"><i class="fas fa-circle-info"></i>NCR Details</a></li>
                 <li><a href="archive.html"><i class="fas fa-archive"></i>Archive</a></li>
                 <li><a href="editProto2.html"><i class="fas fa-edit"></i>Edit Proto2</a></li>
             </ul>
         </nav>
-        </div>
+    </div>
 
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-    <main id="main-content" class="content" tabindex="-1">
-        
-            <div class="row justify-content-center">
-                <div class="col-12">
+    <div id="DetailsPage"></div>
 
-                    <section class="card border-0 shadow-sm">
-                        <div class="card-body p-4 p-md-5">
-
-                            <header class="form-header mb-4">
-                                <div class="header-content">
-                                    <span class="header-extra">
-                                        QUALITY MANAGEMENT NCR
-                                    </span>
-
-                                    <h1 class="h2 mb-2">
-                                        Non-Conformance Report Details
-                                    </h1>
-
-                                    <p class="text-secondary mb-0">
-                                        CrossFire Canada — Document No. OPS-00011.
-                                        Select an existing NCR to view its
-                                        Quality Inspector information.
-                                    </p>
-                                </div>
-                            </header>
-
-                    <noscript>
-                        <p>Enable JavaScript to view the report information.</p>
-                    </noscript>
-
-                    <div class="form-section">
-                        <label for="reportSelect" class="form-label">Select an NCR report
-                            <span class="required">*</span>
-                        </label>
-                        <select id="reportSelect" class="form-select">
-                            <option value="NCR-001">
-                                NCR-001 — Maple Industrial Supplies
-                            </option>
-                            <option value="NCR-002">
-                                NCR-002 — Northern Metalworks
-                            </option>
-                            <option value="NCR-003">
-                                NCR-003 — Precision Fastener Supply
-                            </option>
-                        </select>
-                    </div>
-                    <p id="details-message" role="status" aria-atomic="true"></p>
-                    <!--Details-->
-                    <h2 id="quality-heading">Quality Inspector</h2>
-                    <section id="report-details" class="border rounded p-3 p-md-4 mt-4"
-                            aria-labelledby="quality-heading" hidden>
-                
-                        <dl class="mb-0">
-                            <div class="row mb-3">
-                                <dt class="col-md-4 fw-bold">NCR Number</dt>
-                                <dd class="col-md-8 mb-0" data-field="ncrNumber"></dd>
-                            </div>
-
-                            <div class="row mb-3">
-                                <dt class="col-md-4 fw-bold">Process Applicable</dt>
-                                <dd class="col-md-8 mb-0" data-field="processApplicable"></dd>
-                            </div>
-                            <div class="row mb-3">
-                                <dt class="col-md-4 fw-bold">Supplier Name</dt>
-                                <dd class="col-md-8 mb-0" data-field="supplier"></dd>
-                            </div>
-                            <div class="row mb-3">
-                                <dt class="col-md-4 fw-bold">Purchase Order or Production Number</dt>
-                                <dd class="col-md-8 mb-0" data-field="referenceNumber"></dd>
-                            </div>
-                            <div class="row mb-3">
-                                <dt class="col-md-4 fw-bold">Sales Order Number</dt>
-                                <dd class="col-md-8 mb-0" data-field="salesOrderNumber"></dd>
-                            </div>
-                            <div class="row mb-3">
-                                <dt class="col-md-4 fw-bold">Item Description, including SAP Number</dt>
-                                <dd class="col-md-8 mb-0" data-field="productId"></dd>
-                            </div>
-                            <div class="row mb-3">
-                                <dt class="col-md-4 fw-bold">Quantity Received</dt>
-                                <dd class="col-md-8 mb-0" data-field="quantityReceived"></dd>
-                            </div>
-                            <div class="row mb-3">
-                                <dt class="col-md-4 fw-bold">Quantity Defective</dt>
-                                <dd class="col-md-8 mb-0" data-field="quantityDefective"></dd>
-                            </div>
-                            <div class="row mb-3">
-                                <dt class="col-md-4 fw-bold">Defect Description</dt>
-                                <dd class="col-md-8 mb-0" data-field="defectDescription"></dd>
-                            </div>
-                            <div class="row mb-3">
-                                <dt class="col-md-4 fw-bold">Item Marked Nonconforming</dt>
-                                <dd class="col-md-8 mb-0" data-field="itemMarkedNonconforming"></dd>
-                            </div>
-                            <div class="row mb-3">
-                                <dt class="col-md-4 fw-bold">Engineering Review Required?</dt>
-                                <dd class="col-md-8 mb-0" data-field="engineeringRequired"></dd>
-                            </div>
-                            <!-- <div class="row mb-3">
-                                <dt class="col-md-4 fw-bold">Quality Representative</dt>
-                                <dd class="col-md-8 mb-0" data-field="qualityRep"></dd>
-                            </div> -->
-                            <div class="row mb-3">
-                                <dt class="col-md-4 fw-bold">Quality Inspection Date</dt>
-                                <dd class="col-md-8 mb-0" data-field="dateCreated"></dd>
-                            </div>
-                            <div class="row mb-3">
-                                <dt class="col-md-4 fw-bold">Additional Information (optional)</dt>
-                                <dd class="col-md-8 mb-0" data-field="additional"></dd>
-                            </div>
-                        </dl>
-                    </section>
-                    <div class="d-flex flex-wrap gap-2 mt-4">
-                        <a href="index.html" class="btn btn-outline-secondary"><i class="fas fa-arrow-left me-2"></i>Back to Home</a>
-                        <a href="edit.html" id="edit-link" class="btn btn-primary"><i class="fas fa-edit me-2"></i>Edit NCR</a>
-                    </div>       
-                </div>
-            </section> 
-        </div> 
-    </div> 
-</main>
-<script>
-// Find the controls on details.html.
-const selector = document.getElementById("reportSelect");
-const message = document.getElementById("details-message");
-const reportDetails = document.getElementById("report-details");
-const editLink = document.getElementById("edit-link");
-
-// Display the selected NCR's information.
-function showReport(reportId) {
-    // Show an error if the requested report does not exist.
-    if (!Object.hasOwn(reports, reportId)) {
-        reportDetails.hidden = true;
-        editLink.hidden = true;
-        message.textContent = "This NCR report could not be found.";
-        return;
-    }
-
-    const report = reports[reportId];
-
-    // Fill each labelled detail with its report value.
-    for (const element of document.querySelectorAll("[data-field]")) {
-        const field = element.dataset.field;
-        let value = report[field];
-
-        // Display readable process names.
-        if (field === "process") {
-            value = value === "supplier"
-                ? "Supplier or Rec-Insp"
-                : "WIP (Production Order)";
-        }
-
-        // Display readable Yes/No values.
-        if (field === "marked") {
-            value = value === "yes" ? "Yes" : "No";
-        }
-          if (field === "engineeringRequired") {
-            value = value === "yes" ? "Yes" : "No";
-        }
-
-        // Use textContent to display data safely.
-        element.textContent = value ?? "Not provided";
-
-        if (value === "") {
-            element.textContent = "Not provided";
-        }
-    }
-
-    // Reveal the report information and Edit link.
-    reportDetails.hidden = false;
-    editLink.hidden = false;
-
-    // Link to this report on the existing Edit page.
-    editLink.href = "edit.html?id=" + encodeURIComponent(reportId);
-
-    // Announce the loaded report to screen readers.
-    message.textContent = reportId + " details loaded.";
-}
-
-// Read the NCR number from the URL, if supplied.
-const requestedId = new URLSearchParams(window.location.search).get("id");
-
-if (requestedId && Object.hasOwn(reports, requestedId)) {
-    selector.value = requestedId;
-}
-
-// Display another report when the dropdown changes.
-selector.addEventListener("change", function () {
-    showReport(selector.value);
-});
-
-// Display the initial report when the page opens.
-showReport(requestedId || selector.value);
-</script>
-
-
+    <script type="module" src="/src/main.js"></script>
 </body>
 </html>
