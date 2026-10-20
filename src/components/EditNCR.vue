@@ -149,6 +149,11 @@ async function saveNCR() {
 
         toast.success(`NCR ${ncr.ncrNumber} successfully updated!`);
 
+        // Wait 2 seconds before returning to NCR Log
+        setTimeout(() => {
+            window.location.href = 'ncr-log.html';
+        }, 3000);
+
     } catch (error) {
         console.error(error);
 
@@ -539,10 +544,15 @@ async function saveNCR() {
               ></p>
 
               <!-- ACTION BUTTONS -->
-              <div class="form-actions d-flex flex-column flex-sm-row gap-2">
+              <div class="action-buttons d-flex flex-wrap gap-3 mt-4">
                 <button type="submit" class="btn btn-primary">
                   Save Changes
                 </button>
+
+                <a :href="`details.html?id=${ncrId}`" class="btn btn-secondary">
+                    <i class="fas fa-eye me-2"></i>
+                    View Details
+                </a>
               </div>
 
             </form>
@@ -560,5 +570,25 @@ async function saveNCR() {
 .content .form-control,
 .content .form-select {
   background-color: #f3f4f6;
+}
+
+.action-buttons {
+    padding-top: 12px;
+}
+
+.action-buttons .btn {
+    padding: 11px 20px;
+    font-weight: 600;
+    border-radius: 7px;
+}
+
+.action-buttons .btn-primary {
+    background: #193b59;
+    border-color: #193b59;
+}
+
+.action-buttons .btn-primary:hover {
+    background: #285779;
+    border-color: #285779;
 }
 </style>

@@ -38,15 +38,35 @@ body {
 }
 
 .crossfire-info h2 {
+    font-family: 'Noto Sans', sans-serif;
     font-size: 20px;
+    font-weight: 700;
     margin-bottom: 3px;
 }
 
 .crossfire-info p {
+    font-family: 'Noto Sans', sans-serif;
     color: #bdc3c7;
     font-size: 14px;
+    font-weight: 400;
     margin: 3px 0 0;
-    
+}
+
+.archive-details-btn {
+    background-color: #193b59;
+    color: white;
+    border: 1px solid #193b59;
+    border-radius: 7px;
+    padding: 10px 20px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.archive-details-btn:hover {
+    background-color: #285779;
+    color: white;
+    border-color: #285779;
 }
 
 /* navigation */

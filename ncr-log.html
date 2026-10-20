@@ -26,9 +26,7 @@
                 <li><a href="index.html"><i class="fas fa-home"></i>Home</a></li>
                 <li><a href="#" class="active" aria-current="page"><i class="fas fa-file-alt"></i>NCR Log</a></li>
                 <li><a href="create.html"><i class="fas fa-plus-circle"></i>Create NCR</a></li>
-                <li><a href="edit.html"><i class="fas fa-edit"></i>Edit NCR</a></li>
                 <li><a href="archive.html"><i class="fas fa-archive"></i>Archive</a></li>
-                <li><a href="editProto2.html"><i class="fas fa-edit"></i>Edit Proto2</a></li>
             </ul>
         </nav>
     </div>
@@ -87,15 +85,15 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table ncr-log-table align-middle">
+                <table class="table ncr-log-table align-middle" style="table-layout: fixed; width: 100%;">
                 
                     <thead>
                         <tr>
-                            <th scope="col">NCR Number</th>
-                            <th scope="col">Supplier</th>
-                            <th scope="col">Date Created</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Actions</th>
+                            <th scope="col" style="width: 15%;">NCR Number</th>
+                            <th scope="col" style="width: 27%;">Supplier</th>
+                            <th scope="col" style="width: 17%;">Date Created</th>
+                            <th scope="col" style="width: 11%;">Status</th>
+                            <th scope="col" style="width: 30%;">Actions</th>
                         </tr>
                     </thead>
                 
@@ -117,3 +115,29 @@
 <script type="module" src="/status.js"></script>
 </body>
 </html>
+
+<style scoped>
+    /* Edit button */
+    .ncr-log-table .btn-primary {
+        background-color: #193b59;
+        border-color: #193b59;
+        color: white;
+    }
+
+    /* Details button */
+    .ncr-log-table .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: white;
+    }
+
+    /* NCR Log action buttons */
+    .ncr-log-table .btn-primary,
+    .ncr-log-table .btn-secondary {
+        width: 110px;
+        min-width: 110px;
+        padding: 10px 12px;
+        text-align: center;
+        flex: none;
+    }
+</style>

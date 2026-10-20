@@ -10,6 +10,7 @@ const error = ref('');
 
 const urlParams = new URLSearchParams(window.location.search);
 const ncrId = urlParams.get('id');
+const isArchived = window.location.pathname.includes("archive-details.html");
 
 // Load the existing NCR and its employee information
 async function getNCRDetails() {
@@ -18,9 +19,11 @@ async function getNCRDetails() {
             throw new Error('No NCR ID was provided.');
         }
 
-        const response = await axios.get(
-            `http://localhost:3000/ncrForms/${ncrId}`
-        );
+        const params = new URLSearchParams(window.location.search);
+
+        const collection = isArchived ? "archives" : "ncrForms";
+
+        const response = await axios.get(`http://localhost:3000/${collection}/${ncrId}`);
 
         ncr.value = response.data;
 
@@ -100,8 +103,8 @@ onMounted(() => {
     <main class="content">
         <div class="row justify-content-center">
             <div class="col-12">
-                <section class="card border-0 shadow-sm">
-                    <div class="card-body p-4 p-md-5">
+                <section>
+                    <div class="p-4 p-md-5">
 
                         <!-- Page Heading -->
                         <header class="form-header mb-4">
@@ -285,19 +288,11 @@ onMounted(() => {
 
                             <!-- Navigation Buttons -->
                             <div class="action-buttons d-flex flex-wrap gap-3 mt-4">
-                                <a
-                                    href="ncr-log.html"
-                                    class="btn btn-outline-secondary"
-                                >
-                                    <i class="fas fa-arrow-left me-2"></i>
-                                    Back to NCR Log
+                                <a :href="isArchived ? 'archive.html' : 'ncr-log.html'" class="btn btn-primary">
+                                    {{ isArchived ? 'Back to Archives' : 'Back to NCR Log' }}
                                 </a>
 
-                                <a
-                                    :href="`edit.html?id=${encodeURIComponent(ncrId)}`"
-                                    class="btn btn-primary"
-                                >
-                                    <i class="fas fa-edit me-2"></i>
+                                <a v-if="!isArchived" :href="`edit.html?id=${ncrId}`"class="btn btn-secondary">
                                     Edit NCR
                                 </a>
                             </div>
