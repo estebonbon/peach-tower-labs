@@ -1,17 +1,21 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
 import { useToast } from 'vue-toastification';
-import { generateNcrNumber } from '../resources/generateNCRNum.js';
 import { validateNCR } from '../resources/validateNCR.js';
 import axios from 'axios';
 
 onMounted(() => {
     getEmployees();
+    getNCR();
 });
 
 //This line will keep track of where to display errors
 const errors = reactive({});
 const toast = useToast();
+
+// Get the NCR ID from the URL so we know which report to edit
+const urlParams = new URLSearchParams(window.location.search);
+const ncrId = urlParams.get('id');
 
 // Employee dropdown data
 const employees = ref([]);
@@ -20,6 +24,23 @@ async function getEmployees() {
     const response = await axios.get('http://localhost:3000/employees');
 
     employees.value = response.data;
+}
+
+//Get existing NCR from the database
+async function getNCR() {
+  try {
+    const response = await axios.get(`http://localhost:3000/ncrForms/${ncrId}`);
+
+    //Copy the exsisting NCR information into our form
+    //Vue's model will display these values in the inputs
+    //This method is how edit gets populated
+    Object.assign(ncr, response.data)
+  }
+  catch (error)
+  {
+    console.error('Failed to load NCR:', error);
+    toast.error('Failed to load NCR.');
+  }
 }
 
 //Create a clear ncr function
@@ -101,15 +122,6 @@ async function saveNCR() {
             return;
         }
 
-        // Grabs the generateNCR method from another file and runs and saves the value into the variable generated
-        const generated = await generateNcrNumber();
-        const newNCR = {
-            ...ncr,
-            id: generated.id,
-            ncrNumber: generated.ncrNumber,
-            status: 'Active'
-        };
-
         // Replace empty optional fields with N/A
         const optionalFields = [
             'poOrProdNum',
@@ -117,22 +129,26 @@ async function saveNCR() {
             'previousNcrNumber'
         ];
 
+        // Copy the existing NCR information so we can update it
+        const updatedNCR = {
+            ...ncr
+        };
+
         optionalFields.forEach(field => {
-            if (newNCR[field] === '' || newNCR[field] == null) {
-                newNCR[field] = 'N/A';
+            if (updatedNCR[field] === '' || updatedNCR[field] == null) {
+                updatedNCR[field] = 'N/A';
             }
         });
 
-        const response = await axios.post(
-            'http://localhost:3000/ncrForms',
-            newNCR
+        const response = await axios.patch(
+            `http://localhost:3000/ncrForms/${ncrId}`,
+            updatedNCR
         );
 
         console.log(response.data);
 
-        toast.success(`NCR ${generated.ncrNumber} successfully created!`);
+        toast.success(`NCR ${ncr.ncrNumber} successfully updated!`);
 
-        resetNCR();
     } catch (error) {
         console.error(error);
 
@@ -153,9 +169,9 @@ async function saveNCR() {
             <header class="form-header mb-4">
               <div class="header-content">
                 <span class="header-extra">QUALITY MANAGEMENT NCR</span>
-                <h1 class="h2 mb-2">Create a Non-Conformance Report</h1>
+                <h1 class="h2 mb-2">Edit Non-Conformance Report</h1>
                 <p class="text-secondary mb-0">
-                  Complete the information below to report a non-conformance.
+                  Review and update the information for this non-conformance report.
                 </p>
               </div>
             </header>
@@ -178,6 +194,7 @@ async function saveNCR() {
                       class="form-control"
                       id="ncrNumber"
                       name="ncrNumber"
+                      :value="ncr.ncrNumber"
                       placeholder="Assigned when report submited"
                       readonly
                     >
@@ -524,11 +541,7 @@ async function saveNCR() {
               <!-- ACTION BUTTONS -->
               <div class="form-actions d-flex flex-column flex-sm-row gap-2">
                 <button type="submit" class="btn btn-primary">
-                  Submit
-                </button>
-
-                <button type="button" class="btn btn-outline-primary">
-                  Save as Draft
+                  Save Changes
                 </button>
               </div>
 
