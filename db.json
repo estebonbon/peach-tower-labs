@@ -13,7 +13,7 @@
       "salesOrderNumber": "SO-78210",
       "defectDescription": "Three brackets have cracks near the mounting holes.",
       "quantityReceived": "20",
-      "quantityDefective": "3",
+      "quantityDefective": 2,
       "itemMarkedNonconforming": "yes",
       "engineeringRequired": "yes",
       "status": "Active",

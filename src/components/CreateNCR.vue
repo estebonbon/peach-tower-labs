@@ -210,7 +210,7 @@ async function saveNCR() {
                       v-model="ncr.employeeId"
                       required
                     >
-                      <option value="" disabled selected>Select an employee</option>
+                      <option value="" disabled selected>Select a quality inspector</option>
                       <option
                         v-for="employee in employees"
                             :key="employee.id"
