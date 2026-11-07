@@ -14,6 +14,7 @@ async function getNCRs() {
             const activeChecked = document.getElementById('activeOnly').checked;
             const closedChecked = document.getElementById('closedOnly').checked;
             const engineeringChecked = document.getElementById('engineeringOnly').checked;
+            const stageFilter = document.getElementById('stageFilter').value;
 
             response.data.forEach((ncr, index) => {
                 const row = tableBody.rows[index];
@@ -27,9 +28,12 @@ async function getNCRs() {
             
                 const matchesEngineering =
                     !engineeringChecked || ncr.engineeringRequired === 'yes';
-            
+                
+                const matchesStage =
+                    !stageFilter ||
+                    ncr.stage === stageFilter;
                 row.style.display =
-                    matchesSearch && matchesStatus && matchesEngineering
+                    matchesSearch && matchesStatus && matchesEngineering &&matchesStage
                         ? ''
                         : 'none';
             });
@@ -39,6 +43,7 @@ async function getNCRs() {
         document.getElementById('activeOnly').addEventListener('change', filterNCRs);
         document.getElementById('closedOnly').addEventListener('change', filterNCRs);
         document.getElementById('engineeringOnly').addEventListener('change', filterNCRs);
+        document.getElementById('stageFilter').addEventListener('change', filterNCRs);
 
         document.getElementById('ncrSearch').addEventListener('input', filterNCRs);
         
@@ -55,6 +60,11 @@ async function getNCRs() {
                 <td>
                     <span class="ncr-status ${ncr.status.toLowerCase()}">
                         ${ncr.status}
+                    </span>
+                </td>
+                <td>
+                    <span class="ncr-stage">
+                        ${ncr.stage}
                     </span>
                 </td>
                 <td>

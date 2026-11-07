@@ -17,6 +17,7 @@
       "itemMarkedNonconforming": "yes",
       "engineeringRequired": "yes",
       "status": "Active",
+      "stage": "Engineering Review",
       "previousNcrNumber": "N/A"
     },
     {
@@ -36,6 +37,7 @@
       "itemMarkedNonconforming": "yes",
       "engineeringRequired": "no",
       "status": "Active",
+      "stage": "Quality Review",
       "previousNcrNumber": "N/A"
     },
     {
@@ -55,6 +57,7 @@
       "itemMarkedNonconforming": "yes",
       "engineeringRequired": "yes",
       "status": "Closed",
+      "stage": "Completed",
       "previousNcrNumber": "N/A"
     },
     {
@@ -73,7 +76,8 @@
       "quantityDefective": "4",
       "itemMarkedNonconforming": "yes",
       "engineeringRequired": "yes",
-      "status": "Active"
+      "status": "Active",
+      "stage": "Engineering Review"
     },
     {
       "id": "5",
@@ -91,7 +95,8 @@
       "quantityDefective": "5",
       "itemMarkedNonconforming": "yes",
       "engineeringRequired": "yes",
-      "status": "Closed"
+      "status": "Closed",
+      "stage": "Completed"
     },
     {
       "id": "6",
@@ -109,7 +114,8 @@
       "quantityDefective": "3",
       "itemMarkedNonconforming": "yes",
       "engineeringRequired": "yes",
-      "status": "Active"
+      "status": "Active",
+      "stage": "Quality Review"
     },
     {
       "id": "7",
@@ -127,7 +133,8 @@
       "quantityDefective": "6",
       "itemMarkedNonconforming": "yes",
       "engineeringRequired": "no",
-      "status": "Closed"
+      "status": "Closed",
+      "stage": "Completed"
     },
     {
       "id": "8",
@@ -145,7 +152,8 @@
       "quantityDefective": "2",
       "itemMarkedNonconforming": "yes",
       "engineeringRequired": "yes",
-      "status": "Active"
+      "status": "Active",
+      "stage": "Engineering Review"
     },
     {
       "id": "9",
@@ -163,7 +171,8 @@
       "quantityDefective": "8",
       "itemMarkedNonconforming": "yes",
       "engineeringRequired": "no",
-      "status": "Closed"
+      "status": "Closed",
+      "stage": "Completed"
     },
     {
       "id": "10",
@@ -182,6 +191,7 @@
       "itemMarkedNonconforming": "yes",
       "engineeringRequired": "yes",
       "status": "Active",
+      "stage": "Engineering Review",
       "previousNcrNumber": "N/A"
     }
   ],
