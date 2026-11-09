@@ -5,6 +5,7 @@ import 'vue-toastification/dist/index.css';
 import CreateNCR from "./components/CreateNCR.vue";
 import EditNCR from "./components/EditNCR.vue";
 import DetailsNCR from "./components/DetailsNCR.vue";
+import EmgineeringReviewNCR from "./components/EmgineeringReviewNCR.vue";
 
 // Check which page is open and mount the correct Vue component
 if (document.getElementById('CreatePage')) {
@@ -32,4 +33,11 @@ if (document.getElementById('ArchiveDetailsPage')) {
     const app = createApp(DetailsNCR);
     app.use(Toast);
     app.mount('#ArchiveDetailsPage');
+}
+
+// Engineering Review
+if (document.getElementById('EngineeringReviewPage')) {
+    const app = createApp(EmgineeringReviewNCR);
+    app.use(Toast);
+    app.mount('#EngineeringReviewPage');
 }
