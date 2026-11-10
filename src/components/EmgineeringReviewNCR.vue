@@ -249,7 +249,7 @@ function cancelReview() {
 </script>
 
 <template>
-    <main class="content">
+    <main>
         <div class="row justify-content-center">
             <div class="col-12">
 
@@ -1024,12 +1024,12 @@ function cancelReview() {
 </template>
 
 <style scoped>
-.content {
+.main {
   background-color: #fff;
 }
 
 .content .form-control,
-.content .form-select {
+.conten .form-select {
   background-color: #f3f4f6;
 }
 

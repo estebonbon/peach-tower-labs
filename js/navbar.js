@@ -114,7 +114,7 @@ async function loadNavbar() {
         //     || document.querySelector("#ArchiveDetailsPage .content")
         //     || document.querySelector(".content");
         const content = document.querySelector(
-            "#DetailsPage.content, #ArchiveDetailsPage.content, .content");
+            "#DetailsPage.content, #ArchiveDetailsPage.content,#EngineeringReviewPage.content, .content");
         const mobileScreen = window.matchMedia("(max-width: 768px)");
 
         if (!sidebar || !logo || !mobileBtn || !overlay) {
