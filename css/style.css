@@ -23,14 +23,41 @@ body {
     top: 0;   
     width: 330px;   
     z-index: 1000; /*new*/
+    transition: all 0.3s ease;
+}
+.sidebar.collapsed {
+    width: 80px;
+}
+.sidebar.collapsed .crossfire-info {
+    display: none;
+}
+.sidebar.collapsed .logo {
+    justify-content: center;
+}
+.sidebar.collapsed nav span {
+    display: none;
+}
+.sidebar.collapsed nav ul li a {
+    justify-content: center;
+}
+.sidebar-header {
+    margin-bottom: 20px;
 }
 
+#sidebar-toggle {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 22px;
+}
 /* logo */
 .logo {  
     align-items: right;
     display: flex;
     gap: 15px;
     margin-bottom: 40px;
+    cursor: pointer;
 }
 
 .logo img {
@@ -85,13 +112,16 @@ nav ul li {
 }
 
 nav ul li a {
+    align-items: center;
     border-radius: 6px;
     color: #ecf0f1;
-    display: block;
+    display: flex;
     font-size: 17px;
-    padding: 12px 10px;  
+    padding: 12px 10px;
     text-decoration: none;
-   
+}
+.mobile-toggle-btn{
+    display:none;
 }
 
 nav ul li a:hover {
@@ -113,10 +143,15 @@ nav ul li a i {
     background-color: #ecf0f1;
     display: block;
     justify-content: center; 
-    margin-left: 320px;
+    margin-left: 330px;
     min-height: 100vh;  
     padding: 24px 28px;
     width: calc(100% - 330px);
+    transition: all 0.3s ease;
+}
+.content.expanded {
+    margin-left: 80px;
+    width: calc(100% - 80px);
 }
 .content .row{
     justify-content: center;
@@ -293,7 +328,7 @@ input[readonly] {
     max-width: 100%;
     
 }
-}
+
 #quantityReceived,
 #quantityDefective {
     background-color: #f8fafc;
@@ -362,11 +397,15 @@ body,
 /* NCR Log - Remove card background and shadow */
 .status-page .card {
     background-color: #ffffff;
-    border: none !important;
-    box-shadow: none !important;
+    border: none;
+    box-shadow: none;
+    max-width: none;
 }
 
 /* NCR-Log page */
+.ncr-log .table-responsive {
+    width: 100%;
+}
 /* NCR Log Table */
 .ncr-log-table {
     width: 100%;
@@ -409,11 +448,42 @@ body,
 .form-check {
     white-space: nowrap;
 }
-/*Add responsivness*/
+/*fix ncr log responsivness*/ 
+.ncr-log-table {
+    min-width: 1000px;
+}
+.table-responsive {
+    overflow-x: auto;
+    border: 1px solid #dce5ef;
+    border-radius: 12px;
+}
+.ncr-log-table th {
+    white-space: nowrap;
+}
 
+.ncr-status {
+    white-space: nowrap;
+}
+    /* Stage filter */
+.stage-filter {
+    min-width: 0;
+}
+
+.stage-filter select {
+    min-width: 150px;
+}
+/* Restore CrossFire logo styling */
+.sidebar .logo img {
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
+    object-fit: contain;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
 /* Archive page */
 .archive-page { min-height: 100vh; }
-.archive-page .sidebar { overflow-y: auto; }
+/* .archive-page .sidebar { overflow-y: auto; } */
 .archive-page .logo { align-items: flex-start; }
 .archive-page .logo img { flex-shrink: 0; }
 .archive-page .content { min-width: 0; }
@@ -450,10 +520,17 @@ body,
 @media (max-width: 1100px) { .archive-page .content { padding: 24px; } .archive-card { padding: 24px; } }
 @media (max-width: 768px) {
     .archive-page { display: block; }
-    .archive-page .sidebar { position: static; width: 100%; height: auto; }
+    /* .archive-page .sidebar { position: static; width: 100%; height: auto; } */
+    .content,
+    .archive-page .content {
+        width: 100%;
+        margin-left: 0;
+        padding: 70px 15px 15px;
+        min-height: 100vh;
+    }
     .archive-page .logo { margin-bottom: 20px; }
-    .archive-page nav ul { display: flex; flex-wrap: wrap; gap: 6px; }
-    .archive-page nav ul li { margin-bottom: 0; }
+    /* .archive-page nav ul { display: flex; flex-wrap: wrap; gap: 6px; }
+    .archive-page nav ul li { margin-bottom: 0; } */
     .archive-page .content { margin-left: 0; width: 100%; padding: 20px; min-height: auto; }
     .archive-card { padding: 20px; }
     .archive-card .form-header { padding: 20px; }
@@ -463,116 +540,265 @@ body,
 @media (prefers-reduced-motion: no-preference) { .archive-create { transition: background-color .15s ease; } }
 
 /*Add responsivness*/
-/* Desktop */
-@media (min-width: 769px) {
+
+/* Mobile elements hidden on desktop */
+.mobile-toggle-btn,
+.sidebar-overlay {
+    display: none;
+}
+
+/* Prevent content from overflowing */
+.content {
+    min-width: 0;
+}
+
+img {
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+
+    /* Page layout */
+    body {
+        display: block;
+        overflow-x: hidden;
+    }
+
+    /* Sidebar */
     .sidebar {
+        width: 280px;
+        max-width: 85%;
+        height: 100vh;
+        height: 100dvh;
         position: fixed;
         top: 0;
         left: 0;
-        width: 320px;
-        height: 100vh;
+        padding: 24px 18px;
         overflow-y: auto;
+        z-index: 1100;
+
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
     }
 
-    .content {
-        margin-left: 320px;
-        width: calc(100% - 320px);
-        min-height: 100vh;
-        padding: 28px;
+    .sidebar.mobile-open {
+        transform: translateX(0);
     }
 
-    .menu-toggle,
-    .menu-overlay {
-        display: none;
+    /* Disable desktop collapsed appearance */
+    .sidebar.collapsed {
+        width: 280px;
     }
-}
 
-/* Tablet and mobile */
-@media (max-width: 768px) {
-    body {
+    .sidebar.collapsed .crossfire-info,
+    .sidebar.collapsed nav span {
         display: block;
     }
 
-    .sidebar {
-        position: relative;
-        width: 100%;
-        height: auto;
-        min-height: 0;
-        padding: 16px;
-        overflow: visible;
+    .sidebar.collapsed .logo {
+        justify-content: flex-start;
     }
 
-    .content {
+    .sidebar.collapsed nav ul li a {
+        justify-content: flex-start;
+    }
+
+    /* Hamburger button */
+    .mobile-toggle-btn {
+        display: flex;
+        position: fixed;
+        top: 12px;
+        left: 15px;
+        z-index: 1200;
+
+        align-items: center;
+        justify-content: center;
+
+        width: 46px;
+        height: 46px;
+
+        background-color: #173451;
+        color: white;
+        border: none;
+        border-radius: 8px;
+
+        font-size: 22px;
+        cursor: pointer;
+    }
+
+    .mobile-toggle-btn:hover {
+        background-color: #01223d;
+    }
+
+    /* Dark overlay */
+    .sidebar-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 1050;
+
+        background: rgba(0, 0, 0, 0.45);
+
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .sidebar-overlay.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Main content */
+    .content,
+    .content.expanded,
+    .archive-page .content {
+        width: 100%;
         margin-left: 0;
-        width: 100%;
+        padding: 75px 16px 20px;
         min-height: 100vh;
-        padding: 20px;
     }
 
+    /* Cards */
     .card {
         width: 100%;
         max-width: 100%;
     }
 
     .card-body {
-        padding: 20px ;
+        padding: 20px;
     }
 
+    /* Headers */
     .form-header {
-        padding: 20px;
+        padding: 18px;
     }
 
     .form-header h1,
     .card h1 {
-        font-size: 1.7rem;
+        font-size: 1.6rem;
     }
 
+    /* Forms */
+    .form-actions {
+        flex-wrap: wrap;
+    }
+
+    .form-actions button {
+        flex: 1 1 auto;
+    }
+
+    /* Filters */
+    .status-page .d-flex.flex-row {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .status-page .form-check {
+        white-space: normal;
+    }
+
+    .status-page #stageFilter {
+        min-width: 150px;
+    }
+
+    /* NCR table */
     .table-responsive {
+        max-width: 100%;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
     }
 
-    .row {
-        --bs-gutter-x: 1rem;
+    .ncr-log-table {
+        min-width: 1000px;
     }
 
-    input,
-    select,
-    textarea {
+    /* Archive */
+    .archive-card {
+        padding: 20px;
+    }
+
+    .archive-heading {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .archive-create {
         max-width: 100%;
     }
-    #quantityReceived,
-    #quantityDefective {
+
+    .ncr-log-filters {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .stage-filter {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .stage-filter select {
         width: 100%;
     }
+
 }
 
-/* Small mobile screens */
+
 @media (max-width: 480px) {
-    .content {
-        padding: 14px;
+
+    .content,
+    .content.expanded,
+    .archive-page .content {
+        padding: 70px 10px 15px;
     }
 
     .card-body {
-        padding: 15px;
+        padding: 15px ;
     }
 
     .form-header {
-        padding: 16px;
+        padding: 15px;
     }
 
     .form-header h1,
     .card h1 {
-        font-size: 1.45rem;
+        font-size: 1.4rem;
+    }
+
+    .form-header p {
+        font-size: 14px;
+    }
+
+    .form-label {
+        font-size: 15px;
     }
 
     .form-actions {
-        display: flex;
         flex-direction: column;
-        gap: 10px;
     }
 
-    .form-actions .btn {
+    .form-actions button {
         width: 100%;
+    }
+
+    .required-note {
+        text-align: left;
+    }
+
+    .archive-card {
+        padding: 14px;
+    }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .sidebar,
+    .sidebar-overlay {
+        transition: none;
     }
 }

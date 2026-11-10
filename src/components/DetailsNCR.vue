@@ -100,7 +100,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <main class="content">
+    <main>
         <div class="row justify-content-center">
             <div class="col-12">
                 <section>
@@ -311,8 +311,11 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.content {
+.main {
     background-color: white;
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
 .form-header {
