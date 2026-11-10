@@ -1069,6 +1069,9 @@ function cancelReview() {
                                 <button type="button" class="btn btn-secondary" @click="cancelReview">
                                     Cancel
                                 </button>
+                                <button type="button" class="btn btn-secondary">
+                                    Save as Draft
+                                    </button>
 
                             </div>
                         </form>
