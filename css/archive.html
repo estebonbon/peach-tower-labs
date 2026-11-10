@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse archived CrossFire Canada Non-Conformance Reports.">
+    <title>Archive | CrossFire NCR System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="archive-page">
+    <a class="archive-skip" href="#archive-content">Skip to archived reports</a>
+    <!-- <aside class="sidebar">
+        <div class="logo">
+            <img src="images/crossfire Logo.png" alt="CrossFire Canada Logo">
+            <div class="crossfire-info">
+                <h2>CrossFire Canada</h2>
+                <p>Non-Conformance Report System</p>
+            </div>
+        </div>
+        <nav aria-label="Main navigation"><ul>
+            <li><a href="index.html"><i class="fas fa-home" aria-hidden="true"></i>Home</a></li>
+            <li><a href="ncr-log.html"><i class="fas fa-file-alt" aria-hidden="true"></i>NCR Log</a></li>
+            <li><a href="create.html"><i class="fas fa-plus-circle" aria-hidden="true"></i>Create NCR</a></li>
+            <li><a href="#" class="active" aria-current="page"><i class="fas fa-archive" aria-hidden="true"></i>Archive</a></li>
+            </ul>
+        </nav>  
+    </aside> -->
+    <div id="navbar-container"></div>
+    <main class="content" id="archive-content" tabindex="-1">
+        <section class="archive-section" aria-labelledby="archive-title">
+            <header class="form-header">
+                <span class="header-extra">QUALITY MANAGEMENT NCR</span>
+                <h1 id="archive-title">Archived Non-Conformance Reports</h1>
+                <p>Review archived reports and their non-conformance details.</p>
+            </header>
+            <div class="archive-heading">
+                <h2>Archived Reports <span class="archive-count">5</span></h2>
+                <a class="archive-create" href="create.html"><i class="fas fa-plus-circle" aria-hidden="true"></i> Create NCR</a>
+            </div>
+            <p class="archive-note" id="archive-note">Sample archive preview. These records reuse the edit page's sample data; archive status and dates are illustrative.</p>
+            <div class="archive-table-wrapper" role="region" aria-label="Archived reports table" tabindex="0">
+                <table class="archive-table" aria-describedby="archive-note">
+                    <caption>Sample archived NCR records — expand View details to read a report.</caption>
+                    <thead><tr><th scope="col">NCR Number</th><th scope="col">Supplier</th><th scope="col">Product</th><th scope="col">Archived Date</th><th scope="col">Status</th><th scope="col">Details</th></tr></thead>
+                    <tbody id="archive-table-body">
+
+                    </tbody>
+                </table>
+            </div>
+            <p class="archive-footer">*Archive data will be supplied by the backend when connected.</p>
+        </section>
+    </main>
+    <script src="archive.js"></script>
+    <script src="js/navbar.js"></script>
+</body>
+</html>
