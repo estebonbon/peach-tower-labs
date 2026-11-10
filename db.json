@@ -96,7 +96,8 @@
       "itemMarkedNonconforming": "yes",
       "engineeringRequired": "yes",
       "status": "Closed",
-      "stage": "Completed"
+      "stage": "Completed",
+      "previousNcrNumber": "N/A"
     },
     {
       "id": "6",

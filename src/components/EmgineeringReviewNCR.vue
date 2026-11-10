@@ -495,6 +495,64 @@ function cancelReview() {
                                     </small>
                                 </fieldset>
                             </fieldset>
+                             DISPOSITION INSTRUCTIONS
+                            <fieldset class="form-section">
+                                <legend class="section-title">
+                                    Disposition
+                                </legend>
+
+                                <label
+                                    for="dispositionInstructions"
+                                    class="form-label"
+                                >
+                                    Sequence of Work Steps
+
+                                    <span
+                                        v-if="repairOrReworkSelected"
+                                        class="required"
+                                    >
+                                        *
+                                    </span>
+
+                                    <span
+                                        v-else
+                                        class="optional"
+                                    >
+                                        (Required for Repair or Rework)
+                                    </span>
+                                </label>
+
+                                <textarea
+                                    id="dispositionInstructions"
+                                    v-model="
+                                        engineeringReview
+                                            .dispositionInstructions
+                                    "
+                                    class="form-control"
+                                    name="dispositionInstructions"
+                                    rows="7"
+                                    placeholder="
+                                        Enter the required repair or rework
+                                        steps
+                                    "
+                                    :aria-invalid="
+                                        Boolean(
+                                            errors.dispositionInstructions
+                                        )
+                                    "
+                                ></textarea>
+
+                                <small
+                                    v-if="
+                                        errors.dispositionInstructions
+                                    "
+                                    class="text-danger"
+                                >
+                                    {{
+                                        errors.dispositionInstructions
+                                    }}
+                                </small>
+                            </fieldset>
 
                             <!-- CUSTOMER NOTIFICATION -->
                             <fieldset class="form-section">
@@ -618,7 +676,7 @@ function cancelReview() {
                                 </div>
                             </fieldset>
 
-                            <!-- DISPOSITION INSTRUCTIONS -->
+                            <!-- DISPOSITION INSTRUCTIONS
                             <fieldset class="form-section">
                                 <legend class="section-title">
                                     Disposition
@@ -675,7 +733,7 @@ function cancelReview() {
                                         errors.dispositionInstructions
                                     }}
                                 </small>
-                            </fieldset>
+                            </fieldset> -->
 
                             <!-- DRAWING REVISION -->
                             <fieldset class="form-section">
