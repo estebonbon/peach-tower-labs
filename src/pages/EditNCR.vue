@@ -459,7 +459,7 @@ async function saveNCR() {
                         Process Applicable <span class="required">*</span>
                       </legend>
 
-                      <div class="d-flex flex-column flex-sm-row gap-3">
+                      <div class="d-flex flex-column gap-3">
                         <div class="form-check">
                           <input
                             class="form-check-input"
