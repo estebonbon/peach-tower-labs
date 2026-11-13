@@ -7,6 +7,30 @@ Welcome to the Peach Tower Labs GitHub repository!
 
 This repository contains our group's work for the CrossFire Non-Conformance Report (NCR) application.
 
+## Run the Vue application
+
+Install dependencies once:
+
+```bash
+npm install
+```
+
+Start the JSON Server database and the Vite app in separate terminals:
+
+```bash
+npm run db
+```
+
+```bash
+npm run dev
+```
+
+Open the local URL printed by Vite. The app uses Vue 3, Vue Router, and Vite; page navigation and NCR log/archive views are handled by Vue. The database API is available at `http://localhost:3000`.
+
+Create a production build with `npm run build`, or serve that build locally with `npm run preview`.
+
+The previous standalone HTML pages and JavaScript files are kept in `legacy/` for reference. The active app starts from the root `index.html` and its Vue source in `src/`.
+
 ## Team GitHub Instructions
 
 These instructions explain how to download, edit, save, and upload your work to GitHub.

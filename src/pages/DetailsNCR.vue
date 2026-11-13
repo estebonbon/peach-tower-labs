@@ -1,6 +1,7 @@
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
+import { RouterLink, useRoute } from 'vue-router';
 import axios from 'axios';
 
 const ncr = ref(null);
@@ -8,22 +9,25 @@ const employee = ref(null);
 const loading = ref(true);
 const error = ref('');
 
-const urlParams = new URLSearchParams(window.location.search);
-const ncrId = urlParams.get('id');
-const isArchived = window.location.pathname.includes("archive-details.html");
+const route = useRoute();
+const ncrId = computed(() => route.query.id);
+const isArchived = computed(() => route.name === 'archive-details');
 
 // Load the existing NCR and its employee information
 async function getNCRDetails() {
+    loading.value = true;
+    error.value = '';
+    ncr.value = null;
+    employee.value = null;
+
     try {
-        if (!ncrId) {
+        if (!ncrId.value) {
             throw new Error('No NCR ID was provided.');
         }
 
-        const params = new URLSearchParams(window.location.search);
+        const collection = isArchived.value ? "archives" : "ncrForms";
 
-        const collection = isArchived ? "archives" : "ncrForms";
-
-        const response = await axios.get(`http://localhost:3000/${collection}/${ncrId}`);
+        const response = await axios.get(`http://localhost:3000/${collection}/${ncrId.value}`);
 
         ncr.value = response.data;
 
@@ -97,6 +101,8 @@ const employeeName = computed(() => {
 onMounted(() => {
     getNCRDetails();
 });
+
+watch(() => route.fullPath, getNCRDetails);
 </script>
 
 <template>
@@ -288,13 +294,13 @@ onMounted(() => {
 
                             <!-- Navigation Buttons -->
                             <div class="action-buttons d-flex flex-wrap gap-3 mt-4">
-                                <a :href="isArchived ? 'archive.html' : 'ncr-log.html'" class="btn btn-primary">
+                                <RouterLink :to="isArchived ? { name: 'archive' } : { name: 'ncr-log' }" class="btn btn-primary">
                                     {{ isArchived ? 'Back to Archives' : 'Back to NCR Log' }}
-                                </a>
+                                </RouterLink>
 
-                                <a v-if="!isArchived" :href="`edit.html?id=${ncrId}`"class="btn btn-secondary">
+                                <RouterLink v-if="!isArchived" :to="{ name: 'edit', query: { id: ncrId } }" class="btn btn-secondary">
                                     Edit NCR
-                                </a>
+                                </RouterLink>
                             </div>
 
                         </template>
