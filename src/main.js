@@ -1,43 +1,19 @@
-//Starts Vue and mounts the component
 import { createApp } from "vue";
 import Toast from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
-import CreateNCR from "./components/CreateNCR.vue";
-import EditNCR from "./components/EditNCR.vue";
-import DetailsNCR from "./components/DetailsNCR.vue";
-import EmgineeringReviewNCR from "./components/EmgineeringReviewNCR.vue";
+import App from "./App.vue";
+import router from "./router";
+import "../css/style.css";
 
-// Check which page is open and mount the correct Vue component
-if (document.getElementById('CreatePage')) {
-    const app = createApp(CreateNCR);
-    app.use(Toast);
-    app.mount('#CreatePage');
-}
+createApp(App)
+    .use(router)
+    .use(Toast)
+    .mount("#app");
 
-if (document.getElementById('EditPage')) {
-    const app = createApp(EditNCR);
-    app.use(Toast);
-    app.mount('#EditPage');
-}
+//THIS IS THAT SCRIPT TAG REFERENCE AT THE BOTTOM OF INDEX.HTML ********
 
-// NCR Details page
-if (document.getElementById('DetailsPage')) {
-    const app = createApp(DetailsNCR);
-    console.log("DETAILS PAGE FOUND!");
-    app.use(Toast);
-    app.mount('#DetailsPage');
-}
-
-//Archive Detials
-if (document.getElementById('ArchiveDetailsPage')) {
-    const app = createApp(DetailsNCR);
-    app.use(Toast);
-    app.mount('#ArchiveDetailsPage');
-}
-
-// Engineering Review
-if (document.getElementById('EngineeringReviewPage')) {
-    const app = createApp(EmgineeringReviewNCR);
-    app.use(Toast);
-    app.mount('#EngineeringReviewPage');
-}
+//This page is responisble for initializing the app. It imports the App.vue file, which is the main page of the app
+// It mounts it to the HTML element with the <id> of "app" inside of index.html. 
+// It also imports the router.js file, which is responsible for handling navigation between different pages in the app. 
+// The router is then used by the app to enable navigation functionality. 
+// Additionally, it imports a CSS file for styling and a toast notification library for displaying notifications to the user.

@@ -12,6 +12,12 @@ body {
     display: flex;
     margin: 0;
 }
+
+#app {
+    flex: 1;
+    min-width: 0;
+}
+
 /* sidebar*/
 .sidebar {
     background-color: #173451;
@@ -53,11 +59,17 @@ body {
 }
 /* logo */
 .logo {  
-    align-items: right;
+    align-items: center;
+    background: transparent;
+    border: 0;
+    color: inherit;
     display: flex;
     gap: 15px;
     margin-bottom: 40px;
     cursor: pointer;
+    font: inherit;
+    text-align: left;
+    width: 100%;
 }
 
 .logo img {
@@ -72,6 +84,21 @@ body {
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 3px;
+}
+
+.brand-name,
+.brand-description {
+    display: block;
+}
+
+.brand-name {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.brand-description {
+    color: #bdc3c7;
+    font-size: 14px;
 }
 
 .crossfire-info p {
@@ -146,12 +173,12 @@ nav ul li a i {
     margin-left: 330px;
     min-height: 100vh;  
     padding: 24px 28px;
-    width: calc(100% - 330px);
+    width: calc(100% - 330px); /* The minus here, represnets the value for the sidebar width, so that the content area does not overlap with the sidebar */
     transition: all 0.3s ease;
 }
 .content.expanded {
     margin-left: 80px;
-    width: calc(100% - 80px);
+    width: calc(100% - 80px); /* This again recalculates this size of the page when the sidebar is collapsed */
 }
 .content .row{
     justify-content: center;
@@ -162,6 +189,13 @@ nav ul li a i {
 .form-header{
     background-color: #E8EEF5;
     border-left: 5px solid #173451;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+}
+.form-header-home{
+    background-color: #E8EEF5;
+    border: 5px solid #173451;
     border-radius: 8px;
     padding: 20px 24px;
     margin-bottom: 20px;
@@ -451,6 +485,31 @@ body,
 /*fix ncr log responsivness*/ 
 .ncr-log-table {
     min-width: 1000px;
+}
+.table-responsive.ncr-log-table-wrapper {
+    border: none;
+}
+.ncr-log-table .btn {
+    min-width: 120px;
+}
+.archive-confirmation {
+    border: 0;
+    border-radius: 12px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, .24);
+    color: #263445;
+    max-width: min(90vw, 460px);
+    padding: 28px;
+}
+.archive-confirmation::backdrop {
+    background: rgba(15, 30, 45, .55);
+}
+.archive-confirmation h2 {
+    color: #173451;
+    font-size: 1.35rem;
+    margin-bottom: 12px;
+}
+.archive-confirmation p {
+    margin-bottom: 24px;
 }
 .table-responsive {
     overflow-x: auto;

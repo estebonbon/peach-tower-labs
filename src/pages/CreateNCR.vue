@@ -1,21 +1,22 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
 import { useToast } from 'vue-toastification';
-import { validateNCR } from '../resources/validateNCR.js';
+import { generateNcrNumber } from '../functions/generateNCRNum.js';
+import { validateNCR } from '../functions/validateNCR.js';
 import axios from 'axios';
 
-onMounted(() => {
+onMounted(async () => {
     getEmployees();
-    getNCR();
+
+    //Were running the generateNCR method right away, so we can display it to the user immediately, so they can see the number before they submit the form. 
+    generatedNCR.value = await generateNcrNumber();
+    ncr.ncrNumber = generatedNCR.value.ncrNumber;
 });
 
 //This line will keep track of where to display errors
 const errors = reactive({});
 const toast = useToast();
-
-// Get the NCR ID from the URL so we know which report to edit
-const urlParams = new URLSearchParams(window.location.search);
-const ncrId = urlParams.get('id');
+const generatedNCR = ref(null); //Create a box, that vue will keep track of
 
 // Employee dropdown data
 const employees = ref([]);
@@ -24,23 +25,6 @@ async function getEmployees() {
     const response = await axios.get('http://localhost:3000/employees');
 
     employees.value = response.data;
-}
-
-//Get existing NCR from the database
-async function getNCR() {
-  try {
-    const response = await axios.get(`http://localhost:3000/ncrForms/${ncrId}`);
-
-    //Copy the exsisting NCR information into our form
-    //Vue's model will display these values in the inputs
-    //This method is how edit gets populated
-    Object.assign(ncr, response.data)
-  }
-  catch (error)
-  {
-    console.error('Failed to load NCR:', error);
-    toast.error('Failed to load NCR.');
-  }
 }
 
 //Create a clear ncr function
@@ -87,19 +71,22 @@ const ncr = reactive({
 });
 
 //This saves the NCR to the db.json file
-async function saveNCR() {
+async function saveNCR(isDraft = false) {
     try {
         //1 Validate the form first
         const validationErrors = validateNCR(ncr); // Passes the current ncr values from the v-model created form above into the method, which is on another file
+        const isComplete = Object.keys(validationErrors).length === 0;
         
         // Clear old errors
         Object.keys(errors).forEach(key => delete errors[key]);
 
         // Add new errors to the reactive errors object
-        Object.assign(errors, validationErrors); //Errors represents the box being tracked inside of CreateNCR, and the return value from validatencr
+        if (!isDraft) {
+            Object.assign(errors, validationErrors); //Errors represents the box being tracked inside of CreateNCR, and the return value from validatencr
+        }
 
         // Stop if any validation errors exist
-        if (Object.keys(errors).length > 0) {
+        if (!isDraft && Object.keys(errors).length > 0) {
             toast.error('Please correct the required fields.');
 
             // Find the first field with an error
@@ -122,6 +109,20 @@ async function saveNCR() {
             return;
         }
 
+        // Grabs the generateNCR method from another file and runs and saves the value into the variable generated
+        const generated = generatedNCR.value; //await generateNcrNumber(); this is before generated became a ref box
+        const newNCR = {
+            ...ncr,
+            id: generated.id,
+            ncrNumber: generated.ncrNumber,
+            status: 'Active',
+            stage: !isComplete
+                ? 'QI Started'
+                : ncr.engineeringRequired === 'yes'
+                    ? 'Start Engineering'
+                    : 'QI Complete'
+        };
+
         // Replace empty optional fields with N/A
         const optionalFields = [
             'poOrProdNum',
@@ -129,31 +130,33 @@ async function saveNCR() {
             'previousNcrNumber'
         ];
 
-        // Copy the existing NCR information so we can update it
-        const updatedNCR = {
-            ...ncr
-        };
-
         optionalFields.forEach(field => {
-            if (updatedNCR[field] === '' || updatedNCR[field] == null) {
-                updatedNCR[field] = 'N/A';
+            if (newNCR[field] === '' || newNCR[field] == null) {
+                newNCR[field] = 'N/A';
             }
         });
 
-        const response = await axios.patch(
-            `http://localhost:3000/ncrForms/${ncrId}`,
-            updatedNCR
+        const response = await axios.post(
+            'http://localhost:3000/ncrForms',
+            newNCR
         );
 
         console.log(response.data);
 
-        toast.success(`NCR ${ncr.ncrNumber} successfully updated!`);
+        toast.success(`NCR ${generated.ncrNumber} successfully created!`);
 
-        // Wait 2 seconds before returning to NCR Log
-        setTimeout(() => {
-            window.location.href = 'ncr-log.html';
-        }, 3000);
+        if (ncr.engineeringRequired === 'yes') {
+            toast.info('Email notification sent to Engineering Department.');
+        }
 
+        resetNCR();
+
+        // Since onMounted() only runs when the Create NCR page mounts,
+        // we must generate a new NCR number after saving.
+        // The generatedNCR ref stores the current ID and NCR number,
+        // allowing us to access and update them throughout the component.
+        generatedNCR.value = await generateNcrNumber();
+        ncr.ncrNumber = generatedNCR.value.ncrNumber;
     } catch (error) {
         console.error(error);
 
@@ -165,7 +168,7 @@ async function saveNCR() {
 
 
 <template>
-  <main class="content">
+  <main>
     <div class="row justify-content-center">
       <div class="col-12">
         <section class="p-4 p-md-5">
@@ -174,9 +177,9 @@ async function saveNCR() {
             <header class="form-header mb-4">
               <div class="header-content">
                 <span class="header-extra">QUALITY MANAGEMENT NCR</span>
-                <h1 class="h2 mb-2">Edit Non-Conformance Report</h1>
+                <h1 class="h2 mb-2">Create a Non-Conformance Report</h1>
                 <p class="text-secondary mb-0">
-                  Review and update the information for this non-conformance report.
+                  Complete the information below to report a non-conformance.
                 </p>
               </div>
             </header>
@@ -185,7 +188,7 @@ async function saveNCR() {
               <span class="required">*</span> Required field
             </p>
 
-            <form id="create-form" @submit.prevent="saveNCR" novalidate>
+            <form id="create-form" @submit.prevent="saveNCR(false)" novalidate>
 
               <!-- REPORT INFORMATION -->
               <fieldset class="form-section">
@@ -199,9 +202,9 @@ async function saveNCR() {
                       class="form-control"
                       id="ncrNumber"
                       name="ncrNumber"
-                      :value="ncr.ncrNumber"
-                      placeholder="Assigned when report submited"
+                      placeholder= "Databse error"
                       readonly
+                      v-model="ncr.ncrNumber"
                     >
                   </div>
 
@@ -228,7 +231,7 @@ async function saveNCR() {
                       v-model="ncr.employeeId"
                       required
                     >
-                      <option value="" disabled selected>Select an employee</option>
+                      <option value="" disabled selected>Select a quality inspector</option>
                       <option
                         v-for="employee in employees"
                             :key="employee.id"
@@ -404,7 +407,7 @@ async function saveNCR() {
                       min="0"
                       step="1"
                       required
-                      placeholder="type in a number ex: 12 units"
+                      placeholder="ex: 3"
                       v-model="ncr.quantityReceived"
                     >
                     <small v-if="errors.quantityReceived" class="text-danger">{{ errors.quantityReceived }}</small>
@@ -422,7 +425,7 @@ async function saveNCR() {
                       min="0"
                       step="1"
                       required
-                      placeholder="type in number ex: 9 units"
+                      placeholder="ex: 9"
                       v-model="ncr.quantityDefective"
                     >
                     <small v-if="errors.quantityDefective" class="text-danger">{{ errors.quantityDefective }}</small>
@@ -457,7 +460,7 @@ async function saveNCR() {
                         Process Applicable <span class="required">*</span>
                       </legend>
 
-                      <div class="d-flex flex-column flex-sm-row gap-3">
+                      <div class="d-flex flex-column gap-3">
                         <div class="form-check">
                           <input
                             class="form-check-input"
@@ -546,13 +549,12 @@ async function saveNCR() {
               <!-- ACTION BUTTONS -->
               <div class="action-buttons d-flex flex-wrap gap-3 mt-4">
                 <button type="submit" class="btn btn-primary">
-                  Save Changes
+                  Submit
                 </button>
-
-                <a :href="`details.html?id=${ncrId}`" class="btn btn-secondary">
-                    <i class="fas fa-eye me-2"></i>
-                    View Details
-                </a>
+                <!-- Remember a false saveNCR(false) means everything will be validated, this says false so it will skip validation -->
+                <button type="button" class="btn btn-secondary" @click="saveNCR(true)">
+                  Save as Draft
+                </button>
               </div>
 
             </form>
