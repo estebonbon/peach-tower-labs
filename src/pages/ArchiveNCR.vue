@@ -54,8 +54,8 @@ onMounted(loadArchives);
                 <tbody>
                     <tr v-for="ncr in archives" :key="ncr.id">
                         <th scope="row">{{ ncr.ncrNumber }}</th>
-                        <td>{{ ncr.supplier }}</td>
-                        <td>{{ ncr.itemDescription }}, SAP No. {{ ncr.productId }}</td>
+                        <td>{{ ncr.qualityInspector.supplier }}</td>
+                        <td>{{ ncr.qualityInspector.itemDescription }}, SAP No. {{ ncr.qualityInspector.productId }}</td>
                         <td>{{ ncr.archivedDate }}</td>
                         <td><span class="archive-status">{{ ncr.status }}</span></td>
                         <td>

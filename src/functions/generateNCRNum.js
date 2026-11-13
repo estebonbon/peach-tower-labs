@@ -1,18 +1,21 @@
 import axios from 'axios';
 
-export async function generateNcrNumber() {
-    const year = new Date().getFullYear();
-
+async function getAllNcrs() {
     const [forms, archives] = await Promise.all([
         axios.get('http://localhost:3000/ncrForms'),
         axios.get('http://localhost:3000/archives')
     ]);
 
-    const allNCRs = [...forms.data, ...archives.data];
+    return [...forms.data, ...archives.data];
+}
+
+export async function generateNcrNumber() {
+    const year = new Date().getFullYear();
+    const allNCRs = await getAllNcrs();
 
     // Find the highest numeric database ID
     const ids = allNCRs
-        .map(item => Number(item.id))
+        .map(item => typeof item.id === 'string' && /^\d+$/.test(item.id) ? Number(item.id) : NaN)
         .filter(id => Number.isSafeInteger(id) && id > 0);
 
     const nextId = Math.max(0, ...ids) + 1;
@@ -35,3 +38,11 @@ export async function generateNcrNumber() {
     };
 }
 
+export async function isNcrIdentityAvailable(candidate) {
+    const allNCRs = await getAllNcrs();
+
+    return !allNCRs.some(item =>
+        String(item.id) === candidate.id ||
+        item.ncrNumber === candidate.ncrNumber
+    );
+}

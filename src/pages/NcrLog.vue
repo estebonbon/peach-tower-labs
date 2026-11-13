@@ -23,7 +23,8 @@ const filteredNcrs = computed(() => ncrs.value.filter((ncr) => {
     const matchesStatus = (!activeOnly.value && !closedOnly.value)
         || (activeOnly.value && ncr.status === 'Active')
         || (closedOnly.value && ncr.status === 'Closed');
-    const matchesEngineering = !engineeringOnly.value || ncr.engineeringRequired === 'yes';
+    const matchesEngineering = !engineeringOnly.value
+        || ncr.qualityInspector.engineeringRequired === 'yes';
     const matchesStage = !stage.value || ncr.stage === stage.value;
 
     return matchesSearch && matchesStatus && matchesEngineering && matchesStage;
@@ -161,7 +162,9 @@ onMounted(loadNcrs);
                         <option value="">All Stages</option>
                         <option>QI Started</option>
                         <option>Start Engineering</option>
-                        <option>Engineer Started</option>
+                        <option>Engineering Started</option>
+                        <option>Start Operations</option>
+                        <option>Operations Started</option>
                         <option>Completed</option>
                     </select>
                 </div>
@@ -184,7 +187,7 @@ onMounted(loadNcrs);
                     <tbody>
                         <tr v-for="ncr in filteredNcrs" :key="ncr.id">
                             <td>{{ ncr.ncrNumber }}</td>
-                            <td>{{ ncr.supplier }}</td>
+                            <td>{{ ncr.qualityInspector.supplier }}</td>
                             <td>{{ ncr.dateCreated }}</td>
                             <td>
                                 <span class="ncr-status" :class="String(ncr.status).toLowerCase()">
@@ -207,7 +210,7 @@ onMounted(loadNcrs);
                                         {{ archivingIds.has(ncr.id) ? 'Archiving...' : 'Archive!' }}
                                     </button>
                                     <button
-                                        v-else-if="ncr.stage === 'QI Complete' && ncr.engineeringRequired !== 'yes'"
+                                        v-else-if="ncr.stage === 'Start Operations'"
                                         class="btn btn-secondary"
                                         type="button"
                                         disabled
@@ -222,12 +225,20 @@ onMounted(loadNcrs);
                                         Create Eng
                                     </RouterLink>
                                     <RouterLink
-                                        v-else-if="ncr.stage === 'Engineer Started'"
+                                        v-else-if="ncr.stage === 'Engineering Started'"
                                         class="btn btn-secondary"
                                         :to="{ name: 'engineering-review', query: { id: ncr.id } }"
                                     >
                                         Edit Eng
                                     </RouterLink>
+                                    <button
+                                        v-else-if="ncr.stage === 'Operations Started'"
+                                        class="btn btn-secondary"
+                                        type="button"
+                                        disabled
+                                    >
+                                        Edit Ops
+                                    </button>
                                     <RouterLink
                                         v-else
                                         class="btn btn-secondary"
