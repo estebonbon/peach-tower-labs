@@ -169,7 +169,21 @@
         "itemMarkedNonconforming": "yes",
         "engineeringRequired": "yes"
       },
-      "engineering": {},
+      "engineering": {
+        "engineeringDisposition": "",
+        "customerNotificationRequired": "",
+        "customerMessage": "N/A",
+        "dispositionInstructions": "N/A",
+        "drawingUpdateRequired": "",
+        "originalRevisionNumber": "N/A",
+        "updatedRevisionNumber": "N/A",
+        "revisionDate": "N/A",
+        "engineerId": "",
+        "engineeringApproval": "",
+        "engineeringDate": "2026-11-17",
+        "engineeringConfirmed": false,
+        "notifyPurchasing": false
+      },
       "operations": {}
     },
     {

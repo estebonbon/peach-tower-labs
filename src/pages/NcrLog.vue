@@ -49,6 +49,13 @@ async function loadNcrs() {
         loading.value = false;
     }
 }
+function resetFilters() {
+    search.value = '';
+    activeOnly.value = false;
+    closedOnly.value = false;
+    engineeringOnly.value = false;
+    stage.value = '';
+}
 
 function requestArchive(ncr) {
     pendingArchive.value = ncr;
@@ -173,6 +180,14 @@ onMounted(loadNcrs);
                         <option>Completed</option>
                     </select>
                 </div>
+                <button
+    type="button"
+    class="btn btn-outline-secondary"
+    @click="resetFilters"
+>
+    <i class="bi bi-arrow-counterclockwise me-1"></i>
+    Reset Filters
+</button>
             </div>
 
             <div v-if="loading" class="py-4 text-center" role="status">Loading NCRs...</div>
