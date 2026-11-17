@@ -17,7 +17,7 @@
       "itemMarkedNonconforming": "yes",
       "engineeringRequired": "yes",
       "status": "Active",
-      "stage": "Engineering Review",
+      "stage": "Start Engineering",
       "previousNcrNumber": "N/A"
     },
     {
@@ -56,9 +56,11 @@
       "quantityDefective": "10",
       "itemMarkedNonconforming": "yes",
       "engineeringRequired": "yes",
-      "status": "Closed",
+      "status": "Archived",
       "stage": "Completed",
-      "previousNcrNumber": "N/A"
+      "previousNcrNumber": "N/A",
+      "archivedDate": "2026-11-13",
+      "archiveReason": ""
     },
     {
       "id": "4",
@@ -77,7 +79,7 @@
       "itemMarkedNonconforming": "yes",
       "engineeringRequired": "yes",
       "status": "Active",
-      "stage": "Engineering Review"
+      "stage": "Start Engineering"
     },
     {
       "id": "5",
@@ -116,7 +118,7 @@
       "itemMarkedNonconforming": "yes",
       "engineeringRequired": "yes",
       "status": "Active",
-      "stage": "Quality Review"
+      "stage": "Start Engineering"
     },
     {
       "id": "7",
@@ -154,7 +156,7 @@
       "itemMarkedNonconforming": "yes",
       "engineeringRequired": "yes",
       "status": "Active",
-      "stage": "Engineering Review"
+      "stage": "Start Engineering"
     },
     {
       "id": "9",
@@ -192,8 +194,28 @@
       "itemMarkedNonconforming": "yes",
       "engineeringRequired": "yes",
       "status": "Active",
-      "stage": "Engineering Review",
+      "stage": "Start Engineering",
       "previousNcrNumber": "N/A"
+    },
+    {
+      "ncrNumber": "2026-005",
+      "dateCreated": "2026-11-12",
+      "employeeId": "2",
+      "supplier": "Steelco",
+      "poOrProdNum": "N/A",
+      "salesOrderNumber": "N/A",
+      "processApplicable": "",
+      "productId": "66338124",
+      "itemDescription": "",
+      "defectDescription": "",
+      "quantityReceived": 9,
+      "quantityDefective": 2,
+      "itemMarkedNonconforming": "",
+      "engineeringRequired": "",
+      "previousNcrNumber": "N/A",
+      "id": "I5Xh6CWTykI",
+      "status": "Active",
+      "stage": "QI Started"
     }
   ],
   "archives": [
@@ -297,8 +319,8 @@
       "archivedDate": "2026-04-02",
       "archiveReason": "Weld defects were repaired and approved following reinspection."
     }
+   
   ],
-  "drafts": [],
   "employees": [
     {
       "id": "1",

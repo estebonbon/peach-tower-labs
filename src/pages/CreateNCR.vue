@@ -5,13 +5,18 @@ import { generateNcrNumber } from '../functions/generateNCRNum.js';
 import { validateNCR } from '../functions/validateNCR.js';
 import axios from 'axios';
 
-onMounted(() => {
+onMounted(async () => {
     getEmployees();
+
+    //Were running the generateNCR method right away, so we can display it to the user immediately, so they can see the number before they submit the form. 
+    generatedNCR.value = await generateNcrNumber();
+    ncr.ncrNumber = generatedNCR.value.ncrNumber;
 });
 
 //This line will keep track of where to display errors
 const errors = reactive({});
 const toast = useToast();
+const generatedNCR = ref(null); //Create a box, that vue will keep track of
 
 // Employee dropdown data
 const employees = ref([]);
@@ -66,19 +71,22 @@ const ncr = reactive({
 });
 
 //This saves the NCR to the db.json file
-async function saveNCR() {
+async function saveNCR(isDraft = false) {
     try {
         //1 Validate the form first
         const validationErrors = validateNCR(ncr); // Passes the current ncr values from the v-model created form above into the method, which is on another file
+        const isComplete = Object.keys(validationErrors).length === 0;
         
         // Clear old errors
         Object.keys(errors).forEach(key => delete errors[key]);
 
         // Add new errors to the reactive errors object
-        Object.assign(errors, validationErrors); //Errors represents the box being tracked inside of CreateNCR, and the return value from validatencr
+        if (!isDraft) {
+            Object.assign(errors, validationErrors); //Errors represents the box being tracked inside of CreateNCR, and the return value from validatencr
+        }
 
         // Stop if any validation errors exist
-        if (Object.keys(errors).length > 0) {
+        if (!isDraft && Object.keys(errors).length > 0) {
             toast.error('Please correct the required fields.');
 
             // Find the first field with an error
@@ -102,12 +110,17 @@ async function saveNCR() {
         }
 
         // Grabs the generateNCR method from another file and runs and saves the value into the variable generated
-        const generated = await generateNcrNumber();
+        const generated = generatedNCR.value; //await generateNcrNumber(); this is before generated became a ref box
         const newNCR = {
             ...ncr,
             id: generated.id,
             ncrNumber: generated.ncrNumber,
-            status: 'Active'
+            status: 'Active',
+            stage: !isComplete
+                ? 'QI Started'
+                : ncr.engineeringRequired === 'yes'
+                    ? 'Start Engineering'
+                    : 'QI Complete'
         };
 
         // Replace empty optional fields with N/A
@@ -137,6 +150,13 @@ async function saveNCR() {
         }
 
         resetNCR();
+
+        // Since onMounted() only runs when the Create NCR page mounts,
+        // we must generate a new NCR number after saving.
+        // The generatedNCR ref stores the current ID and NCR number,
+        // allowing us to access and update them throughout the component.
+        generatedNCR.value = await generateNcrNumber();
+        ncr.ncrNumber = generatedNCR.value.ncrNumber;
     } catch (error) {
         console.error(error);
 
@@ -168,7 +188,7 @@ async function saveNCR() {
               <span class="required">*</span> Required field
             </p>
 
-            <form id="create-form" @submit.prevent="saveNCR" novalidate>
+            <form id="create-form" @submit.prevent="saveNCR(false)" novalidate>
 
               <!-- REPORT INFORMATION -->
               <fieldset class="form-section">
@@ -182,8 +202,9 @@ async function saveNCR() {
                       class="form-control"
                       id="ncrNumber"
                       name="ncrNumber"
-                      placeholder="Assigned when report submited"
+                      placeholder= "Databse error"
                       readonly
+                      v-model="ncr.ncrNumber"
                     >
                   </div>
 
@@ -530,8 +551,8 @@ async function saveNCR() {
                 <button type="submit" class="btn btn-primary">
                   Submit
                 </button>
-
-                <button type="button" class="btn btn-secondary">
+                <!-- Remember a false saveNCR(false) means everything will be validated, this says false so it will skip validation -->
+                <button type="button" class="btn btn-secondary" @click="saveNCR(true)">
                   Save as Draft
                 </button>
               </div>

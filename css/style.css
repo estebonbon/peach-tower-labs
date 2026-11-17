@@ -486,6 +486,31 @@ body,
 .ncr-log-table {
     min-width: 1000px;
 }
+.table-responsive.ncr-log-table-wrapper {
+    border: none;
+}
+.ncr-log-table .btn {
+    min-width: 120px;
+}
+.archive-confirmation {
+    border: 0;
+    border-radius: 12px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, .24);
+    color: #263445;
+    max-width: min(90vw, 460px);
+    padding: 28px;
+}
+.archive-confirmation::backdrop {
+    background: rgba(15, 30, 45, .55);
+}
+.archive-confirmation h2 {
+    color: #173451;
+    font-size: 1.35rem;
+    margin-bottom: 12px;
+}
+.archive-confirmation p {
+    margin-bottom: 24px;
+}
 .table-responsive {
     overflow-x: auto;
     border: 1px solid #dce5ef;

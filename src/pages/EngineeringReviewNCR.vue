@@ -1,14 +1,17 @@
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useToast } from 'vue-toastification';
+import { useRoute } from 'vue-router';
 import axios from 'axios';
 
 const toast = useToast();
+const route = useRoute();
 
 const errors = reactive({});
 const ncrForms = ref([]);
 const employees = ref([]);
 const selectedNcrId = ref('');
+const today = new Date().toLocaleDateString('en-CA');
 
 const engineeringReview = reactive({
     engineeringDisposition: '',
@@ -21,7 +24,7 @@ const engineeringReview = reactive({
     revisionDate: '',
     engineerId: '',
     engineeringApproval: '',
-    engineeringDate: new Date().toLocaleDateString('en-CA')
+    engineeringDate: today
 });
 
 onMounted(() => {
@@ -36,6 +39,27 @@ async function getNcrForms() {
         );
 
         ncrForms.value = response.data;
+
+        const requestedNcrId = typeof route.query.id === 'string'
+            ? route.query.id
+            : '';
+
+        if (requestedNcrId) {
+            const requestedNcr = ncrForms.value.find(
+                ncr => String(ncr.id) === requestedNcrId
+            );
+
+            if (
+                requestedNcr?.stage === 'Start Engineering' ||
+                requestedNcr?.stage === 'Engineer Started'
+            ) {
+                selectedNcrId.value = requestedNcrId;
+            } else if (requestedNcr) {
+                toast.error('Engineering can only be started for eligible NCRs.');
+            } else {
+                toast.error('The selected NCR could not be found.');
+            }
+        }
     } catch (error) {
         console.error(error);
         toast.error('Could not load NCR records.');
@@ -59,6 +83,38 @@ const selectedNcr = computed(() => {
     return ncrForms.value.find(
         ncr => String(ncr.id) === String(selectedNcrId.value)
     );
+});
+
+const engineeringNcrs = computed(() => ncrForms.value.filter(
+    ncr => ncr.stage === 'Start Engineering' || ncr.stage === 'Engineer Started'
+));
+
+watch(selectedNcr, (ncr) => {
+    const savedReview = ncr?.engineeringReview || {};
+
+    Object.assign(engineeringReview, {
+        engineeringDisposition: savedReview.engineeringDisposition || '',
+        customerNotificationRequired: savedReview.customerNotificationRequired || '',
+        customerMessage: savedReview.customerMessage === 'N/A'
+            ? ''
+            : savedReview.customerMessage || '',
+        dispositionInstructions: savedReview.dispositionInstructions === 'N/A'
+            ? ''
+            : savedReview.dispositionInstructions || '',
+        drawingUpdateRequired: savedReview.drawingUpdateRequired || '',
+        originalRevisionNumber: savedReview.originalRevisionNumber === 'N/A'
+            ? ''
+            : savedReview.originalRevisionNumber || '',
+        updatedRevisionNumber: savedReview.updatedRevisionNumber === 'N/A'
+            ? ''
+            : savedReview.updatedRevisionNumber || '',
+        revisionDate: savedReview.revisionDate === 'N/A'
+            ? ''
+            : savedReview.revisionDate || '',
+        engineerId: savedReview.engineerId || '',
+        engineeringApproval: savedReview.engineeringApproval || '',
+        engineeringDate: savedReview.engineeringDate || today
+    });
 });
 
 const repairOrReworkSelected = computed(() => {
@@ -175,11 +231,15 @@ function focusFirstError() {
     }
 }
 
-async function saveEngineeringReview() {
-    if (!validateEngineeringReview()) {
+async function saveEngineeringReview(isDraft = false) {
+    if (!isDraft && !validateEngineeringReview()) {
         toast.error('Please correct the required fields.');
         focusFirstError();
         return;
+    }
+
+    if (isDraft) {
+        clearErrors();
     }
 
     try {
@@ -199,6 +259,7 @@ async function saveEngineeringReview() {
 
         const updatedNcr = {
             engineeringReview: reviewInformation,
+            stage: 'Engineer Started',
             status:
                 engineeringReview.engineeringDisposition === 'scrap'
                     ? 'Closed'
@@ -211,7 +272,7 @@ async function saveEngineeringReview() {
         );
 
         toast.success(
-            `Engineering review for ${selectedNcr.value.ncrNumber} was saved.`
+            `${isDraft ? 'Engineering progress' : 'Engineering review'} for ${selectedNcr.value.ncrNumber} was saved.`
         );
 
         resetEngineeringReview();
@@ -236,7 +297,7 @@ function resetEngineeringReview() {
         revisionDate: '',
         engineerId: '',
         engineeringApproval: '',
-        engineeringDate: new Date().toLocaleDateString('en-CA')
+        engineeringDate: today
     });
 
     clearErrors();
@@ -316,7 +377,7 @@ function cancelReview() {
                                             </option>
 
                                             <option
-                                                v-for="ncr in ncrForms"
+                                                v-for="ncr in engineeringNcrs"
                                                 :key="ncr.id"
                                                 :value="ncr.id"
                                             >
@@ -1069,7 +1130,7 @@ function cancelReview() {
                                 <button type="button" class="btn btn-secondary" @click="cancelReview">
                                     Cancel
                                 </button>
-                                <button type="button" class="btn btn-secondary">
+                                <button type="button" class="btn btn-secondary" @click="saveEngineeringReview(true)">
                                     Save as Draft
                                     </button>
 
