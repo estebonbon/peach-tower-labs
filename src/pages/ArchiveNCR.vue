@@ -56,6 +56,8 @@ onMounted(loadArchives);
                         <th scope="row">{{ ncr.ncrNumber }}</th>
                         <td>{{ ncr.qualityInspector.supplier }}</td>
                         <td>{{ ncr.qualityInspector.itemDescription }}, SAP No. {{ ncr.qualityInspector.productId }}</td>
+                        <td>{{ ncr.supplier }}</td>
+                        <td>{{ ncr.itemDescription }}, SAP No. {{ ncr.productId }}</td>
                         <td>{{ ncr.archivedDate }}</td>
                         <td><span class="archive-status">{{ ncr.status }}</span></td>
                         <td>

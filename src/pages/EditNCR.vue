@@ -34,6 +34,7 @@ async function getNCR() {
     const response = await axios.get(
       `http://localhost:3000/ncrForms/${encodeURIComponent(ncrId)}`
     );
+    const response = await axios.get(`http://localhost:3000/ncrForms/${ncrId}`);
 
     //Copy the exsisting NCR information into our form
     //Vue's model will display these values in the inputs
@@ -44,6 +45,7 @@ async function getNCR() {
       engineering: { ...response.data.engineering },
       operations: { ...response.data.operations }
     });
+    Object.assign(ncr, response.data)
   }
   catch (error)
   {
@@ -74,6 +76,19 @@ function resetNCR() {
         },
         engineering: {},
         operations: {}
+        employeeId: '',
+        supplier: '',
+        poOrProdNum: '',
+        salesOrderNumber: '',
+        processApplicable: '',
+        productId: '',
+        itemDescription: '',
+        defectDescription: '',
+        quantityReceived: null,
+        quantityDefective: null,
+        itemMarkedNonconforming: '',
+        engineeringRequired: '',
+        previousNcrNumber: null
     });
 
     // Clear validation errors
@@ -101,6 +116,20 @@ const ncr = reactive({
     },
     engineering: {},
     operations: {}
+    dateCreated: new Date().toLocaleDateString('en-CA'), //Takes only todays date
+    employeeId: '',
+    supplier: '',
+    poOrProdNum: '',
+    salesOrderNumber: '',
+    processApplicable: '',
+    productId: '',
+    itemDescription: '',
+    defectDescription: '',
+    quantityReceived: null,
+    quantityDefective: null,
+    itemMarkedNonconforming: '',
+    engineeringRequired: '',
+    previousNcrNumber: null
 });
 
 //This saves the NCR to the db.json file
@@ -165,6 +194,12 @@ async function saveNCR() {
                 updatedNCR.qualityInspector[field] == null
             ) {
                 updatedNCR.qualityInspector[field] = 'N/A';
+            ...ncr
+        };
+
+        optionalFields.forEach(field => {
+            if (updatedNCR[field] === '' || updatedNCR[field] == null) {
+                updatedNCR[field] = 'N/A';
             }
         });
 
@@ -254,6 +289,7 @@ async function saveNCR() {
                       id="employeeId"
                       name="employeeId"
                       v-model="ncr.qualityInspector.employeeId"
+                      v-model="ncr.employeeId"
                       required
                     >
                       <option value="" disabled selected>Select an employee</option>
@@ -291,6 +327,7 @@ async function saveNCR() {
                       placeholder="Place the name of the suplier eg: Brampton Tech"
                       required
                       v-model="ncr.qualityInspector.supplier"
+                      v-model="ncr.supplier"
                     >
                     <small v-if="errors.supplier" class="text-danger">{{ errors.supplier }}</small>
                   </div>
@@ -307,6 +344,7 @@ async function saveNCR() {
                       placeholder="Type in the Product ID, eg: 344319"
                       required
                       v-model="ncr.qualityInspector.productId"
+                      v-model="ncr.productId"
                     >
                     <small v-if="errors.productId" class="text-danger">{{ errors.productId }}</small>
                   </div>
@@ -323,6 +361,7 @@ async function saveNCR() {
                       placeholder="Describe the item. eg: A powderized screw length 4 inches"
                       required
                       v-model="ncr.qualityInspector.itemDescription"
+                      v-model="ncr.itemDescription"
                     >
                     <small v-if="errors.itemDescription" class="text-danger">{{ errors.itemDescription }}</small>
                   </div>
@@ -339,6 +378,7 @@ async function saveNCR() {
                       name="poOrProdNum"
                       placeholder="Type in the appropriate number eg: 233454841"
                       v-model="ncr.qualityInspector.poOrProdNum"
+                      v-model="ncr.poOrProdNum"
                     >
                   </div>
 
@@ -354,6 +394,7 @@ async function saveNCR() {
                       name="salesOrderNumber"
                       placeholder="Enter the sales number eg: GN344877"
                       v-model="ncr.qualityInspector.salesOrderNumber"
+                      v-model="ncr.salesOrderNumber"
                     >
                   </div>
 
@@ -369,6 +410,7 @@ async function saveNCR() {
                       name="previousNcrNumber"
                       placeholder="If related to a previous NCR"
                       v-model="ncr.qualityInspector.previousNcrNumber"
+                      v-model="ncr.previousNcrNumber"
                     >
                   </div>
                 </div>
@@ -396,6 +438,7 @@ async function saveNCR() {
                             value="yes"
                             required
                             v-model="ncr.qualityInspector.itemMarkedNonconforming"
+                            v-model="ncr.itemMarkedNonconforming"
                           >
                           <label class="form-check-label" for="nonconformingYes">
                             Yes
@@ -410,6 +453,7 @@ async function saveNCR() {
                             name="itemMarkedNonconforming"
                             value="no"
                             v-model="ncr.qualityInspector.itemMarkedNonconforming"
+                            v-model="ncr.itemMarkedNonconforming"
                           >
                           <label class="form-check-label" for="nonconformingNo">
                             No
@@ -434,6 +478,7 @@ async function saveNCR() {
                       required
                       placeholder="type in a number ex: 12 units"
                       v-model="ncr.qualityInspector.quantityReceived"
+                      v-model="ncr.quantityReceived"
                     >
                     <small v-if="errors.quantityReceived" class="text-danger">{{ errors.quantityReceived }}</small>
                   </div>
@@ -452,6 +497,7 @@ async function saveNCR() {
                       required
                       placeholder="type in number ex: 9 units"
                       v-model="ncr.qualityInspector.quantityDefective"
+                      v-model="ncr.quantityDefective"
                     >
                     <small v-if="errors.quantityDefective" class="text-danger">{{ errors.quantityDefective }}</small>
                   </div>
@@ -468,6 +514,7 @@ async function saveNCR() {
                       placeholder="Describe the defect... eg: The welded joints dont meet ISO standards"
                       required
                       v-model="ncr.qualityInspector.defectDescription"
+                      v-model="ncr.defectDescription"
                     ></textarea>
                     <small v-if="errors.defectDescription" class="text-danger">{{ errors.defectDescription }}</small>
                   </div>
@@ -495,6 +542,7 @@ async function saveNCR() {
                             value="supplier-rec-insp"
                             required
                             v-model="ncr.qualityInspector.processApplicable"
+                            v-model="ncr.processApplicable"
 
                           >
                           <label class="form-check-label" for="processSupplier">
@@ -510,6 +558,7 @@ async function saveNCR() {
                             name="processApplicable"
                             value="wip-production-order"
                             v-model="ncr.qualityInspector.processApplicable"
+                            v-model="ncr.processApplicable"
                           >
                           <label class="form-check-label" for="processWip">
                             WIP / Production Order
@@ -537,6 +586,7 @@ async function saveNCR() {
                             value="yes"
                             required
                             v-model="ncr.qualityInspector.engineeringRequired"
+                            v-model="ncr.engineeringRequired"
                           >
                           <label class="form-check-label" for="engineeringYes">
                             Yes
@@ -551,6 +601,7 @@ async function saveNCR() {
                             name="engineeringRequired"
                             value="no"
                             v-model="ncr.qualityInspector.engineeringRequired"
+                            v-model="ncr.engineeringRequired"
                           >
                           <label class="form-check-label" for="engineeringNo">
                             No
