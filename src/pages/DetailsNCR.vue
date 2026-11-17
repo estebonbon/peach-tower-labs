@@ -32,14 +32,12 @@ async function getNCRDetails() {
         ncr.value = response.data;
 
         // Find the employee associated with this NCR
-        if (ncr.value.qualityInspector?.employeeId) {
         if (ncr.value.employeeId) {
             const employeesResponse = await axios.get(
                 'http://localhost:3000/employees'
             );
 
             employee.value = employeesResponse.data.find(
-                person => String(person.id) === String(ncr.value.qualityInspector.employeeId)
                 person => String(person.id) === String(ncr.value.employeeId)
             ) || null;
         }
@@ -75,7 +73,6 @@ function displayYesNo(value) {
 }
 
 const processName = computed(() => {
-    const process = ncr.value?.qualityInspector?.processApplicable;
     const process = ncr.value?.processApplicable;
 
     if (process === 'supplier-rec-insp') {
@@ -91,7 +88,6 @@ const processName = computed(() => {
 
 const employeeName = computed(() => {
     if (!employee.value) {
-        return displayValue(ncr.value?.qualityInspector?.employeeId);
         return displayValue(ncr.value?.employeeId);
     }
 
@@ -99,7 +95,6 @@ const employeeName = computed(() => {
 
     return person.name ||
         [person.firstName, person.lastName].filter(Boolean).join(' ') ||
-        displayValue(ncr.value?.qualityInspector?.employeeId);
         displayValue(ncr.value?.employeeId);
 });
 
@@ -200,7 +195,6 @@ watch(() => route.fullPath, getNCRDetails);
                                     <div class="col-md-6">
                                         <div class="detail-label">Supplier</div>
                                         <div class="detail-value">
-                                            {{ displayValue(ncr.qualityInspector.supplier) }}
                                             {{ displayValue(ncr.supplier) }}
                                         </div>
                                     </div>
@@ -208,7 +202,6 @@ watch(() => route.fullPath, getNCRDetails);
                                     <div class="col-md-6">
                                         <div class="detail-label">Product ID / SAP Number</div>
                                         <div class="detail-value">
-                                            {{ displayValue(ncr.qualityInspector.productId) }}
                                             {{ displayValue(ncr.productId) }}
                                         </div>
                                     </div>
@@ -216,7 +209,6 @@ watch(() => route.fullPath, getNCRDetails);
                                     <div class="col-12">
                                         <div class="detail-label">Item Description</div>
                                         <div class="detail-value">
-                                            {{ displayValue(ncr.qualityInspector.itemDescription) }}
                                             {{ displayValue(ncr.itemDescription) }}
                                         </div>
                                     </div>
@@ -224,7 +216,6 @@ watch(() => route.fullPath, getNCRDetails);
                                     <div class="col-md-4">
                                         <div class="detail-label">PO / Production Number</div>
                                         <div class="detail-value">
-                                            {{ displayValue(ncr.qualityInspector.poOrProdNum ?? ncr.qualityInspector.referenceNumber) }}
                                             {{ displayValue(ncr.poOrProdNum ?? ncr.referenceNumber) }}
                                         </div>
                                     </div>
@@ -232,7 +223,6 @@ watch(() => route.fullPath, getNCRDetails);
                                     <div class="col-md-4">
                                         <div class="detail-label">Sales Order Number</div>
                                         <div class="detail-value">
-                                            {{ displayValue(ncr.qualityInspector.salesOrderNumber) }}
                                             {{ displayValue(ncr.salesOrderNumber) }}
                                         </div>
                                     </div>
@@ -240,7 +230,6 @@ watch(() => route.fullPath, getNCRDetails);
                                     <div class="col-md-4">
                                         <div class="detail-label">Previous NCR Number</div>
                                         <div class="detail-value">
-                                            {{ displayValue(ncr.qualityInspector.previousNcrNumber) }}
                                             {{ displayValue(ncr.previousNcrNumber) }}
                                         </div>
                                     </div>
@@ -255,7 +244,6 @@ watch(() => route.fullPath, getNCRDetails);
                                     <div class="col-md-4">
                                         <div class="detail-label">Item Marked Nonconforming</div>
                                         <div class="detail-value">
-                                            {{ displayYesNo(ncr.qualityInspector.itemMarkedNonconforming) }}
                                             {{ displayYesNo(ncr.itemMarkedNonconforming) }}
                                         </div>
                                     </div>
@@ -263,7 +251,6 @@ watch(() => route.fullPath, getNCRDetails);
                                     <div class="col-md-4">
                                         <div class="detail-label">Quantity Received</div>
                                         <div class="detail-value">
-                                            {{ displayValue(ncr.qualityInspector.quantityReceived) }}
                                             {{ displayValue(ncr.quantityReceived) }}
                                         </div>
                                     </div>
@@ -271,7 +258,6 @@ watch(() => route.fullPath, getNCRDetails);
                                     <div class="col-md-4">
                                         <div class="detail-label">Quantity Defective</div>
                                         <div class="detail-value">
-                                            {{ displayValue(ncr.qualityInspector.quantityDefective) }}
                                             {{ displayValue(ncr.quantityDefective) }}
                                         </div>
                                     </div>
@@ -279,7 +265,6 @@ watch(() => route.fullPath, getNCRDetails);
                                     <div class="col-12">
                                         <div class="detail-label">Defect Description</div>
                                         <div class="description-box">
-                                            {{ displayValue(ncr.qualityInspector.defectDescription) }}
                                             {{ displayValue(ncr.defectDescription) }}
                                         </div>
                                     </div>
@@ -301,28 +286,6 @@ watch(() => route.fullPath, getNCRDetails);
                                     <div class="col-md-6">
                                         <div class="detail-label">Engineering Review Required?</div>
                                         <div class="detail-value">
-                                            {{ displayYesNo(ncr.qualityInspector.engineeringRequired) }}
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="detail-label">Engineering Disposition</div>
-                                        <div class="detail-value">
-                                            {{ displayValue(ncr.engineering.engineeringDisposition) }}
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="detail-label">Engineer</div>
-                                        <div class="detail-value">
-                                            {{ displayValue(ncr.engineering.engineerId) }}
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12">
-                                        <div class="detail-label">Engineering Instructions</div>
-                                        <div class="detail-value">
-                                            {{ displayValue(ncr.engineering.dispositionInstructions) }}
                                             {{ displayYesNo(ncr.engineeringRequired) }}
                                         </div>
                                     </div>
