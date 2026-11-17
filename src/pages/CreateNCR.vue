@@ -550,10 +550,12 @@ async function saveNCR(isDraft = false) {
               <!-- ACTION BUTTONS -->
               <div class="action-buttons d-flex flex-wrap gap-3 mt-4">
                 <button type="submit" class="btn btn-primary">
+                  
                   Submit
                 </button>
                 <!-- Remember a false saveNCR(false) means everything will be validated, this says false so it will skip validation -->
                 <button type="button" class="btn btn-secondary" @click="saveNCR(true)">
+                  
                   Save as Draft
                 </button>
               </div>
