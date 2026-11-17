@@ -5,7 +5,7 @@
       "ncrNumber": "2021-001",
       "dateCreated": "2021-03-18",
       "status": "Active",
-      "stage": "Start Operations",
+      "stage": "Start Engineering",
       "qualityInspector": {
         "employeeId": "1",
         "supplier": "Maple Industrial Supplies",
@@ -19,7 +19,7 @@
         "quantityReceived": "20",
         "quantityDefective": 2,
         "itemMarkedNonconforming": "yes",
-        "engineeringRequired": "no"
+        "engineeringRequired": "yes"
       },
       "engineering": {},
       "operations": {}
@@ -29,7 +29,7 @@
       "ncrNumber": "2021-002",
       "dateCreated": "2021-11-24",
       "status": "Active",
-      "stage": "Start Operations",
+      "stage": "Operations Review",
       "qualityInspector": {
         "employeeId": "3",
         "supplier": "Northern Metalworks",
@@ -45,7 +45,21 @@
         "itemMarkedNonconforming": "yes",
         "engineeringRequired": "no"
       },
-      "engineering": {},
+      "engineering": {
+        "engineeringDisposition": "use-as-is",
+        "customerNotificationRequired": "no",
+        "customerMessage": "N/A",
+        "dispositionInstructions": "N/A",
+        "drawingUpdateRequired": "no",
+        "originalRevisionNumber": "N/A",
+        "updatedRevisionNumber": "N/A",
+        "revisionDate": "N/A",
+        "engineerId": "",
+        "engineeringApproval": "Abc",
+        "engineeringDate": "2026-11-16",
+        "engineeringConfirmed": true,
+        "notifyPurchasing": false
+      },
       "operations": {}
     },
     {
@@ -79,7 +93,7 @@
       "ncrNumber": "2022-002",
       "dateCreated": "2022-10-17",
       "status": "Active",
-      "stage": "Start Engineering",
+      "stage": "Engineering Started",
       "qualityInspector": {
         "employeeId": "2",
         "supplier": "Ontario Steel Fabricators",
@@ -94,7 +108,21 @@
         "itemMarkedNonconforming": "yes",
         "engineeringRequired": "yes"
       },
-      "engineering": {},
+      "engineering": {
+        "engineeringDisposition": "use-as-is",
+        "customerNotificationRequired": "yes",
+        "customerMessage": "N/A",
+        "dispositionInstructions": "N/A",
+        "drawingUpdateRequired": "yes",
+        "originalRevisionNumber": "N/A",
+        "updatedRevisionNumber": "N/A",
+        "revisionDate": "N/A",
+        "engineerId": "",
+        "engineeringApproval": "jh",
+        "engineeringDate": "2026-11-16",
+        "engineeringConfirmed": false,
+        "notifyPurchasing": false
+      },
       "operations": {}
     },
     {
@@ -126,7 +154,7 @@
       "ncrNumber": "2023-002",
       "dateCreated": "2023-09-14",
       "status": "Active",
-      "stage": "Start Operations",
+      "stage": "Engineering Review",
       "qualityInspector": {
         "employeeId": "1",
         "supplier": "Canadian Precision Parts",
@@ -141,19 +169,7 @@
         "itemMarkedNonconforming": "yes",
         "engineeringRequired": "yes"
       },
-      "engineering": {
-        "engineeringDisposition": "rework",
-        "customerNotificationRequired": "no",
-        "customerMessage": "N/A",
-        "dispositionInstructions": "Re-machine the three shafts to the approved diameter tolerance, then verify and record the dimensions.",
-        "drawingUpdateRequired": "no",
-        "originalRevisionNumber": "N/A",
-        "updatedRevisionNumber": "N/A",
-        "revisionDate": "N/A",
-        "engineerId": "2",
-        "engineeringApproval": "Sarah Johnson",
-        "engineeringDate": "2026-11-13"
-      },
+      "engineering": {},
       "operations": {}
     },
     {
@@ -184,7 +200,7 @@
       "ncrNumber": "2024-002",
       "dateCreated": "2024-12-03",
       "status": "Active",
-      "stage": "Engineering Started",
+      "stage": "Engineering Draft",
       "qualityInspector": {
         "employeeId": "3",
         "supplier": "Eastern Mechanical Supply",
@@ -201,7 +217,18 @@
       },
       "engineering": {
         "engineeringDisposition": "repair",
-        "dispositionInstructions": "Inspect both bearing assemblies for damage and determine whether repair is feasible."
+        "customerNotificationRequired": "",
+        "customerMessage": "N/A",
+        "dispositionInstructions": "Inspect both bearing assemblies for damage and determine whether repair is feasible.",
+        "drawingUpdateRequired": "no",
+        "originalRevisionNumber": "N/A",
+        "updatedRevisionNumber": "N/A",
+        "revisionDate": "N/A",
+        "engineerId": "",
+        "engineeringApproval": "",
+        "engineeringDate": "2026-11-16",
+        "engineeringConfirmed": true,
+        "notifyPurchasing": false
       },
       "operations": {}
     },
@@ -233,7 +260,7 @@
       "ncrNumber": "2026-001",
       "dateCreated": "2026-01-15",
       "status": "Active",
-      "stage": "Start Engineering",
+      "stage": "Engineering Review",
       "qualityInspector": {
         "employeeId": "2",
         "supplier": "Western Fabrication Group",
@@ -257,7 +284,7 @@
       "dateCreated": "2026-11-12",
       "id": "16",
       "status": "Active",
-      "stage": "QI Started",
+      "stage": "QI Review",
       "qualityInspector": {
         "employeeId": "2",
         "supplier": "Steelco",
@@ -270,6 +297,174 @@
         "defectDescription": "",
         "quantityReceived": 9,
         "quantityDefective": 2,
+        "itemMarkedNonconforming": "",
+        "engineeringRequired": ""
+      },
+      "engineering": {},
+      "operations": {}
+    },
+    {
+      "id": "17",
+      "ncrNumber": "2026-006",
+      "dateCreated": "2026-11-16",
+      "status": "Active",
+      "stage": "QI Review",
+      "qualityInspector": {
+        "employeeId": "",
+        "supplier": "",
+        "productId": "",
+        "itemDescription": "",
+        "processApplicable": "",
+        "poOrProdNum": "N/A",
+        "salesOrderNumber": "N/A",
+        "previousNcrNumber": "N/A",
+        "defectDescription": "",
+        "quantityReceived": null,
+        "quantityDefective": null,
+        "itemMarkedNonconforming": "",
+        "engineeringRequired": ""
+      },
+      "engineering": {},
+      "operations": {}
+    },
+    {
+      "id": "18",
+      "ncrNumber": "2026-007",
+      "dateCreated": "2026-11-16",
+      "status": "Active",
+      "stage": "QI Review",
+      "qualityInspector": {
+        "employeeId": "",
+        "supplier": "",
+        "productId": "",
+        "itemDescription": "",
+        "processApplicable": "",
+        "poOrProdNum": "N/A",
+        "salesOrderNumber": "N/A",
+        "previousNcrNumber": "N/A",
+        "defectDescription": "",
+        "quantityReceived": "",
+        "quantityDefective": null,
+        "itemMarkedNonconforming": "",
+        "engineeringRequired": ""
+      },
+      "engineering": {},
+      "operations": {}
+    },
+    {
+      "id": "19",
+      "ncrNumber": "2026-008",
+      "dateCreated": "2026-11-16",
+      "status": "Active",
+      "stage": "Engineering Review",
+      "qualityInspector": {
+        "employeeId": "1",
+        "supplier": "Niagara Metal Products",
+        "productId": "110582",
+        "itemDescription": "Steel mounting bracket",
+        "processApplicable": "supplier-rec-insp",
+        "poOrProdNum": "PO-61025",
+        "salesOrderNumber": "SO-95021",
+        "previousNcrNumber": "N/A",
+        "defectDescription": "Four mounting brackets have holes drilled outside the specified tolerance.",
+        "quantityReceived": "40",
+        "quantityDefective": "4",
+        "itemMarkedNonconforming": "yes",
+        "engineeringRequired": "yes"
+      },
+      "engineering": {},
+      "operations": {}
+    },
+    {
+      "id": "20",
+      "ncrNumber": "2026-009",
+      "dateCreated": "2026-11-16",
+      "status": "Active",
+      "stage": "Engineering Review",
+      "qualityInspector": {
+        "employeeId": "3",
+        "supplier": "Canadian Alloy Solutions",
+        "productId": "220641",
+        "itemDescription": "Aluminium support frame",
+        "processApplicable": "wip-production-order",
+        "poOrProdNum": "PROD-71042",
+        "salesOrderNumber": "SO-95035",
+        "previousNcrNumber": "N/A",
+        "defectDescription": "Two support frames have visible weld defects along the lower joints.",
+        "quantityReceived": "12",
+        "quantityDefective": "2",
+        "itemMarkedNonconforming": "yes",
+        "engineeringRequired": "yes"
+      },
+      "engineering": {},
+      "operations": {}
+    },
+    {
+      "id": "21",
+      "ncrNumber": "2026-010",
+      "dateCreated": "2026-11-16",
+      "status": "Active",
+      "stage": "Engineering Review",
+      "qualityInspector": {
+        "employeeId": "2",
+        "supplier": "Eastern Industrial Components",
+        "productId": "330715",
+        "itemDescription": "Stainless steel enclosure panel",
+        "processApplicable": "supplier-rec-insp",
+        "poOrProdNum": "PO-61038",
+        "salesOrderNumber": "SO-95049",
+        "previousNcrNumber": "N/A",
+        "defectDescription": "Three enclosure panels have incorrect dimensions and do not align with the assembly drawing.",
+        "quantityReceived": "25",
+        "quantityDefective": "3",
+        "itemMarkedNonconforming": "yes",
+        "engineeringRequired": "yes"
+      },
+      "engineering": {},
+      "operations": {}
+    },
+    {
+      "id": "22",
+      "ncrNumber": "2026-011",
+      "dateCreated": "2026-11-16",
+      "status": "Active",
+      "stage": "QI Review",
+      "qualityInspector": {
+        "employeeId": "1",
+        "supplier": "Summit Hardware Supply",
+        "productId": "440821",
+        "itemDescription": "Hexagonal steel fastener",
+        "processApplicable": "",
+        "poOrProdNum": "PO-61052",
+        "salesOrderNumber": "SO-95062",
+        "previousNcrNumber": "N/A",
+        "defectDescription": "",
+        "quantityReceived": "100",
+        "quantityDefective": null,
+        "itemMarkedNonconforming": "",
+        "engineeringRequired": ""
+      },
+      "engineering": {},
+      "operations": {}
+    },
+    {
+      "id": "23",
+      "ncrNumber": "2026-012",
+      "dateCreated": "2026-11-16",
+      "status": "Active",
+      "stage": "QI Review",
+      "qualityInspector": {
+        "employeeId": "3",
+        "supplier": "Great Lakes Manufacturing",
+        "productId": "550936",
+        "itemDescription": "Industrial pump housing",
+        "processApplicable": "",
+        "poOrProdNum": "PROD-71108",
+        "salesOrderNumber": "SO-95078",
+        "previousNcrNumber": "N/A",
+        "defectDescription": "",
+        "quantityReceived": "18",
+        "quantityDefective": null,
         "itemMarkedNonconforming": "",
         "engineeringRequired": ""
       },
