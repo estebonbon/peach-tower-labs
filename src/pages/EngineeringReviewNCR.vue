@@ -13,6 +13,29 @@ const employees = ref([]);
 const selectedNcrId = ref('');
 const today = new Date().toLocaleDateString('en-CA');
 
+const ncr = reactive({
+    id: '',
+    ncrNumber: '',
+    dateCreated: '',
+    status: '',
+    stage: '',
+    qualityInspector: {},
+    engineering: {
+        engineeringDisposition: '',
+        customerNotificationRequired: '',
+        customerMessage: '',
+        dispositionInstructions: '',
+        drawingUpdateRequired: '',
+        originalRevisionNumber: '',
+        updatedRevisionNumber: '',
+        revisionDate: '',
+        engineerId: '',
+        engineeringApproval: '',
+        engineeringDate: today
+    },
+    operations: {}
+});
+const engineering = ncr.engineering;
 const engineeringReview = reactive({
     engineeringDisposition: '',
     customerNotificationRequired: '',
@@ -46,11 +69,13 @@ async function getNcrForms() {
 
         if (requestedNcrId) {
             const requestedNcr = ncrForms.value.find(
+                record => String(record.id) === requestedNcrId
                 ncr => String(ncr.id) === requestedNcrId
             );
 
             if (
                 requestedNcr?.stage === 'Start Engineering' ||
+                requestedNcr?.stage === 'Engineering Started'
                 requestedNcr?.stage === 'Engineer Started'
             ) {
                 selectedNcrId.value = requestedNcrId;
@@ -86,6 +111,21 @@ const selectedNcr = computed(() => {
 });
 
 const engineeringNcrs = computed(() => ncrForms.value.filter(
+    record => record.stage === 'Start Engineering' || record.stage === 'Engineering Started'
+));
+
+watch(selectedNcr, (record) => {
+    const savedReview = record?.engineering || {};
+
+    ncr.id = record?.id || '';
+    ncr.ncrNumber = record?.ncrNumber || '';
+    ncr.dateCreated = record?.dateCreated || '';
+    ncr.status = record?.status || '';
+    ncr.stage = record?.stage || '';
+    ncr.qualityInspector = { ...(record?.qualityInspector || {}) };
+    ncr.operations = { ...(record?.operations || {}) };
+
+    Object.assign(engineering, {
     ncr => ncr.stage === 'Start Engineering' || ncr.stage === 'Engineer Started'
 ));
 
@@ -119,6 +159,8 @@ watch(selectedNcr, (ncr) => {
 
 const repairOrReworkSelected = computed(() => {
     return (
+        engineering.engineeringDisposition === 'repair' ||
+        engineering.engineeringDisposition === 'rework'
         engineeringReview.engineeringDisposition === 'repair' ||
         engineeringReview.engineeringDisposition === 'rework'
     );
@@ -126,11 +168,13 @@ const repairOrReworkSelected = computed(() => {
 
 const customerNotificationSelected = computed(() => {
     return (
+        engineering.customerNotificationRequired === 'yes'
         engineeringReview.customerNotificationRequired === 'yes'
     );
 });
 
 const drawingUpdateSelected = computed(() => {
+    return engineering.drawingUpdateRequired === 'yes';
     return engineeringReview.drawingUpdateRequired === 'yes';
 });
 
@@ -147,11 +191,13 @@ function validateEngineeringReview() {
         errors.selectedNcrId = 'Select an NCR to review.';
     }
 
+    if (!engineering.engineeringDisposition) {
     if (!engineeringReview.engineeringDisposition) {
         errors.engineeringDisposition =
             'Select an engineering disposition.';
     }
 
+    if (!engineering.customerNotificationRequired) {
     if (!engineeringReview.customerNotificationRequired) {
         errors.customerNotificationRequired =
             'Select whether the customer requires notification.';
@@ -159,6 +205,7 @@ function validateEngineeringReview() {
 
     if (
         customerNotificationSelected.value &&
+        !engineering.customerMessage.trim()
         !engineeringReview.customerMessage.trim()
     ) {
         errors.customerMessage =
@@ -167,33 +214,43 @@ function validateEngineeringReview() {
 
     if (
         repairOrReworkSelected.value &&
+        !engineering.dispositionInstructions.trim()
         !engineeringReview.dispositionInstructions.trim()
     ) {
         errors.dispositionInstructions =
             'Enter the repair or rework instructions.';
     }
 
+    if (!engineering.drawingUpdateRequired) {
     if (!engineeringReview.drawingUpdateRequired) {
         errors.drawingUpdateRequired =
             'Select whether the drawing requires updating.';
     }
 
     if (drawingUpdateSelected.value) {
+        if (!engineering.originalRevisionNumber.trim()) {
         if (!engineeringReview.originalRevisionNumber.trim()) {
             errors.originalRevisionNumber =
                 'Enter the original revision number.';
         }
 
+        if (!engineering.updatedRevisionNumber.trim()) {
         if (!engineeringReview.updatedRevisionNumber.trim()) {
             errors.updatedRevisionNumber =
                 'Enter the updated revision number.';
         }
 
+        if (!engineering.revisionDate) {
         if (!engineeringReview.revisionDate) {
             errors.revisionDate = 'Select the revision date.';
         }
     }
 
+    if (!engineering.engineerId) {
+        errors.engineerId = 'Select the reviewing engineer.';
+    }
+
+    if (!engineering.engineeringApproval.trim()) {
     if (!engineeringReview.engineerId) {
         errors.engineerId = 'Select the reviewing engineer.';
     }
@@ -203,6 +260,7 @@ function validateEngineeringReview() {
             'Enter the engineering approval or signature.';
     }
 
+    if (!engineering.engineeringDate) {
     if (!engineeringReview.engineeringDate) {
         errors.engineeringDate = 'Select the engineering date.';
     }
@@ -244,6 +302,30 @@ async function saveEngineeringReview(isDraft = false) {
 
     try {
         const reviewInformation = {
+            ...engineering,
+            customerMessage:
+                engineering.customerMessage.trim() || 'N/A',
+            dispositionInstructions:
+                engineering.dispositionInstructions.trim() || 'N/A',
+            originalRevisionNumber:
+                engineering.originalRevisionNumber.trim() || 'N/A',
+            updatedRevisionNumber:
+                engineering.updatedRevisionNumber.trim() || 'N/A',
+            revisionDate:
+                engineering.revisionDate || 'N/A'
+        };
+
+        const updatedNcr = {
+            id: ncr.id,
+            ncrNumber: ncr.ncrNumber,
+            dateCreated: ncr.dateCreated,
+            qualityInspector: { ...ncr.qualityInspector },
+            engineering: reviewInformation,
+            operations: { ...ncr.operations },
+            stage: isDraft ? 'Engineering Started' : 'Start Operations',
+            status: engineering.engineeringDisposition === 'scrap'
+                ? 'Closed'
+                : 'Active'
             ...engineeringReview,
             customerMessage:
                 engineeringReview.customerMessage.trim() || 'N/A',
@@ -286,6 +368,7 @@ async function saveEngineeringReview(isDraft = false) {
 function resetEngineeringReview() {
     selectedNcrId.value = '';
 
+    Object.assign(engineering, {
     Object.assign(engineeringReview, {
         engineeringDisposition: '',
         customerNotificationRequired: '',
@@ -377,6 +460,12 @@ function cancelReview() {
                                             </option>
 
                                             <option
+                                                v-for="record in engineeringNcrs"
+                                                :key="record.id"
+                                                :value="record.id"
+                                            >
+                                                {{ record.ncrNumber }} -
+                                                {{ record.qualityInspector.supplier }}
                                                 v-for="ncr in engineeringNcrs"
                                                 :key="ncr.id"
                                                 :value="ncr.id"
@@ -430,6 +519,7 @@ function cancelReview() {
                                             class="form-control"
                                             rows="3"
                                             :value="
+                                                selectedNcr.qualityInspector.defectDescription
                                                 selectedNcr.defectDescription
                                             "
                                             readonly
@@ -459,6 +549,7 @@ function cancelReview() {
                                             <input
                                                 id="useAsIs"
                                                 v-model="
+                                                    ncr.engineering
                                                     engineeringReview
                                                         .engineeringDisposition
                                                 "
@@ -481,6 +572,7 @@ function cancelReview() {
                                             <input
                                                 id="repair"
                                                 v-model="
+                                                    ncr.engineering
                                                     engineeringReview
                                                         .engineeringDisposition
                                                 "
@@ -503,6 +595,7 @@ function cancelReview() {
                                             <input
                                                 id="rework"
                                                 v-model="
+                                                    ncr.engineering
                                                     engineeringReview
                                                         .engineeringDisposition
                                                 "
@@ -525,6 +618,7 @@ function cancelReview() {
                                             <input
                                                 id="scrap"
                                                 v-model="
+                                                    ncr.engineering
                                                     engineeringReview
                                                         .engineeringDisposition
                                                 "
@@ -586,6 +680,7 @@ function cancelReview() {
                                 <textarea
                                     id="dispositionInstructions"
                                     v-model="
+                                        ncr.engineering
                                         engineeringReview
                                             .dispositionInstructions
                                     "
@@ -636,6 +731,7 @@ function cancelReview() {
                                             <input
                                                 id="customerNotificationYes"
                                                 v-model="
+                                                    ncr.engineering
                                                     engineeringReview
                                                         .customerNotificationRequired
                                                 "
@@ -662,6 +758,7 @@ function cancelReview() {
                                             <input
                                                 id="customerNotificationNo"
                                                 v-model="
+                                                    ncr.engineering
                                                     engineeringReview
                                                         .customerNotificationRequired
                                                 "
@@ -714,6 +811,7 @@ function cancelReview() {
                                     <textarea
                                         id="customerMessage"
                                         v-model="
+                                            ncr.engineering.customerMessage
                                             engineeringReview.customerMessage
                                         "
                                         class="form-control"
@@ -767,6 +865,7 @@ function cancelReview() {
                                 <textarea
                                     id="dispositionInstructions"
                                     v-model="
+                                        ncr.engineering
                                         engineeringReview
                                             .dispositionInstructions
                                     "
@@ -816,6 +915,7 @@ function cancelReview() {
                                             <input
                                                 id="drawingUpdateYes"
                                                 v-model="
+                                                    ncr.engineering
                                                     engineeringReview
                                                         .drawingUpdateRequired
                                                 "
@@ -838,6 +938,7 @@ function cancelReview() {
                                             <input
                                                 id="drawingUpdateNo"
                                                 v-model="
+                                                    ncr.engineering
                                                     engineeringReview
                                                         .drawingUpdateRequired
                                                 "
@@ -883,6 +984,7 @@ function cancelReview() {
                                         <input
                                             id="originalRevisionNumber"
                                             v-model="
+                                                ncr.engineering
                                                 engineeringReview
                                                     .originalRevisionNumber
                                             "
@@ -924,6 +1026,7 @@ function cancelReview() {
                                         <input
                                             id="updatedRevisionNumber"
                                             v-model="
+                                                ncr.engineering
                                                 engineeringReview
                                                     .updatedRevisionNumber
                                             "
@@ -965,6 +1068,7 @@ function cancelReview() {
                                         <input
                                             id="revisionDate"
                                             v-model="
+                                                ncr.engineering
                                                 engineeringReview
                                                     .revisionDate
                                             "
@@ -1005,6 +1109,7 @@ function cancelReview() {
                                         <select
                                             id="engineerId"
                                             v-model="
+                                                ncr.engineering.engineerId
                                                 engineeringReview.engineerId
                                             "
                                             class="form-select"
@@ -1048,6 +1153,7 @@ function cancelReview() {
                                         <input
                                             id="engineeringDate"
                                             v-model="
+                                                ncr.engineering
                                                 engineeringReview
                                                     .engineeringDate
                                             "
@@ -1082,6 +1188,7 @@ function cancelReview() {
                                         <input
                                             id="engineeringApproval"
                                             v-model="
+                                                ncr.engineering
                                                 engineeringReview
                                                     .engineeringApproval
                                             "

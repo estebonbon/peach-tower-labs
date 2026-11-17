@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+async function getAllNcrs() {
 export async function generateNcrNumber() {
     const year = new Date().getFullYear();
 
@@ -8,6 +9,16 @@ export async function generateNcrNumber() {
         axios.get('http://localhost:3000/archives')
     ]);
 
+    return [...forms.data, ...archives.data];
+}
+
+export async function generateNcrNumber() {
+    const year = new Date().getFullYear();
+    const allNCRs = await getAllNcrs();
+
+    // Find the highest numeric database ID
+    const ids = allNCRs
+        .map(item => typeof item.id === 'string' && /^\d+$/.test(item.id) ? Number(item.id) : NaN)
     const allNCRs = [...forms.data, ...archives.data];
 
     // Find the highest numeric database ID
@@ -35,3 +46,11 @@ export async function generateNcrNumber() {
     };
 }
 
+export async function isNcrIdentityAvailable(candidate) {
+    const allNCRs = await getAllNcrs();
+
+    return !allNCRs.some(item =>
+        String(item.id) === candidate.id ||
+        item.ncrNumber === candidate.ncrNumber
+    );
+}
