@@ -20,10 +20,16 @@ const filteredNcrs = computed(() => ncrs.value.filter((ncr) => {
     const matchesSearch = String(ncr.ncrNumber || '')
         .toLowerCase()
         .includes(search.value.trim().toLowerCase());
-    const matchesStatus = (!activeOnly.value && !closedOnly.value)
-        || (activeOnly.value && ncr.status === 'Active')
-        || (closedOnly.value && ncr.status === 'Closed');
-    const matchesEngineering = !engineeringOnly.value || ncr.engineeringRequired === 'yes';
+    const matchesStatus = 
+    (activeOnly.value && closedOnly.value)
+        ? false
+        : (!activeOnly.value && !closedOnly.value)
+            ? true
+            : activeOnly.value
+                ? ncr.status === 'Active'
+                : ncr.status === 'Closed';
+    const matchesEngineering = !engineeringOnly.value
+        || ncr.qualityInspector.engineeringRequired === 'yes';
     const matchesStage = !stage.value || ncr.stage === stage.value;
 
     return matchesSearch && matchesStatus && matchesEngineering && matchesStage;
@@ -42,6 +48,13 @@ async function loadNcrs() {
     } finally {
         loading.value = false;
     }
+}
+function resetFilters() {
+    search.value = '';
+    activeOnly.value = false;
+    closedOnly.value = false;
+    engineeringOnly.value = false;
+    stage.value = '';
 }
 
 function requestArchive(ncr) {
@@ -159,12 +172,22 @@ onMounted(loadNcrs);
                     <label for="stageFilter" class="fw-semibold">Stage</label>
                     <select id="stageFilter" v-model="stage" class="form-select">
                         <option value="">All Stages</option>
-                        <option>QI Started</option>
-                        <option>Start Engineering</option>
-                        <option>Engineer Started</option>
+                        <option>QI Review</option>
+                        <option>Engineering Review</option>
+                        <option>Engineering Draft</option>
+                        <!-- <option>Operations Review</option> -->
+                        <!-- <option>Operations Draft</option> -->
                         <option>Completed</option>
                     </select>
                 </div>
+                <button
+    type="button"
+    class="btn btn-outline-secondary"
+    @click="resetFilters"
+>
+    <i class="bi bi-arrow-counterclockwise me-1"></i>
+    Reset Filters
+</button>
             </div>
 
             <div v-if="loading" class="py-4 text-center" role="status">Loading NCRs...</div>
@@ -207,7 +230,7 @@ onMounted(loadNcrs);
                                         {{ archivingIds.has(ncr.id) ? 'Archiving...' : 'Archive!' }}
                                     </button>
                                     <button
-                                        v-else-if="ncr.stage === 'QI Complete' && ncr.engineeringRequired !== 'yes'"
+                                        v-else-if="ncr.stage === 'Operations Review'"
                                         class="btn btn-secondary"
                                         type="button"
                                         disabled
@@ -215,19 +238,27 @@ onMounted(loadNcrs);
                                         Create Ops
                                     </button>
                                     <RouterLink
-                                        v-else-if="ncr.stage === 'Start Engineering'"
+                                        v-else-if="ncr.stage === 'Engineering Review'"
                                         class="btn btn-secondary"
                                         :to="{ name: 'engineering-review', query: { id: ncr.id } }"
                                     >
                                         Create Eng
                                     </RouterLink>
                                     <RouterLink
-                                        v-else-if="ncr.stage === 'Engineer Started'"
+                                        v-else-if="ncr.stage === 'Engineering Draft'"
                                         class="btn btn-secondary"
                                         :to="{ name: 'engineering-review', query: { id: ncr.id } }"
                                     >
                                         Edit Eng
                                     </RouterLink>
+                                    <button
+                                        v-else-if="ncr.stage === 'Operations Draft'"
+                                        class="btn btn-secondary"
+                                        type="button"
+                                        disabled
+                                    >
+                                        Edit Ops
+                                    </button>
                                     <RouterLink
                                         v-else
                                         class="btn btn-secondary"

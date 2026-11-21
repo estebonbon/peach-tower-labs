@@ -70,11 +70,11 @@ watch(() => route.fullPath, closeMobileMenu);
                         <i class="fas fa-archive" aria-hidden="true"></i><span>Archive</span>
                     </RouterLink>
                 </li>
-                <li>
+                <!-- <li>
                     <RouterLink to="/reports/engineering-review" active-class="active">
                         <i class="fas fa-drafting-compass" aria-hidden="true"></i><span>Engineering</span>
                     </RouterLink>
-                </li>
+                </li> -->
             </ul>
         </nav>
     </aside>

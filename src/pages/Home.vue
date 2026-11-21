@@ -1,5 +1,5 @@
 <template>
-    <div class="row justify-content-center">
+    <!-- <div class="row justify-content-center">
         <section class="home-page">
             <header class="form-header-home">
                 <span class="header-extra"></span>
@@ -8,5 +8,5 @@
                 <p>Manage, review, and track non-conformance reports in one place.</p>
             </header>
         </section>
-    </div>
+    </div> -->
 </template>
