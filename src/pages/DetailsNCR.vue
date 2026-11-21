@@ -74,7 +74,7 @@ async function getNCRDetails() {
         ncr.value = response.data;
 
         // Find the employee associated with this NCR
-        if (ncr.value.qualityInspector?.employeeId) {
+        if (ncr.value.employeeId) {
             const employeesResponse = await axios.get(
                 'http://localhost:3000/employees'
             );
@@ -123,7 +123,7 @@ function displayYesNo(value) {
 }
 
 const processName = computed(() => {
-    const process = ncr.value?.qualityInspector?.processApplicable;
+    const process = ncr.value?.processApplicable;
 
     if (process === 'supplier-rec-insp') {
         return 'Supplier / Receiving Inspection';
@@ -138,14 +138,14 @@ const processName = computed(() => {
 
 const employeeName = computed(() => {
     if (!employee.value) {
-        return displayValue(ncr.value?.qualityInspector?.employeeId);
+        return displayValue(ncr.value?.employeeId);
     }
 
     const person = employee.value;
 
     return person.name ||
         [person.firstName, person.lastName].filter(Boolean).join(' ') ||
-        displayValue(ncr.value?.qualityInspector?.employeeId);
+        displayValue(ncr.value?.employeeId);
 });
 
 function escapeReportText(value) {

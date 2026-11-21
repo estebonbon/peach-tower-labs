@@ -207,7 +207,7 @@ onMounted(loadNcrs);
                     <tbody>
                         <tr v-for="ncr in filteredNcrs" :key="ncr.id">
                             <td>{{ ncr.ncrNumber }}</td>
-                            <td>{{ ncr.qualityInspector.supplier }}</td>
+                            <td>{{ ncr.supplier }}</td>
                             <td>{{ ncr.dateCreated }}</td>
                             <td>
                                 <span class="ncr-status" :class="String(ncr.status).toLowerCase()">

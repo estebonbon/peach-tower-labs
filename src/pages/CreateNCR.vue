@@ -1,135 +1,129 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
 import { useToast } from 'vue-toastification';
-import { generateNcrNumber, isNcrIdentityAvailable } from '../functions/generateNCRNum.js';
+import { generateNcrNumber } from '../functions/generateNCRNum.js';
 import { validateNCR } from '../functions/validateNCR.js';
 import axios from 'axios';
 
+onMounted(async () => {
+    getEmployees();
+
+    //Were running the generateNCR method right away, so we can display it to the user immediately, so they can see the number before they submit the form. 
+    generatedNCR.value = await generateNcrNumber();
+    ncr.ncrNumber = generatedNCR.value.ncrNumber;
+});
+
+//This line will keep track of where to display errors
 const errors = reactive({});
 const toast = useToast();
-const generatedNCR = ref(null);
-const numberError = ref('');
+const generatedNCR = ref(null); //Create a box, that vue will keep track of
+
+// Employee dropdown data
 const employees = ref([]);
 
-function emptyQualityInspector() {
-    return {
-        employeeId: '',
-        supplier: '',
-        productId: '',
-        itemDescription: '',
-        processApplicable: '',
-        poOrProdNum: '',
-        salesOrderNumber: '',
-        previousNcrNumber: null,
-        defectDescription: '',
-        quantityReceived: null,
-        quantityDefective: null,
-        itemMarkedNonconforming: '',
-        engineeringRequired: ''
-    };
-}
-
-const ncr = reactive({
-    ncrNumber: '',
-    dateCreated: new Date().toLocaleDateString('en-CA'),
-    qualityInspector: emptyQualityInspector(),
-    engineering: {},
-    operations: {}
-});
-
-onMounted(() => {
-    getEmployees();
-    refreshGeneratedNcr();
-});
-
 async function getEmployees() {
-    try {
-        const response = await axios.get('http://localhost:3000/employees');
-        employees.value = response.data;
-    } catch (error) {
-        console.error('Failed to load employees:', error);
-        toast.error('Could not load employee records.');
-    }
+    const response = await axios.get('http://localhost:3000/employees');
+
+    employees.value = response.data;
 }
 
-async function refreshGeneratedNcr() {
-    try {
-        generatedNCR.value = await generateNcrNumber();
-        ncr.ncrNumber = generatedNCR.value.ncrNumber;
-        numberError.value = '';
-    } catch (error) {
-        console.error('Failed to generate an NCR number:', error);
-        generatedNCR.value = null;
-        ncr.ncrNumber = '';
-        numberError.value = 'Unable to generate an NCR number. Check that the database server is running.';
-        toast.error(numberError.value);
-    }
-}
-
+//Create a clear ncr function
 function resetNCR() {
     Object.assign(ncr, {
         ncrNumber: '',
         dateCreated: new Date().toLocaleDateString('en-CA'),
-        qualityInspector: emptyQualityInspector(),
-        engineering: {},
-        operations: {}
+        employeeId: '',
+        supplier: '',
+        poOrProdNum: '',
+        salesOrderNumber: '',
+        processApplicable: '',
+        productId: '',
+        itemDescription: '',
+        defectDescription: '',
+        quantityReceived: null,
+        quantityDefective: null,
+        itemMarkedNonconforming: '',
+        engineeringRequired: '',
+        previousNcrNumber: null
     });
+
+    // Clear validation errors
     Object.keys(errors).forEach(key => delete errors[key]);
 }
 
+// NCR form information, this is what helps the v-model feature sync up inputs on the html to the variables where data can be stored
+const ncr = reactive({
+    ncrNumber: '',
+    dateCreated: new Date().toLocaleDateString('en-CA'), //Takes only todays date
+    employeeId: '',
+    supplier: '',
+    poOrProdNum: '',
+    salesOrderNumber: '',
+    processApplicable: '',
+    productId: '',
+    itemDescription: '',
+    defectDescription: '',
+    quantityReceived: null,
+    quantityDefective: null,
+    itemMarkedNonconforming: '',
+    engineeringRequired: '',
+    previousNcrNumber: null
+});
+
+//This saves the NCR to the db.json file
 async function saveNCR(isDraft = false) {
     try {
+        //1 Validate the form first
+        const validationErrors = validateNCR(ncr); // Passes the current ncr values from the v-model created form above into the method, which is on another file
+        const isComplete = Object.keys(validationErrors).length === 0;
+        
+        // Clear old errors
         Object.keys(errors).forEach(key => delete errors[key]);
 
-        const validationErrors = isDraft ? {} : validateNCR(ncr);
+        // Add new errors to the reactive errors object
         if (!isDraft) {
-            Object.assign(errors, validationErrors);
+            Object.assign(errors, validationErrors); //Errors represents the box being tracked inside of CreateNCR, and the return value from validatencr
         }
 
+        // Stop if any validation errors exist
         if (!isDraft && Object.keys(errors).length > 0) {
             toast.error('Please correct the required fields.');
+
+            // Find the first field with an error
             const firstError = Object.keys(errors)[0];
+
+            // Find the matching HTML input
             const input = document.getElementById(firstError);
+
             if (input) {
+                // Scroll to the input
                 input.scrollIntoView({
                     behavior: 'smooth',
                     block: 'center'
                 });
+            
+                // Focus on the input without interrupting the scroll
                 input.focus({ preventScroll: true });
             }
+        
             return;
         }
 
-        let generated = generatedNCR.value;
-        if (!generated) {
-            throw new Error('An NCR number is not available yet.');
-        }
-
-        if (!await isNcrIdentityAvailable(generated)) {
-            generated = await generateNcrNumber();
-            generatedNCR.value = generated;
-            ncr.ncrNumber = generated.ncrNumber;
-
-            if (!await isNcrIdentityAvailable(generated)) {
-                throw new Error('A unique NCR number could not be reserved. Please try again.');
-            }
-        }
-
+        // Grabs the generateNCR method from another file and runs and saves the value into the variable generated
+        const generated = generatedNCR.value; //await generateNcrNumber(); this is before generated became a ref box
         const newNCR = {
+            ...ncr,
             id: generated.id,
             ncrNumber: generated.ncrNumber,
-            dateCreated: ncr.dateCreated,
             status: 'Active',
-            stage: isDraft
+            stage: !isComplete
                 ? 'QI Started'
-                : ncr.qualityInspector.engineeringRequired === 'yes'
+                : ncr.engineeringRequired === 'yes'
                     ? 'Start Engineering'
-                    : 'Start Operations',
-            qualityInspector: { ...ncr.qualityInspector },
-            engineering: { ...ncr.engineering },
-            operations: { ...ncr.operations }
+                    : 'QI Complete'
         };
 
+        // Replace empty optional fields with N/A
         const optionalFields = [
             'poOrProdNum',
             'salesOrderNumber',
@@ -137,26 +131,35 @@ async function saveNCR(isDraft = false) {
         ];
 
         optionalFields.forEach(field => {
-            if (newNCR.qualityInspector[field] === '' || newNCR.qualityInspector[field] == null) {
-                newNCR.qualityInspector[field] = 'N/A';
+            if (newNCR[field] === '' || newNCR[field] == null) {
+                newNCR[field] = 'N/A';
             }
         });
 
-        await axios.post(
+        const response = await axios.post(
             'http://localhost:3000/ncrForms',
             newNCR
         );
 
+        console.log(response.data);
+
         toast.success(`NCR ${generated.ncrNumber} successfully created!`);
 
-        if (ncr.qualityInspector.engineeringRequired === 'yes') {
+        if (ncr.engineeringRequired === 'yes') {
             toast.info('Email notification sent to Engineering Department.');
         }
 
         resetNCR();
-        await refreshGeneratedNcr();
+
+        // Since onMounted() only runs when the Create NCR page mounts,
+        // we must generate a new NCR number after saving.
+        // The generatedNCR ref stores the current ID and NCR number,
+        // allowing us to access and update them throughout the component.
+        generatedNCR.value = await generateNcrNumber();
+        ncr.ncrNumber = generatedNCR.value.ncrNumber;
     } catch (error) {
-        console.error('Failed to save NCR:', error);
+        console.error(error);
+
         toast.error('Failed to save NCR.');
     }
 }
@@ -185,10 +188,6 @@ async function saveNCR(isDraft = false) {
               <span class="required">*</span> Required field
             </p>
 
-            <p v-if="numberError" class="alert alert-danger" role="alert">
-              {{ numberError }}
-            </p>
-
             <form id="create-form" @submit.prevent="saveNCR(false)" novalidate>
 
               <!-- REPORT INFORMATION -->
@@ -203,7 +202,7 @@ async function saveNCR(isDraft = false) {
                       class="form-control"
                       id="ncrNumber"
                       name="ncrNumber"
-                      placeholder="Assigned when the database is available"
+                      placeholder= "Databse error"
                       readonly
                       v-model="ncr.ncrNumber"
                     >
@@ -229,7 +228,7 @@ async function saveNCR(isDraft = false) {
                       class="form-select"
                       id="employeeId"
                       name="employeeId"
-                      v-model="ncr.qualityInspector.employeeId"
+                      v-model="ncr.employeeId"
                       required
                     >
                       <option value="" disabled selected>Select a quality inspector</option>
@@ -266,7 +265,7 @@ async function saveNCR(isDraft = false) {
                       name="supplier"
                       placeholder="Place the name of the suplier eg: Brampton Tech"
                       required
-                      v-model="ncr.qualityInspector.supplier"
+                      v-model="ncr.supplier"
                     >
                     <small v-if="errors.supplier" class="text-danger">{{ errors.supplier }}</small>
                   </div>
@@ -282,7 +281,7 @@ async function saveNCR(isDraft = false) {
                       name="productId"
                       placeholder="Type in the Product ID, eg: 344319"
                       required
-                      v-model="ncr.qualityInspector.productId"
+                      v-model="ncr.productId"
                     >
                     <small v-if="errors.productId" class="text-danger">{{ errors.productId }}</small>
                   </div>
@@ -298,7 +297,7 @@ async function saveNCR(isDraft = false) {
                       name="itemDescription"
                       placeholder="Describe the item. eg: A powderized screw length 4 inches"
                       required
-                      v-model="ncr.qualityInspector.itemDescription"
+                      v-model="ncr.itemDescription"
                     >
                     <small v-if="errors.itemDescription" class="text-danger">{{ errors.itemDescription }}</small>
                   </div>
@@ -314,7 +313,7 @@ async function saveNCR(isDraft = false) {
                       id="poOrProdNum"
                       name="poOrProdNum"
                       placeholder="Type in the appropriate number eg: 233454841"
-                      v-model="ncr.qualityInspector.poOrProdNum"
+                      v-model="ncr.poOrProdNum"
                     >
                   </div>
 
@@ -329,7 +328,7 @@ async function saveNCR(isDraft = false) {
                       id="salesOrderNumber"
                       name="salesOrderNumber"
                       placeholder="Enter the sales number eg: GN344877"
-                      v-model="ncr.qualityInspector.salesOrderNumber"
+                      v-model="ncr.salesOrderNumber"
                     >
                   </div>
 
@@ -344,7 +343,7 @@ async function saveNCR(isDraft = false) {
                       id="previousNcrNumber"
                       name="previousNcrNumber"
                       placeholder="If related to a previous NCR"
-                      v-model="ncr.qualityInspector.previousNcrNumber"
+                      v-model="ncr.previousNcrNumber"
                     >
                   </div>
                 </div>
@@ -371,7 +370,7 @@ async function saveNCR(isDraft = false) {
                             name="itemMarkedNonconforming"
                             value="yes"
                             required
-                            v-model="ncr.qualityInspector.itemMarkedNonconforming"
+                            v-model="ncr.itemMarkedNonconforming"
                           >
                           <label class="form-check-label" for="nonconformingYes">
                             Yes
@@ -385,7 +384,7 @@ async function saveNCR(isDraft = false) {
                             id="nonconformingNo"
                             name="itemMarkedNonconforming"
                             value="no"
-                            v-model="ncr.qualityInspector.itemMarkedNonconforming"
+                            v-model="ncr.itemMarkedNonconforming"
                           >
                           <label class="form-check-label" for="nonconformingNo">
                             No
@@ -409,7 +408,7 @@ async function saveNCR(isDraft = false) {
                       step="1"
                       required
                       placeholder="ex: 3"
-                      v-model="ncr.qualityInspector.quantityReceived"
+                      v-model="ncr.quantityReceived"
                     >
                     <small v-if="errors.quantityReceived" class="text-danger">{{ errors.quantityReceived }}</small>
                   </div>
@@ -427,7 +426,7 @@ async function saveNCR(isDraft = false) {
                       step="1"
                       required
                       placeholder="ex: 9"
-                      v-model="ncr.qualityInspector.quantityDefective"
+                      v-model="ncr.quantityDefective"
                     >
                     <small v-if="errors.quantityDefective" class="text-danger">{{ errors.quantityDefective }}</small>
                   </div>
@@ -443,7 +442,7 @@ async function saveNCR(isDraft = false) {
                       rows="4"
                       placeholder="Describe the defect... eg: The welded joints dont meet ISO standards"
                       required
-                      v-model="ncr.qualityInspector.defectDescription"
+                      v-model="ncr.defectDescription"
                     ></textarea>
                     <small v-if="errors.defectDescription" class="text-danger">{{ errors.defectDescription }}</small>
                   </div>
@@ -470,7 +469,7 @@ async function saveNCR(isDraft = false) {
                             name="processApplicable"
                             value="supplier-rec-insp"
                             required
-                            v-model="ncr.qualityInspector.processApplicable"
+                            v-model="ncr.processApplicable"
 
                           >
                           <label class="form-check-label" for="processSupplier">
@@ -485,7 +484,7 @@ async function saveNCR(isDraft = false) {
                             id="processWip"
                             name="processApplicable"
                             value="wip-production-order"
-                            v-model="ncr.qualityInspector.processApplicable"
+                            v-model="ncr.processApplicable"
                           >
                           <label class="form-check-label" for="processWip">
                             WIP / Production Order
@@ -512,7 +511,7 @@ async function saveNCR(isDraft = false) {
                             name="engineeringRequired"
                             value="yes"
                             required
-                            v-model="ncr.qualityInspector.engineeringRequired"
+                            v-model="ncr.engineeringRequired"
                           >
                           <label class="form-check-label" for="engineeringYes">
                             Yes
@@ -526,7 +525,7 @@ async function saveNCR(isDraft = false) {
                             id="engineeringNo"
                             name="engineeringRequired"
                             value="no"
-                            v-model="ncr.qualityInspector.engineeringRequired"
+                            v-model="ncr.engineeringRequired"
                           >
                           <label class="form-check-label" for="engineeringNo">
                             No
